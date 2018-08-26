@@ -1,26 +1,24 @@
 import axios from 'axios';
 
-const URI = 'http://mangrowe.test/api/v1/teams';
-
-export const index = (state) => {
-    axios.get(URI, { headers: 
-        {'Authorization': 'Bearer mu1zSFPHZPDCy2f5rmqyjfzG9o1A505jqV2WqJGlOBRqVKx0zcGAmeSEYVj4'}
+export const index = (state, data) => {
+    axios.get(data.url +'/teams', { headers: 
+        {'Authorization': 'Bearer '+ data.token}
     }).then((response) => {
         state.commit('all', response.data || []);
     });
 }
 
-export const create = (state) => {
-    axios.get(URI +'/create', { headers: 
-        {'Authorization': 'Bearer mu1zSFPHZPDCy2f5rmqyjfzG9o1A505jqV2WqJGlOBRqVKx0zcGAmeSEYVj4'}
+export const create = (state, data) => {
+    axios.get(data.url +'/teams/create', { headers: 
+        {'Authorization': 'Bearer '+ data.token}
     }).then((response) => {
-        let data = response.data.data.users || [];
-        if(data) {
+        let result = response.data.users || [];
+        if(result) {
             let users = [];
-            for(let i = 0; i < data.length; i++) {
+            for(let i = 0; i < result.length; i++) {
                 users.push({
-                    label: data[i].name,
-                    value: data[i].id
+                    label: result[i].name,
+                    value: result[i].id
                 });
             }
             state.commit('users', users);
@@ -30,11 +28,18 @@ export const create = (state) => {
     });
 }
 
-export const store = (state, team) => {
-    axios.post(URI, team,
-    { headers: 
-        {'Authorization': 'Bearer mu1zSFPHZPDCy2f5rmqyjfzG9o1A505jqV2WqJGlOBRqVKx0zcGAmeSEYVj4'}
+export const store = (state, data) => {
+    axios.post(data.url +'/teams', data, { headers: 
+        {'Authorization': 'Bearer '+ data.token}
     }).then((response) => {
-        state.commit('messages', response.data.message);
+        state.commit('message', {
+            color: 'green',
+            text: response.data.message,
+        });
+    }).catch((err) => {
+        state.commit('message', {
+            color: 'red',
+            text: response.data.message,
+        });
     });
 }

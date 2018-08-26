@@ -1,6 +1,11 @@
 <template>
   <q-page padding>
     <h3>Novo time</h3>
+    <div v-if="message">
+      <q-alert :color="message.color">
+        {{ message.text }}
+      </q-alert>
+    </div>
     <q-card-main>
       <form action="">
         <q-field
@@ -32,7 +37,6 @@
         <q-btn color="orange-9" @click="store()" class="q-pa-sm float-right" icon="save" label="Salvar" />
       </form>
     </q-card-main>
-    {{ messages }}
   </q-page>
 </template>
 
@@ -46,24 +50,28 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('teams/create');
+    this.$store.dispatch('teams/create', {
+      url: this.$mangrowe.url,
+      token: this.$mangrowe.token
+    });
   },
   computed: {
     users() {
       return this.$store.state.teams.users;
     },
-    messages() {
-      return this.$store.state.teams.messages;
+    message() {
+      return this.$store.state.teams.message;
     }
   },
   methods: {
     store() {
-      let data = {
+      this.$store.dispatch('teams/store', {
+        url: this.$mangrowe.url,
+        token: this.$mangrowe.token,
         user_id: this.user_id,
         title: this.title,
         users: this.users.map((elem) => elem.value)
-      };
-      this.$store.dispatch('teams/store', data);
+      });
     }
   }
 }

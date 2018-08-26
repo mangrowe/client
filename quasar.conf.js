@@ -5,7 +5,8 @@ module.exports = function (ctx) {
     // app plugins (/src/plugins)
     plugins: [
       'i18n',
-      'axios'
+      'axios',
+      'mangrowe'
     ],
     css: [
       'app.styl'
@@ -59,7 +60,8 @@ module.exports = function (ctx) {
         'QTable',
         'QTr',
         'QTd',
-        'QSelect'
+        'QSelect',
+        'QAlert'
       ],
       directives: [
         'Ripple'

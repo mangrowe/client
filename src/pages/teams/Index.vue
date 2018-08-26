@@ -51,7 +51,10 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('teams/index');
+    this.$store.dispatch('teams/index', {
+      url: this.$mangrowe.url,
+      token: this.$mangrowe.token
+    });
   },
   methods: {
     edit(team) {

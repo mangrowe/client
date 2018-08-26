@@ -6,6 +6,6 @@ export const users = (state, users) => {
     state.users = users;
 }
 
-export const messages = (state, messages) => {
-    state.messages = messages;
+export const message = (state, messages) => {
+    state.message = messages;
 }
