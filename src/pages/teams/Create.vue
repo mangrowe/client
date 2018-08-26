@@ -34,7 +34,7 @@
             color="orange-9"
           />
         </q-field>
-        <q-btn color="orange-9" @click="store()" class="q-pa-sm float-right" icon="save" label="Salvar" />
+        <q-btn push color="orange-9" @click="store()" class="q-pa-sm float-right" icon="save" label="Salvar" />
       </form>
     </q-card-main>
   </q-page>

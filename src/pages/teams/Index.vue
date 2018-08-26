@@ -2,7 +2,7 @@
   <q-page padding>
     <h3>
       Times
-      <q-btn color="orange-9" to="teams/create">
+      <q-btn push color="orange-9" to="teams/create">
         Novo
       </q-btn>
     </h3>

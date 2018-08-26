@@ -36,9 +36,21 @@
           <q-item-side icon="home" />
           <q-item-main label="Página inicial" />
         </q-item>
+        <q-item to="/objectives">
+          <q-item-side icon="assignment_late" />
+          <q-item-main label="Objetivos" />
+        </q-item>
+        <q-item to="/companies">
+          <q-item-side icon="business_center" />
+          <q-item-main label="Organizações" />
+        </q-item>
         <q-item to="/teams">
           <q-item-side icon="people" />
           <q-item-main label="Times" />
+        </q-item>
+        <q-item to="/users">
+          <q-item-side icon="person" />
+          <q-item-main label="Usuários" />
         </q-item>
       </q-list>
     </q-layout-drawer>
