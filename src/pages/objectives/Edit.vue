@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <h3>Novo objetivo</h3>
+    <h3>Editar objetivo</h3>
     <div v-if="message.text != ''">
       <q-alert :color="message.color">
         {{ message.text }}
@@ -60,7 +60,8 @@
             </q-field>
           </div>
         </div>
-        <q-btn push color="orange-9" @click="store()" class="q-pa-sm float-right" icon="save" label="Salvar" />
+        <q-btn color="orange-9" @click="update()" class="q-pa-sm float-right" icon="save" label="Atualizar" />
+        <q-btn color="red-9" @click="destroy()" class="q-pa-sm float-right" icon="delete" label="Remover" />
       </form>
     </q-card-main>
   </q-page>
@@ -100,9 +101,16 @@ export default {
     }
   },
   mounted() {
-    this.$axios.get(this.$mangrowe.url +'/objectives/create', { headers: 
+    this.$axios.get(this.$mangrowe.url +'/objectives/'+ this.$route.params.id +'/edit', { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
+        this.parent_id = response.data.objective.parent_id;
+        this.cycle_id = response.data.objective.cycle_id;
+        this.user_id = response.data.objective.user_id;
+        this.team_id = response.data.objective.team_id;
+        this.title = response.data.objective.title;
+        this.description = response.data.objective.description;
+        this.level = response.data.objective.level;
         for(let i = 0; i < response.data.objectives.length; i++) {
           this.objectives.push({
               label: response.data.objectives[i].title,
@@ -130,8 +138,8 @@ export default {
     });
   },
   methods: {
-    store() {
-      this.$axios.post(this.$mangrowe.url +'/objectives', {
+    update() {
+      this.$axios.put(this.$mangrowe.url +'/objectives/'+ this.$route.params.id, {
         parent_id: this.parent_id,
         cycle_id: this.cycle_id,
         user_id: this.user_id,
@@ -144,12 +152,32 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
-          setTimeout(() => {
-            this.$router.push('/objectives');
-          }, 2000);
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = response.data.message;
+      });
+    },
+    destroy() {
+      this.$q.dialog({
+        title: 'Atenção',
+        message: 'Deseja realmente remover?',
+        ok: 'Sim',
+        cancel: 'Não'
+      }).then(() => {
+        this.$axios.delete(this.$mangrowe.url +'/objectives/'+ this.$route.params.id, { headers: 
+          {'Authorization': 'Bearer '+ this.$mangrowe.token}
+        }).then((response) => {
+            this.message.color = 'green';
+            this.message.text = response.data.message;
+            setTimeout(() => {
+              this.$router.push('/objectives');
+            }, 2000);
+        }).catch((err) => {
+            this.message.color = 'red';
+            this.message.text = response.data.message;
+        });
+      }).catch(() => {
+        this.$q.notify('Operação não realizada.');
       });
     }
   }

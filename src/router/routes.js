@@ -50,6 +50,13 @@ const routes = [
     ]
   },
   {
+    path: '/objectives/edit/:id',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/objectives/Edit.vue') }
+    ]
+  },
+  {
     path: '/objectives/create',
     component: () => import('layouts/MyLayout.vue'),
     children: [

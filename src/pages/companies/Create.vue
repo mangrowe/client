@@ -37,8 +37,6 @@
               <q-radio v-model="option" val="opt1" color="red-7" label="Não" checked-icon="cancel"/> 
             </q-field>
           </div>
-
-          </div>
         </div>
         <div class="row justify-center">
           <q-btn push color="green-9" class="q-my-xl q-mx-sm" icon="person_add" label="Cadastrar Organização" />

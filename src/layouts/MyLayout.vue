@@ -37,7 +37,7 @@
           <q-item-main label="Página inicial" />
         </q-item>
         <q-item to="/objectives">
-          <q-item-side icon="assignment_late" />
+          <q-item-side icon="assignment" />
           <q-item-main label="Objetivos" />
         </q-item>
         <q-item to="/companies">
@@ -80,6 +80,6 @@ export default {
 <style>
 .layout-padding h3 {
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 10px;
 }
 </style>

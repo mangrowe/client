@@ -98,7 +98,7 @@ export default {
         }).then((response) => {
             this.message.color = 'green';
             this.message.text = response.data.message;
-            setInterval(() => {
+            setTimeout(() => {
               this.$router.push('/teams');
             }, 2000);
         }).catch((err) => {
