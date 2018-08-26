@@ -63,7 +63,8 @@ module.exports = function (ctx) {
         'QSelect',
         'QAlert',
         'QRadio',
-        'QEditor'
+        'QEditor',
+        'QDatetime'
       ],
       directives: [
         'Ripple'

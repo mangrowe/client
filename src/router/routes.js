@@ -71,6 +71,20 @@ const routes = [
     ]
   },
   {
+    path: '/cycle/create',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/cycle/Create.vue') }
+    ]
+  },
+  {
+    path: '/cycle',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/cycle/Index.vue') }
+    ]
+  },
+  {
     path: '/login',
     component: () => import('layouts/BlankLayout.vue'),
     children: [
