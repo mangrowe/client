@@ -42,18 +42,15 @@ export default {
           label: 'Título',
           sortable: true
         }
-      ]
-    }
-  },
-  computed: {
-    teams() {
-      return this.$store.state.teams.all;
+      ],
+      teams: []
     }
   },
   mounted() {
-    this.$store.dispatch('teams/index', {
-      url: this.$mangrowe.url,
-      token: this.$mangrowe.token
+    this.$axios.get(this.$mangrowe.url +'/teams', { headers: 
+        {'Authorization': 'Bearer '+ this.$mangrowe.token}
+    }).then((response) => {
+        this.teams = response.data;
     });
   },
   methods: {

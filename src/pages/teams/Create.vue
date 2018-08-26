@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <h3>Novo time</h3>
-    <div v-if="message">
+    <div v-if="message.text != ''">
       <q-alert :color="message.color">
         {{ message.text }}
       </q-alert>
@@ -27,7 +27,7 @@
         class="q-pa-sm"
         icon="people">
           <q-select
-            v-model="contributors"
+            v-model="members"
             :options="users"
             float-label="Colaboradores"
             multiple
@@ -46,31 +46,42 @@ export default {
     return {
       title: '',
       user_id: '',
-      contributors: []
+      members: [],
+      users: [],
+      message: { color: '', text: '' },
     }
   },
   mounted() {
-    this.$store.dispatch('teams/create', {
-      url: this.$mangrowe.url,
-      token: this.$mangrowe.token
+    this.$axios.get(this.$mangrowe.url +'/teams/create', { headers: 
+        {'Authorization': 'Bearer '+ this.$mangrowe.token}
+    }).then((response) => {
+        let result = response.data.users || [];
+        for(let i = 0; i < result.length; i++) {
+            this.users.push({
+                label: result[i].name,
+                value: result[i].id
+            });
+        }
     });
-  },
-  computed: {
-    users() {
-      return this.$store.state.teams.users;
-    },
-    message() {
-      return this.$store.state.teams.message;
-    }
   },
   methods: {
     store() {
-      this.$store.dispatch('teams/store', {
-        url: this.$mangrowe.url,
-        token: this.$mangrowe.token,
+      let data = {
         user_id: this.user_id,
         title: this.title,
-        users: this.users.map((elem) => elem.value)
+        users: this.members
+      };
+      this.$axios.post(this.$mangrowe.url +'/teams', data, { headers: 
+        {'Authorization': 'Bearer '+ this.$mangrowe.token}
+      }).then((response) => {
+          this.message.color = 'green';
+          this.message.text = response.data.message;
+          setInterval(() => {
+            this.$router.push('/teams');
+          }, 2000);
+      }).catch((err) => {
+          this.message.color = 'red';
+          this.message.text = response.data.message;
       });
     }
   }
