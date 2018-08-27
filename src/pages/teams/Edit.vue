@@ -34,8 +34,10 @@
             color="orange-9"
           />
         </q-field>
-        <q-btn color="orange-9" @click="update()" class="q-pa-sm float-right" icon="save" label="Atualizar" />
-        <q-btn color="red-9" @click="destroy()" class="q-pa-sm float-right" icon="delete" label="Remover" />
+        <q-btn-group push class="float-right">
+          <q-btn push color="red-9" @click="destroy()" class="q-pa-sm" icon="delete" label="Remover" />
+          <q-btn push color="orange-9" @click="update()" class="q-pa-sm" icon="save" label="Atualizar" />
+        </q-btn-group>
       </form>
     </q-card-main>
   </q-page>
