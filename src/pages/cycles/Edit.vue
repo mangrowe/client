@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <h3>Novo ciclo</h3>
+    <h3>Editar ciclo</h3>
     <div v-if="message.text != ''">
       <q-alert :color="message.color">
         {{ message.text }}
@@ -41,7 +41,10 @@
             </q-field>
           </div>
         </div>
-        <q-btn push color="orange-9" @click="store()" class="q-pa-sm float-right" icon="save" label="Salvar" />
+        <q-btn-group push class="float-right">
+          <q-btn push color="red-9" @click="destroy()" class="q-pa-sm" icon="delete" label="Remover" />
+          <q-btn push color="orange-9" @click="update()" class="q-pa-sm" icon="save" label="Atualizar" />
+        </q-btn-group>
       </form>
     </q-card-main>
   </q-page>
@@ -56,14 +59,25 @@ export default {
       title: '',
       description: '',
       cycle_name: '',
-      start_at: new Date(),
-      end_at: new Date(),
+      start_at: '',
+      end_at: '',
       message: { color: '', text: '' }
     }
   },
+  mounted() {
+    this.$axios.get(this.$mangrowe.url +'/cycles/'+ this.$route.params.id +'/edit', { headers: 
+        {'Authorization': 'Bearer '+ this.$mangrowe.token}
+    }).then((response) => {
+        this.organization_id = this.$mangrowe.organization_id;
+        this.title = response.data.title;
+        this.description = response.data.description;
+        this.start_at = moment(response.data.start_at).format('LLLL');
+        this.end_at = moment(response.data.end_at).format('LLLL');
+    });
+  },
   methods: {
-    store() {
-      this.$axios.post(this.$mangrowe.url +'/cycles', {
+    update() {
+      this.$axios.put(this.$mangrowe.url +'/cycles/'+ this.$route.params.id, {
         organization_id: this.$mangrowe.organization_id,
         title: this.title,
         description: this.description,
@@ -74,12 +88,32 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
-          setTimeout(() => {
-            this.$router.push('/cycles');
-          }, 2000);
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = response.data.message;
+      });
+    },
+    destroy() {
+      this.$q.dialog({
+        title: 'Atenção',
+        message: 'Deseja realmente remover?',
+        ok: 'Sim',
+        cancel: 'Não'
+      }).then(() => {
+        this.$axios.delete(this.$mangrowe.url +'/cycles/'+ this.$route.params.id, { headers: 
+          {'Authorization': 'Bearer '+ this.$mangrowe.token}
+        }).then((response) => {
+            this.message.color = 'green';
+            this.message.text = response.data.message;
+            setTimeout(() => {
+              this.$router.push('/cycles');
+            }, 2000);
+        }).catch((err) => {
+            this.message.color = 'red';
+            this.message.text = response.data.message;
+        });
+      }).catch(() => {
+        this.$q.notify('Operação não realizada.');
       });
     }
   }

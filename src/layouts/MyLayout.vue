@@ -53,7 +53,7 @@
           <q-item-main label="Usuários" />
         </q-item>
         <q-item to="/cycles">
-          <q-item-side icon="work" />
+          <q-item-side icon="donut_large" />
           <q-item-main label="Ciclos" />
         </q-item>
       </q-list>

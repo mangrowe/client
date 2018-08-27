@@ -19,7 +19,7 @@
           <div class="col-12 col-sm-6">
             <q-field
             class="q-pa-sm"
-            icon="autorenew">
+            icon="donut_large">
               <q-select v-model="cycle_id" :options="cycles" float-label="Ciclo" color="orange-9" />
             </q-field>
           </div>
