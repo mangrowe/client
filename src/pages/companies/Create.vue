@@ -38,10 +38,7 @@
             </q-field>
           </div>
         </div>
-        <div class="row justify-center">
-          <q-btn push color="green-9" class="q-my-xl q-mx-sm" icon="person_add" label="Cadastrar Organização" />
-          <q-btn push color="red-9" class="q-my-xl q-mx-sm" icon="cancel" label="Fechar" />
-        </div>
+          <q-btn push color="orange-9" class="q-my-xl q-mx-sm float-right" icon="save" label="Salvar" />
       </form>
     </q-card-main>
   </q-page>

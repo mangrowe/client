@@ -52,7 +52,7 @@
             </q-field>
           </div>
         </div>
-          <q-btn push color="green-9" class="q-my-xl q-mx-sm float-right" icon="person_add" label="Cadastrar Ciclo" />
+          <q-btn push color="orange-9" class="q-my-xl q-mx-sm float-right" icon="save" label="Cadastrar Ciclo" />
       </form>
     </q-card-main>
   </q-page>
