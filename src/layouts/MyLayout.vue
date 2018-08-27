@@ -40,7 +40,7 @@
           <q-item-side icon="assignment" />
           <q-item-main label="Objetivos" />
         </q-item>
-        <q-item to="/companies">
+        <q-item to="/organizations">
           <q-item-side icon="business_center" />
           <q-item-main label="Organizações" />
         </q-item>

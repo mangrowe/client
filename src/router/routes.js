@@ -43,17 +43,24 @@ const routes = [
     ]
   },
   {
-    path: '/companies',
+    path: '/organizations/edit/:id',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/companies/Index.vue') }
+      { path: '', component: () => import('pages/organizations/Edit.vue') }
     ]
   },
   {
-    path: '/companies/create',
+    path: '/organizations/create',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/companies/Create.vue') }
+      { path: '', component: () => import('pages/organizations/Create.vue') }
+    ]
+  },
+  {
+    path: '/organizations',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/organizations/Index.vue') }
     ]
   },
   {
