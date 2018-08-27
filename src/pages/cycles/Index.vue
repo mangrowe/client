@@ -2,7 +2,7 @@
   <q-page padding>
     <h3>
       Ciclo Estratégico / Tático
-      <q-btn push color="orange-9" to="cycle/create">
+      <q-btn push color="orange-9" to="cycles/create">
         Criar
       </q-btn>
     </h3>

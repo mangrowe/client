@@ -71,17 +71,17 @@ const routes = [
     ]
   },
   {
-    path: '/cycle/create',
+    path: '/cycles/create',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/cycle/Create.vue') }
+      { path: '', component: () => import('pages/cycles/Create.vue') }
     ]
   },
   {
-    path: '/cycle',
+    path: '/cycles',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/cycle/Index.vue') }
+      { path: '', component: () => import('pages/cycles/Index.vue') }
     ]
   },
   {

@@ -52,9 +52,9 @@
           <q-item-side icon="person" />
           <q-item-main label="Usuários" />
         </q-item>
-        <q-item to="/cycle">
+        <q-item to="/cycles">
           <q-item-side icon="work" />
-          <q-item-main label="Ciclo Estratégicos / Táticos" />
+          <q-item-main label="Ciclos" />
         </q-item>
       </q-list>
     </q-layout-drawer>
