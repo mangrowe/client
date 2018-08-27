@@ -22,6 +22,13 @@ const routes = [
     ]
   },
   {
+    path: '/users/edit/:id',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/users/Edit.vue') }
+    ]
+  },
+  {
     path: '/users/create',
     component: () => import('layouts/MyLayout.vue'),
     children: [
