@@ -9,11 +9,18 @@
     <q-card-main>
       <form action="">
         <div class="row">
-          <div class="col-12 col-md-12">
+          <div class="col-12 col-md-6">
             <q-field
             class="q-pa-sm"
             icon="title">
               <q-input type="text" v-model="title" float-label="Título" color="orange-9" />
+            </q-field>
+          </div>
+          <div class="col-12 col-md-6">
+            <q-field
+            class="q-pa-sm"
+            icon="donut_large">
+              <q-select v-model="parent_id" :options="cycles" float-label="Ciclo" color="orange-9" />
             </q-field>
           </div>
         </div>
@@ -52,15 +59,18 @@
 
 <script>
 import moment from 'moment';
+import { date } from 'quasar';
 
 export default {
   data () {
     return {
+      parent_id: null,
       title: '',
       description: '',
       cycle_name: '',
       start_at: '',
       end_at: '',
+      cycles: [],
       message: { color: '', text: '' }
     }
   },
@@ -68,21 +78,29 @@ export default {
     this.$axios.get(this.$mangrowe.url +'/cycles/'+ this.$route.params.id +'/edit', { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
+        for(let i = 0; i < response.data.cycles.length; i++) {
+          this.cycles.push({
+              label: response.data.cycles[i].title,
+              value: response.data.cycles[i].id
+          });
+        }
         this.organization_id = this.$mangrowe.organization_id;
-        this.title = response.data.title;
-        this.description = response.data.description;
-        this.start_at = moment(response.data.start_at).format('LLLL');
-        this.end_at = moment(response.data.end_at).format('LLLL');
+        this.parent_id = response.data.cycle.parent_id;
+        this.title = response.data.cycle.title;
+        this.description = response.data.cycle.description;
+        this.start_at = moment(response.data.cycle.start_at).format('LLLL');
+        this.end_at = moment(response.data.cycle.end_at).format('LLLL');
     });
   },
   methods: {
     update() {
       this.$axios.put(this.$mangrowe.url +'/cycles/'+ this.$route.params.id, {
         organization_id: this.$mangrowe.organization_id,
+        parent_id: this.parent_id,
         title: this.title,
         description: this.description,
-        start_at: moment(this.start_at).format('YYYY-MM-DD'),
-        end_at: moment(this.end_at).format('YYYY-MM-DD')
+        start_at: date.formatDate(this.start_at, 'YYYY-MM-DD'),
+        end_at: date.formatDate(this.end_at, 'YYYY-MM-DD')
       }, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
       }).then((response) => {

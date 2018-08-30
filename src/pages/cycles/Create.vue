@@ -9,11 +9,18 @@
     <q-card-main>
       <form action="">
         <div class="row">
-          <div class="col-12 col-md-12">
+          <div class="col-12 col-md-6">
             <q-field
             class="q-pa-sm"
             icon="title">
               <q-input type="text" v-model="title" float-label="Título" color="orange-9" />
+            </q-field>
+          </div>
+          <div class="col-12 col-md-6">
+            <q-field
+            class="q-pa-sm"
+            icon="donut_large">
+              <q-select v-model="parent_id" :options="cycles" float-label="Ciclo" color="orange-9" />
             </q-field>
           </div>
         </div>
@@ -53,13 +60,27 @@ import moment from 'moment';
 export default {
   data () {
     return {
+      parent_id: null,
       title: '',
       description: '',
       cycle_name: '',
       start_at: new Date(),
       end_at: new Date(),
+      cycles: [],
       message: { color: '', text: '' }
     }
+  },
+  mounted() {
+    this.$axios.get(this.$mangrowe.url +'/cycles/create', { headers: 
+        {'Authorization': 'Bearer '+ this.$mangrowe.token}
+    }).then((response) => {
+        for(let i = 0; i < response.data.length; i++) {
+          this.cycles.push({
+              label: response.data[i].title,
+              value: response.data[i].id
+          });
+        }
+    });
   },
   methods: {
     store() {
