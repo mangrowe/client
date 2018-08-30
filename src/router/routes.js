@@ -1,6 +1,27 @@
 
 const routes = [
   {
+    path: '/keyResults/edit/:id',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/keyResults/Edit.vue') }
+    ]
+  },
+  {
+    path: '/keyResults/create',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/keyResults/Create.vue') }
+    ]
+  },
+  {
+    path: '/keyResults',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/keyResults/Index.vue') }
+    ]
+  },
+  {
     path: '/teams/edit/:id',
     component: () => import('layouts/MyLayout.vue'),
     children: [
@@ -103,6 +124,13 @@ const routes = [
     component: () => import('layouts/MyLayout.vue'),
     children: [
       { path: '', component: () => import('pages/cycles/Index.vue') }
+    ]
+  },
+  {
+    path: '/dashboard',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Dashboard.vue') }
     ]
   },
   {

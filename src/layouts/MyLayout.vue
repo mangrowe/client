@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-layout-header>
+    <q-layout-header id="header-top">
       <q-toolbar
         color="orange-9"
         :inverted="$q.theme === 'ios'"
@@ -32,13 +32,17 @@
         inset-delimiter
       >
         <q-list-header>Navegação</q-list-header>
-        <q-item to="/">
+        <q-item to="/dashboard">
           <q-item-side icon="home" />
           <q-item-main label="Página inicial" />
         </q-item>
         <q-item to="/objectives">
           <q-item-side icon="assignment" />
           <q-item-main label="Objetivos" />
+        </q-item>
+        <q-item to="/keyResults">
+          <q-item-side icon="vpn_key" />
+          <q-item-main label="Resultados chave" />
         </q-item>
         <q-item to="/organizations">
           <q-item-side icon="business_center" />
