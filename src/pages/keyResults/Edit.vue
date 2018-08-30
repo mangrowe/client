@@ -96,6 +96,7 @@
           </div>
         </div>
         <q-btn-group push class="float-right">
+          <q-btn push color="green-9" @click="checkIn()" class="q-pa-sm" icon="add_location" label="Check In" />
           <q-btn push color="red-9" @click="destroy()" class="q-pa-sm" icon="delete" label="Remover" />
           <q-btn push color="orange-9" @click="update()" class="q-pa-sm" icon="save" label="Atualizar" />
         </q-btn-group>
@@ -234,6 +235,9 @@ export default {
       }).catch(() => {
         this.$q.notify('Operação não realizada.');
       });
+    },
+    checkIn() {
+      this.$router.push('/keyResults/edit/'+ this.$route.params.id +'/checkIns');
     }
   }
 }

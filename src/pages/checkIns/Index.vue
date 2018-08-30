@@ -1,15 +1,15 @@
 <template>
   <q-page padding>
     <h3>
-      Resultados chave
-      <q-btn push color="orange-9" to="keyResults/create">
+      Check-ins
+      <q-btn push color="orange-9" to="checkIns/create">
         Novo
       </q-btn>
     </h3>
     <q-table 
-      title="Resultados chave"
+      title="Check-ins"
       :columns="columns"
-      :data="keyResults"
+      :data="checkIns"
       no-data-label="Sem registros disponíveis"
       rows-per-page-label="Linhas por páginas"
       :pagination-label="paginate"
@@ -36,17 +36,17 @@ export default {
           sortable: true
         },
         {
-          name: 'title',
-          field: 'title',
+          name: 'user',
+          field: 'user',
           align: 'left',
-          label: 'Título',
+          label: 'Colaborador',
           sortable: true
         },
         {
-          name: 'initial',
-          field: 'initial',
+          name: 'previous',
+          field: 'previous',
           align: 'left',
-          label: 'Início',
+          label: 'Anterior',
           sortable: true
         },
         {
@@ -57,26 +57,34 @@ export default {
           sortable: true
         },
         {
-          name: 'target',
-          field: 'target',
+          name: 'confidance',
+          field: 'confidance',
           align: 'left',
-          label: 'Alvo',
+          label: 'Confiança',
           sortable: true
         }
       ],
-      keyResults: []
+      checkIns: []
     }
   },
   mounted() {
-    this.$axios.get(this.$mangrowe.url +'/keyResults', { headers: 
+    this.$axios.get(this.$mangrowe.url +'/checkIns?key_result_id='+ this.$route.params.id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
-        this.keyResults = response.data;
+        for(let i = 0; i < response.data.length; i++) {
+          this.checkIns.push({
+            id: response.data[i].id,
+            user: response.data[i].user.name,
+            previous: response.data[i].previous,
+            current: response.data[i].current,
+            confidance: response.data[i].confidance
+          });
+        }
     });
   },
   methods: {
-    edit(keyResult) {
-      this.$router.push('keyResults/edit/'+ keyResult.id);
+    edit(checkIn) {
+      this.$router.push('/checkIns/edit/'+ checkIn.id);
     },
     paginate(start, end, total) {
       return start + ' até ' + end + ' de ' + total;

@@ -65,10 +65,12 @@ module.exports = function (ctx) {
         'QRadio',
         'QEditor',
         'QDatetime',
-        'QBtnGroup'
+        'QBtnGroup',
+        'QRating'
       ],
       directives: [
-        'Ripple'
+        'Ripple',
+        'GoBack'
       ],
       // Quasar plugins
       plugins: [
