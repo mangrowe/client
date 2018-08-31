@@ -2,6 +2,11 @@
   <q-page padding>
     <div class="row">
       <div class="col-12 col-md-6 offset-md-3">
+        <div v-if="message.text != ''">
+          <q-alert :color="message.color">
+            {{ message.text }}
+          </q-alert>
+        </div>
         <q-card>
           <q-card-title>
             Acessar MOKR
@@ -18,7 +23,14 @@
               icon="lock">
                 <q-input type="password" float-label="Senha" color="orange-9" v-model="password" />
               </q-field>
-            <q-btn class="q-pa-sm float-right" icon="exit_to_app" label="Entrar" color="orange-9" />
+            <div v-if="organizations.length > 0">
+              <q-field
+              class="q-pa-sm"
+              icon="business_center">
+                <q-select v-model="organization_id" :options="organizations" float-label="Organização" color="orange-9" @input="dashboard()" />
+              </q-field>
+            </div>
+            <q-btn class="q-pa-sm float-right" icon="exit_to_app" label="Entrar" color="orange-9" @click="signin()" />
             <div class="clearfix"></div>
           </q-card-main>
         </q-card>
@@ -28,12 +40,43 @@
 </template>
 
 <script>
+import { LocalStorage } from 'quasar';
+
 export default {
-  // name: 'PageName',
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      organization_id: null,
+      organizations: [],
+      message: { color: '', text: '' }
+    }
+  },
+  methods: {
+    signin() {
+      this.$axios.post(this.$mangrowe.url +'/login', {
+        email: this.email,
+        password: this.password
+      }).then((response) => {
+          LocalStorage.set('token', response.data.user.api_token);
+          this.$mangrowe.token = response.data.user.api_token;
+          for(let i = 0; i < response.data.organizations.length; i++) {
+            this.organizations.push({
+                label: response.data.organizations[i].title,
+                value: response.data.organizations[i].id
+            });
+          }
+          this.message.color = 'green';
+          this.message.text = response.data.message;
+      }).catch((err) => {
+          this.message.color = 'red';
+          this.message.text = response.data.message;
+      });
+    },
+    dashboard() {
+      LocalStorage.set('organization_id', this.organization_id);
+      this.$mangrowe.organization_id = this.organization_id;
+      this.$router.push('/dashboard');
     }
   }
 }
