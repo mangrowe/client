@@ -1,11 +1,12 @@
 <template>
   <q-page padding>
-    <h3>Editar resultado chave</h3>
+    <h3>Editar resultado chave {{ progress }}%</h3>
     <div v-if="message.text != ''">
       <q-alert :color="message.color">
         {{ message.text }}
       </q-alert>
     </div>
+    <q-progress :percentage="progress" color="green-9" />
     <q-card-main>
       <form action="">
         <div class="row">
@@ -121,6 +122,7 @@ export default {
       format: '',
       objectives: [],
       users: [],
+      progress: 0,
       message: { color: '', text: '' },
       type: '',
       types: [
@@ -175,6 +177,11 @@ export default {
         this.current = response.data.keyResults.current;
         this.target = response.data.keyResults.target;
         this.format = response.data.keyResults.format;
+        if(this.type == 'boolean' || this.criteria == 'gte') {
+          this.progress = Math.round(Math.abs(this.current / this.target) * 100);
+        }else {
+          this.progress = Math.round(Math.abs(this.target / this.current) * 100);
+        }        
         for(let i = 0; i < response.data.objectives.length; i++) {
           this.objectives.push({
               label: response.data.objectives[i].title,

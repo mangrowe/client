@@ -66,7 +66,8 @@ module.exports = function (ctx) {
         'QEditor',
         'QDatetime',
         'QBtnGroup',
-        'QRating'
+        'QRating',
+        'QProgress'
       ],
       directives: [
         'Ripple',
