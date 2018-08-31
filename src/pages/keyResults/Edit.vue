@@ -177,11 +177,7 @@ export default {
         this.current = response.data.keyResults.current;
         this.target = response.data.keyResults.target;
         this.format = response.data.keyResults.format;
-        if(this.type == 'boolean' || this.criteria == 'gte') {
-          this.progress = Math.round(Math.abs(this.current / this.target) * 100);
-        }else {
-          this.progress = Math.round(Math.abs(this.target / this.current) * 100);
-        }        
+        this.progressBar();        
         for(let i = 0; i < response.data.objectives.length; i++) {
           this.objectives.push({
               label: response.data.objectives[i].title,
@@ -212,8 +208,7 @@ export default {
       }, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
       }).then((response) => {
-          this.message.color = 'green';
-          this.message.text = response.data.message;
+          this.progressBar();
           window.scrollTo(0, 0);
       }).catch((err) => {
           this.message.color = 'red';
@@ -245,6 +240,17 @@ export default {
     },
     checkIn() {
       this.$router.push('/keyResults/edit/'+ this.$route.params.id +'/checkIns');
+    },
+    progressBar() {
+      if(this.type == 'boolean') {
+        this.progress = Math.round(Math.abs(this.current / this.target) * 100);
+      }else {
+        if(this.criteria == 'gte') {
+          this.progress = Math.round(Math.abs((this.current - this.initial) / (this.target - this.initial)) * 100); 
+        }else {
+          this.progress = Math.round(Math.abs((this.initial - this.current) / (this.initial - this.target)) * 100);
+        }
+      }
     }
   }
 }
