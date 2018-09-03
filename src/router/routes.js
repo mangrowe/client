@@ -64,6 +64,13 @@ const routes = [
     ]
   },
   {
+    path: '/users/profile',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/users/Profile.vue') }
+    ]
+  },
+  {
     path: '/users/edit/:id',
     component: () => import('layouts/MyLayout.vue'),
     children: [
