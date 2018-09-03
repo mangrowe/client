@@ -103,7 +103,7 @@ export default {
     }
   },
   mounted() {
-    this.$axios.get(this.$mangrowe.url +'/objectives/'+ this.$route.params.id +'/edit', { headers: 
+    this.$axios.get(this.$mangrowe.url +'/objectives/'+ this.$route.params.id +'/edit?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
         this.parent_id = response.data.objective.parent_id;

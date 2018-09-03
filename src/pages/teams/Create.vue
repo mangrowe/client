@@ -52,7 +52,7 @@ export default {
     }
   },
   mounted() {
-    this.$axios.get(this.$mangrowe.url +'/teams/create', { headers: 
+    this.$axios.get(this.$mangrowe.url +'/teams/create?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
         let result = response.data.users || [];
@@ -66,12 +66,12 @@ export default {
   },
   methods: {
     store() {
-      let data = {
+      this.$axios.post(this.$mangrowe.url +'/teams', {
+        organization_id: this.$mangrowe.organization_id,
         user_id: this.user_id,
         title: this.title,
         users: this.members
-      };
-      this.$axios.post(this.$mangrowe.url +'/teams', data, { headers: 
+      }, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
       }).then((response) => {
           this.message.color = 'green';

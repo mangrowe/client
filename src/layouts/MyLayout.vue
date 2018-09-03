@@ -19,6 +19,7 @@
           MOKR
           <div slot="subtitle">ManGve OKR</div>
         </q-toolbar-title>
+        <q-btn flat round dense icon="power_settings_new" @click="signOut()" />
       </q-toolbar>
     </q-layout-header>
 
@@ -70,7 +71,7 @@
 </template>
 
 <script>
-import { openURL } from 'quasar'
+import { openURL, LocalStorage } from 'quasar';
 
 export default {
   name: 'MyLayout',
@@ -85,7 +86,15 @@ export default {
     }
   },
   methods: {
-    openURL
+    openURL,
+    signOut() {
+      this.$axios.post(this.$mangrowe.url +'/logout', {}).then((reponse) => {
+        this.$mangrowe.organization_id = null;
+        this.$mangrowe.token = null;
+        LocalStorage.clear();
+        this.$router.push('/login');
+      });
+    }
   }
 }
 </script>

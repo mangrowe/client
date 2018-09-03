@@ -55,7 +55,7 @@ export default {
     }
   },
   mounted() {
-    this.$axios.get(this.$mangrowe.url +'/teams/'+ this.$route.params.id +'/edit', { headers: 
+    this.$axios.get(this.$mangrowe.url +'/teams/'+ this.$route.params.id +'/edit?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
         this.user_id = response.data.team.user_id;

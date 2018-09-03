@@ -151,7 +151,7 @@ export default {
     }
   },
   mounted() {
-    this.$axios.get(this.$mangrowe.url +'/keyResults/create', { headers: 
+    this.$axios.get(this.$mangrowe.url +'/keyResults/create?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
         for(let i = 0; i < response.data.objectives.length; i++) {
@@ -171,6 +171,7 @@ export default {
   methods: {
     store() {
       this.$axios.post(this.$mangrowe.url +'/keyResults', {
+        organization_id: this.$mangrowe.organization_id,
         objective_id: this.objective_id,
         user_id: this.user_id,
         title: this.title,
@@ -178,7 +179,7 @@ export default {
         type: this.type,
         criteria: this.criteria,
         initial: this.initial,
-        current: this.current,
+        current: this.initial,
         target: this.target,
         format: this.format
       }, { headers: 

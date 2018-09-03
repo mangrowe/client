@@ -71,7 +71,7 @@ export default {
     }
   },
   mounted() {
-    this.$axios.get(this.$mangrowe.url +'/cycles/create', { headers: 
+    this.$axios.get(this.$mangrowe.url +'/cycles/create?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
         for(let i = 0; i < response.data.length; i++) {
