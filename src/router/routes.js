@@ -162,6 +162,13 @@ const routes = [
     ]
   },
   {
+    path: '/recover',
+    component: () => import('layouts/BlankLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Recover.vue') }
+    ]
+  },
+  {
     path: '/login',
     component: () => import('layouts/BlankLayout.vue'),
     children: [

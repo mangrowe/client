@@ -30,7 +30,10 @@
                 <q-select v-model="organization_id" :options="organizations" float-label="Organização" color="orange-9" @input="dashboard()" />
               </q-field>
             </div>
-            <q-btn class="q-pa-sm float-right" icon="exit_to_app" label="Entrar" color="orange-9" @click="signin()" />
+            <q-btn-group push class="float-right">
+              <q-btn push color="secondary" to="/recover" class="q-pa-sm" icon="lock_open" label="Recuperação de senha" />
+              <q-btn push class="q-pa-sm float-right" icon="exit_to_app" label="Entrar" color="orange-9" @click="signin()" />
+            </q-btn-group>
             <div class="clearfix"></div>
           </q-card-main>
         </q-card>
