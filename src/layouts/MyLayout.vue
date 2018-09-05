@@ -46,9 +46,13 @@
           <q-item-side icon="vpn_key" />
           <q-item-main label="Resultados chave" />
         </q-item>
-        <q-item to="/organizations">
-          <q-item-side icon="business_center" />
-          <q-item-main label="Organizações" />
+        <q-item to="/departments">
+          <q-item-side icon="account_balance" />
+          <q-item-main label="Unidade organizacional" />
+        </q-item>
+        <q-item to="/cycles">
+          <q-item-side icon="donut_large" />
+          <q-item-main label="Ciclos" />
         </q-item>
         <q-item to="/teams">
           <q-item-side icon="people" />
@@ -58,9 +62,9 @@
           <q-item-side icon="person" />
           <q-item-main label="Usuários" />
         </q-item>
-        <q-item to="/cycles">
-          <q-item-side icon="donut_large" />
-          <q-item-main label="Ciclos" />
+        <q-item to="/organizations">
+          <q-item-side icon="business_center" />
+          <q-item-main label="Organizações" />
         </q-item>
       </q-list>
     </q-layout-drawer>

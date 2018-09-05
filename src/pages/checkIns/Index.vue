@@ -2,9 +2,14 @@
   <q-page padding>
     <h3>
       Check-ins
-      <q-btn push color="orange-9" to="checkIns/create">
-        Novo
-      </q-btn>
+      <q-btn-group push class="float-right">
+        <q-btn push color="orange-9" to="checkIns/create">
+          Novo
+        </q-btn>
+        <q-btn push color="secondary" @click="keyResult()">
+          Resultado chave
+        </q-btn>
+      </q-btn-group>
     </h3>
     <q-table 
       title="Check-ins"
@@ -88,6 +93,9 @@ export default {
     },
     paginate(start, end, total) {
       return start + ' até ' + end + ' de ' + total;
+    },
+    keyResult() {
+      this.$router.push('/keyResults/edit/'+ this.$route.params.id);
     }
   }
 }

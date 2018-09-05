@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <h3>Novo ciclo</h3>
+    <h3>Nova unidade organizacional</h3>
     <div v-if="message.text != ''">
       <q-alert :color="message.color">
         {{ message.text }}
@@ -20,31 +20,7 @@
             <q-field
             class="q-pa-sm"
             icon="donut_large">
-              <q-select v-model="parent_id" :options="cycles" float-label="Ciclo" color="orange-9" />
-            </q-field>
-          </div>
-        </div>
-
-        <q-field
-        class="q-pa-sm"
-        icon="description">
-          <q-editor v-model="description" float-label="Descrição" color="orange-9" />
-        </q-field>
-
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <q-field
-              class="q-pa-sm"
-              icon="date_range">
-              <q-datetime v-model="start_at" type="date" color="orange-9" float-label="Data de início" />
-            </q-field>
-          </div>
-
-          <div class="col-12 col-md-6">
-            <q-field
-              class="q-pa-sm"
-              icon="date_range">
-              <q-datetime v-model="end_at" type="date" color="orange-9" float-label="Data de término" />
+              <q-select v-model="parent_id" :options="departments" float-label="Unidade organizacional (pai)" color="orange-9" />
             </q-field>
           </div>
         </div>
@@ -55,27 +31,21 @@
 </template>
 
 <script>
-import moment from 'moment';
-
 export default {
   data () {
     return {
       parent_id: null,
       title: '',
-      description: '',
-      cycle_name: '',
-      start_at: new Date(),
-      end_at: new Date(),
-      cycles: [],
+      departments: [],
       message: { color: '', text: '' }
     }
   },
   mounted() {
-    this.$axios.get(this.$mangrowe.url +'/cycles/create?organization_id='+ this.$mangrowe.organization_id, { headers: 
+    this.$axios.get(this.$mangrowe.url +'/departments/create?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
         for(let i = 0; i < response.data.length; i++) {
-          this.cycles.push({
+          this.departments.push({
               label: response.data[i].title,
               value: response.data[i].id
           });
@@ -84,20 +54,17 @@ export default {
   },
   methods: {
     store() {
-      this.$axios.post(this.$mangrowe.url +'/cycles', {
+      this.$axios.post(this.$mangrowe.url +'/departments', {
         organization_id: this.$mangrowe.organization_id,
         parent_id: this.parent_id,
         title: this.title,
-        description: this.description,
-        start_at: moment(this.start_at).format('YYYY-MM-DD'),
-        end_at: moment(this.end_at).format('YYYY-MM-DD')
       }, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
           setTimeout(() => {
-            this.$router.push('/cycles');
+            this.$router.push('/departments');
           }, 2000);
       }).catch((err) => {
           this.message.color = 'red';
