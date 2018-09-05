@@ -8,19 +8,24 @@
     </div>
     <q-card-main>
       <form action="">
+        <q-field
+        class="q-pa-sm"
+        icon="title">
+          <q-input type="text" v-model="title" float-label="Titulo do objetivo" color="orange-9" />
+        </q-field>
         <div class="row">
-          <div class="col-12 col-sm-6">
-            <q-field
-            class="q-pa-sm"
-            icon="title">
-              <q-input type="text" v-model="title" float-label="Titulo do objetivo" color="orange-9" />
-            </q-field>
-          </div>
           <div class="col-12 col-sm-6">
             <q-field
             class="q-pa-sm"
             icon="donut_large">
               <q-select v-model="cycle_id" :options="cycles" float-label="Ciclo" color="orange-9" />
+            </q-field>
+          </div>
+          <div class="col-12 col-sm-6">
+            <q-field
+            class="q-pa-sm"
+            icon="account_balance">
+              <q-select v-model="department_id" :options="departments" float-label="Unidade organizacional" color="orange-9" />
             </q-field>
           </div>
         </div>
@@ -81,6 +86,8 @@ export default {
       users: [],
       cycle_id: '',
       cycles: [],
+      department_id: '',
+      departments: [],
       level: '',
       levels: [
         {
@@ -127,6 +134,12 @@ export default {
               value: response.data.cycles[i].id
           });
         }
+        for(let i = 0; i < response.data.departments.length; i++) {
+          this.departments.push({
+              label: response.data.departments[i].title,
+              value: response.data.departments[i].id
+          });
+        }
     });
   },
   methods: {
@@ -137,6 +150,7 @@ export default {
         cycle_id: this.cycle_id,
         user_id: this.user_id,
         team_id: this.team_id,
+        department_id: this.department_id,
         level: this.level,
         title: this.title,
         description: this.description
