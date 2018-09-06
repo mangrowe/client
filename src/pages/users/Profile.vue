@@ -47,6 +47,9 @@ export default {
       name: '',
       email: '',
       password: '',
+      error_name: false,
+      error_email: false,
+      errors: [],
       message: { color: '', text: '' }
     }
   },
@@ -61,6 +64,9 @@ export default {
   },
   methods: {
     update() {
+      if(this.validates()) {
+        return;
+      }
       this.$axios.put(this.$mangrowe.url +'/users/'+ this.id, {
         name: this.name,
         email: this.email,
@@ -74,6 +80,20 @@ export default {
           this.message.color = 'red';
           this.message.text = response.data.message;
       });
+    },
+    validates() {
+      this.errors = [];
+      this.error_name = false;
+      this.error_email = false;
+      if(this.name.length < 1) {
+        this.error_name = true;
+        this.errors.push(this.error_name);
+      }
+      if(this.email.length < 1) {
+        this.error_email = true;
+        this.errors.push(this.error_email);
+      }
+      return this.errors.length;
     }
   }
 }

@@ -10,12 +10,12 @@
       <form action="">
         <q-field
         class="q-pa-sm"
-        icon="book">
+        icon="book" :error="error_title" error-label="Este campo é obrigatório.">
           <q-input type="text" float-label="Título" color="orange-9" v-model="title" />
         </q-field>
         <q-field
         class="q-pa-sm"
-        icon="person">
+        icon="person" :error="error_user" error-label="Este campo é obrigatório.">
           <q-select
             v-model="user_id"
             :options="users"
@@ -25,7 +25,7 @@
         </q-field>
         <q-field
         class="q-pa-sm"
-        icon="people">
+        icon="people" :error="error_members" error-label="Este campo é obrigatório.">
           <q-select
             v-model="members"
             :options="users"
@@ -51,6 +51,10 @@ export default {
       user_id: '',
       members: [],
       users: [],
+      error_title: false,
+      error_user: false,
+      error_members: false,
+      errors: [],
       message: { color: '', text: '' },
     }
   },
@@ -73,12 +77,14 @@ export default {
   },
   methods: {
     update() {
-      let data = {
+      if(this.validates()) {
+        return;
+      }
+      this.$axios.put(this.$mangrowe.url +'/teams/'+ this.$route.params.id, {
         user_id: this.user_id,
         title: this.title,
         users: this.members
-      };
-      this.$axios.put(this.$mangrowe.url +'/teams/'+ this.$route.params.id, data, { headers: 
+      }, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
       }).then((response) => {
           this.message.color = 'green';
@@ -110,6 +116,25 @@ export default {
       }).catch(() => {
         this.$q.notify('Operação não realizada.');
       });
+    },
+    validates() {
+      this.errors = [];
+      this.error_title = false;
+      this.error_user = false;
+      this.error_members = false;
+      if(this.title.length < 1) {
+        this.error_title = true;
+        this.errors.push(this.error_title);
+      }
+      if(this.user_id.length < 1) {
+        this.error_user = true;
+        this.errors.push(this.error_user);
+      }
+      if(this.members.length < 1) {
+        this.error_members = true;
+        this.errors.push(this.error_members);
+      }
+      return this.errors.length;
     }
   }
 }

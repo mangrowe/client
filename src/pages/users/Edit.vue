@@ -10,7 +10,7 @@
       <form action="">
         <q-field
         class="q-pa-sm"
-        icon="person">
+        icon="person" :error="error_name" error-label="Este campo é obrigatório.">
           <q-input type="text" v-model="name" float-label="Nome completo" color="orange-9" />
         </q-field>
 
@@ -18,7 +18,7 @@
           <div class="col-12 col-md-6">
             <q-field
             class="q-pa-sm"
-            icon="alternate_email">
+            icon="alternate_email" :error="error_email" error-label="Este campo é obrigatório.">
               <q-input type="text" v-model="email" float-label="Email" color="orange-9" />
             </q-field>
           </div>
@@ -47,6 +47,9 @@ export default {
       name: '',
       email: '',
       password: '',
+      error_name: false,
+      error_email: false,
+      errors: [],
       message: { color: '', text: '' }
     }
   },
@@ -60,6 +63,9 @@ export default {
   },
   methods: {
     update() {
+      if(this.validates()) {
+        return;
+      }
       this.$axios.put(this.$mangrowe.url +'/users/'+ this.$route.params.id, {
         name: this.name,
         email: this.email,
@@ -96,6 +102,20 @@ export default {
       }).catch(() => {
         this.$q.notify('Operação não realizada.');
       });
+    },
+    validates() {
+      this.errors = [];
+      this.error_name = false;
+      this.error_email = false;
+      if(this.name.length < 1) {
+        this.error_name = true;
+        this.errors.push(this.error_name);
+      }
+      if(this.email.length < 1) {
+        this.error_email = true;
+        this.errors.push(this.error_email);
+      }
+      return this.errors.length;
     }
   }
 }

@@ -12,7 +12,7 @@
           <div class="col-12 col-md-6">
             <q-field
             class="q-pa-sm"
-            icon="title">
+            icon="title" :error="error_title" error-label="Este campo é obrigatório.">
               <q-input type="text" v-model="title" float-label="Título" color="orange-9" />
             </q-field>
           </div>
@@ -27,15 +27,15 @@
 
         <q-field
         class="q-pa-sm"
-        icon="description">
-          <q-editor v-model="description" float-label="Descrição" color="orange-9" />
+        icon="description" :error="error_description" error-label="Este campo é obrigatório.">
+          <q-editor v-model="description" float-label="Descrição" color="orange-9"/>
         </q-field>
 
         <div class="row">
           <div class="col-12 col-md-6">
             <q-field
               class="q-pa-sm"
-              icon="date_range">
+              icon="date_range" :error="error_start_at" error-label="Este campo é obrigatório.">
               <q-datetime v-model="start_at" type="date" color="orange-9" float-label="Data de início" />
             </q-field>
           </div>
@@ -43,8 +43,8 @@
           <div class="col-12 col-md-6">
             <q-field
               class="q-pa-sm"
-              icon="date_range">
-              <q-datetime v-model="end_at" type="date" color="orange-9" float-label="Data de término" />
+              icon="date_range" :error="error_end_at" error-label="Este campo é obrigatório.">
+              <q-datetime v-model="end_at" type="date" color="orange-9" float-label="Data de término"/>
             </q-field>
           </div>
         </div>
@@ -71,6 +71,11 @@ export default {
       start_at: '',
       end_at: '',
       cycles: [],
+      error_title: false,
+      error_description: false,
+      error_start_at: false,
+      error_end_at: false,
+      errors: [],
       message: { color: '', text: '' }
     }
   },
@@ -94,6 +99,9 @@ export default {
   },
   methods: {
     update() {
+      if(this.validates()) {
+        return;
+      }
       this.$axios.put(this.$mangrowe.url +'/cycles/'+ this.$route.params.id, {
         organization_id: this.$mangrowe.organization_id,
         parent_id: this.parent_id,
@@ -133,6 +141,30 @@ export default {
       }).catch(() => {
         this.$q.notify('Operação não realizada.');
       });
+    },
+    validates() {
+      this.errors = [];
+      this.error_title = false;
+      this.error_description = false;
+      this.error_start_at = false;
+      this.error_end_at = false;
+      if(this.title.length < 1) {
+        this.error_title = true;
+        this.errors.push(this.error_title);
+      }
+      if(this.description.length < 1) {
+        this.error_description = true;
+        this.errors.push(this.error_description);
+      }
+      if(this.start_at.length < 1) {
+        this.error_start_at = true;
+        this.errors.push(this.error_start_at);
+      }
+      if(this.end_at.length < 1) {
+        this.error_end_at = true;
+        this.errors.push(this.error_end_at);
+      }
+      return this.errors.length;
     }
   }
 }

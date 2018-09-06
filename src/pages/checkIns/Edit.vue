@@ -19,7 +19,7 @@
           <div class="col-12 col-md-4">
             <q-field
             class="q-pa-sm"
-            icon="filter_2">
+            icon="filter_2" :error="error_current" error-label="Este campo é obrigatório.">
               <q-input type="number" v-model="current" float-label="Novo" color="orange-9" />
             </q-field>
           </div>
@@ -35,7 +35,7 @@
           <div class="col-12">
             <q-field
             class="q-pa-sm"
-            icon="description">
+            icon="description" :error="error_description" error-label="Este campo é obrigatório.">
               <q-editor v-model="description" float-label="Descrição" color="orange-9" />
             </q-field>
           </div>
@@ -45,7 +45,7 @@
             <q-field
               icon="rate_review"
               helper="Qual o nível de confiança?"
-            >
+              :error="error_confidance" error-label="Este campo é obrigatório.">
               <q-rating size="2rem" v-model="confidance" color="orange-9" :max="3" icon="thumb_up_alt" />
             </q-field>
           </div>
@@ -69,7 +69,11 @@ export default {
       confidance: 0,
       target: '',
       description: '',
-      message: { color: '', text: '' }
+      message: { color: '', text: '' },
+      error_current: false,
+      error_confidance: false,
+      error_description: false,
+      errors: []
     }
   },
   mounted() {
@@ -86,6 +90,9 @@ export default {
   },
   methods: {
     update() {
+      if(this.validates()) {
+        return;
+      }
       this.$axios.put(this.$mangrowe.url +'/checkIns/'+ this.$route.params.id, {
         previous: this.previous,
         current: this.current,
@@ -124,6 +131,25 @@ export default {
       }).catch(() => {
         this.$q.notify('Operação não realizada.');
       });
+    },
+    validates() {
+      this.errors = [];
+      this.error_current = false;
+      this.error_confidance = false;
+      this.error_description = false;
+      if(this.current == null) {
+        this.error_current = true;
+        this.errors.push(this.error_current);
+      }
+      if(this.confidance < 1) {
+        this.error_confidance = true;
+        this.errors.push(this.error_confidance);
+      }
+      if(this.description.length < 1) {
+        this.error_description = true;
+        this.errors.push(this.error_description);
+      }
+      return this.errors.length;
     }
   }
 }

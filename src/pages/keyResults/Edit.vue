@@ -13,7 +13,7 @@
           <div class="col-12 col-md-12">
             <q-field
             class="q-pa-sm"
-            icon="title">
+            icon="title" :error="error_title" error-label="Este campo é obrigatório.">
               <q-input type="text" v-model="title" float-label="Título" color="orange-9" />
             </q-field>
           </div>
@@ -21,7 +21,7 @@
 
         <q-field
         class="q-pa-sm"
-        icon="description">
+        icon="description" :error="error_description" error-label="Este campo é obrigatório.">
           <q-editor v-model="description" float-label="Descrição" color="orange-9" />
         </q-field>
 
@@ -29,7 +29,7 @@
           <div class="col-12 col-md-12">
             <q-field
             class="q-pa-sm"
-            icon="assignment">
+            icon="assignment" :error="error_objective_id" error-label="Este campo é obrigatório.">
               <q-select v-model="objective_id" :options="objectives" float-label="Objetivo" color="orange-9" />
             </q-field>
           </div>
@@ -39,14 +39,14 @@
           <div class="col-12 col-md-6">
             <q-field
             class="q-pa-sm"
-            icon="person">
+            icon="person" :error="error_user_id" error-label="Este campo é obrigatório.">
               <q-select v-model="user_id" :options="users" float-label="Responsável" color="orange-9" />
             </q-field>
           </div>
           <div class="col-12 col-md-6">
             <q-field
             class="q-pa-sm"
-            icon="assignment">
+            icon="assignment" :error="error_type" error-label="Este campo é obrigatório.">
               <q-select v-model="type" :options="types" float-label="Tipo de resultado" color="orange-9" />
             </q-field>
           </div>
@@ -77,7 +77,7 @@
           <div class="col-12 col-md-4">
             <q-field
             class="q-pa-sm"
-            icon="filter_1">
+            icon="filter_1" :error="error_initial" error-label="Este campo é obrigatório.">
               <q-input type="number" v-model="initial" float-label="Inicial" color="orange-9" />
             </q-field>
           </div>
@@ -91,7 +91,7 @@
           <div class="col-12 col-md-4">
             <q-field
             class="q-pa-sm"
-            icon="filter_3">
+            icon="filter_3" :error="error_target" error-label="Este campo é obrigatório.">
               <q-input type="number" v-model="target" float-label="Alvo" color="orange-9" />
             </q-field>
           </div>
@@ -114,7 +114,6 @@ export default {
       user_id: '',
       title: '',
       description: '',
-      type: '',
       criteria: '',
       initial: 0,
       current: 0,
@@ -135,7 +134,6 @@ export default {
           value: 'number'
         }
       ],
-      criteria: '',
       criterias: [
         {
           label: 'Maior ou igual',
@@ -160,7 +158,15 @@ export default {
           value: 'percentage'
         }
       ],
-      message: { color: '', text: '' }
+      message: { color: '', text: '' },
+      error_objective_id: false,
+      error_user_id: false,
+      error_title: false,
+      error_description: false,
+      error_type: false,
+      error_initial: false,
+      error_target: false,
+      errors: []
     }
   },
   mounted() {
@@ -194,6 +200,9 @@ export default {
   },
   methods: {
     update() {
+      if(this.validates()) {
+        return;
+      }
       this.$axios.put(this.$mangrowe.url +'/keyResults/'+ this.$route.params.id, {
         objective_id: this.objective_id,
         user_id: this.user_id,
@@ -251,6 +260,44 @@ export default {
           this.progress = Math.round(Math.abs((this.initial - this.current) / (this.initial - this.target)) * 100);
         }
       }
+    },
+    validates() {
+      this.error_objective_id = false;
+      this.error_user_id = false;
+      this.error_title = false;
+      this.error_description = false;
+      this.error_type = false;
+      this.error_initial = false;
+      this.error_target = false;
+      if(this.objective_id.length < 1) {
+        this.error_objective_id = true;
+        this.errors.push(this.error_objective_id);
+      }
+      if(this.user_id.length < 1) {
+        this.error_user_id = true;
+        this.errors.push(this.error_user_id);
+      }
+      if(this.title.length < 1) {
+        this.error_title = true;
+        this.errors.push(this.error_title);
+      }
+      if(this.description.length < 1) {
+        this.error_description = true;
+        this.errors.push(this.error_description);
+      }
+      if(this.type.length < 1) {
+        this.error_type = true;
+        this.errors.push(this.error_type);
+      }
+      if(this.initial.length < 1) {
+        this.error_initial = true;
+        this.errors.push(this.error_initial);
+      }
+      if(this.target.length < 1) {
+        this.error_target = true;
+        this.errors.push(this.error_target);
+      }
+      return this.errors.length;
     }
   }
 }

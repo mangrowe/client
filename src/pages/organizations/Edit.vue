@@ -12,7 +12,7 @@
           <div class="col-12 col-md-12">
             <q-field
             class="q-pa-sm"
-            icon="title">
+            icon="title" :error="error_title" error-label="Este campo é obrigatório.">
               <q-input type="text" float-label="Título" color="orange-9" v-model="title" />
             </q-field>
           </div>
@@ -31,6 +31,7 @@ export default {
   data () {
     return {
       title: '',
+      error_title: false,
       message: { color: '', text: '' }
     }
   },
@@ -43,6 +44,10 @@ export default {
   },
   methods: {
     update() {
+      if(this.title.length < 1) {
+        this.error_title = true;
+        return;
+      }
       this.$axios.put(this.$mangrowe.url +'/organizations/'+ this.$route.params.id, {
         title: this.title
       }, { headers: 

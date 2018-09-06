@@ -15,7 +15,7 @@
           <q-card-main>
             <q-field
               class="q-pa-sm"
-              icon="email">
+              icon="email" :error="error_email" error-label="Este campo é obrigatório.">
               <q-input type="email" float-label="E-mail" color="orange-9" v-model="email" />
             </q-field>
             <q-btn-group push class="float-right">
@@ -35,11 +35,16 @@ export default {
   data () {
     return {
       email: '',
+      error_email: false,
+      errors: [],
       message: { color: '', text: '' }
     }
   },
   methods: {
     recover() {
+      if(this.validates()) {
+        return;
+      }
       this.$axios.post(this.$mangrowe.url +'/reset', {
         email: this.email
       }).then((response) => {
@@ -49,6 +54,15 @@ export default {
           this.message.color = 'red';
           this.message.text = response.data.message;
       });
+    },
+    validates() {
+      this.errors = [];
+      this.error_email = false;
+      if(this.email.length < 1) {
+        this.error_email = true;
+        this.errors.push(this.error_email);
+      }
+      return this.errors.length;
     }
   }
 }

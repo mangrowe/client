@@ -15,12 +15,12 @@
           <q-card-main>
             <q-field
               class="q-pa-sm"
-              icon="email">
+              icon="email" :error="error_email" error-label="Este campo é obrigatório.">
                 <q-input type="email" float-label="E-mail" color="orange-9" v-model="email" />
               </q-field>
             <q-field
               class="q-pa-sm"
-              icon="lock">
+              icon="lock" :error="error_password" error-label="Este campo é obrigatório.">
                 <q-input type="password" float-label="Senha" color="orange-9" v-model="password" />
               </q-field>
             <div v-if="organizations.length > 0">
@@ -52,11 +52,17 @@ export default {
       password: '',
       organization_id: null,
       organizations: [],
+      error_email: false,
+      error_password: false,
+      errors: [],
       message: { color: '', text: '' }
     }
   },
   methods: {
     signin() {
+      if(this.validates()) {
+        return;
+      }
       this.$axios.post(this.$mangrowe.url +'/login', {
         email: this.email,
         password: this.password
@@ -80,6 +86,20 @@ export default {
       LocalStorage.set('organization_id', this.organization_id);
       this.$mangrowe.organization_id = this.organization_id;
       this.$router.push('/dashboard');
+    },
+    validates() {
+      this.errors = [];
+      this.error_email = false;
+      this.error_password = false;
+      if(this.email.length < 1) {
+        this.error_email = true;
+        this.errors.push(this.error_email);
+      }
+      if(this.password.length < 6) {
+        this.error_password = true;
+        this.errors.push(this.error_password);
+      }
+      return this.errors.length;
     }
   }
 }
