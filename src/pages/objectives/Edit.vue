@@ -66,6 +66,7 @@
           </div>
         </div>
         <q-btn-group push class="float-right">
+          <q-btn push color="green-9" @click="keyResultsList()" class="q-pa-sm" icon="vpn_key" label="Resultados chave" />
           <q-btn push color="red-9" @click="destroy()" class="q-pa-sm" icon="delete" label="Remover" />
           <q-btn push color="orange-9" @click="update()" class="q-pa-sm" icon="save" label="Atualizar" />
         </q-btn-group>
@@ -206,6 +207,9 @@ export default {
       }).catch(() => {
         this.$q.notify('Operação não realizada.');
       });
+    },
+    keyResultsList() {
+      this.$router.push('/objectives/'+ this.$route.params.id);
     },
     validates() {
       this.errors = [];

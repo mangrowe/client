@@ -148,6 +148,13 @@ const routes = [
     ]
   },
   {
+    path: '/objectives/:id',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/objectives/Show.vue') }
+    ]
+  },
+  {
     path: '/objectives',
     component: () => import('layouts/MyLayout.vue'),
     children: [
