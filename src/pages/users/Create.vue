@@ -57,6 +57,7 @@ export default {
         return;
       }
       this.$axios.post(this.$mangrowe.url +'/users', {
+        organization_id: this.$mangrowe.organization_id,
         name: this.name,
         email: this.email,
         password: this.password

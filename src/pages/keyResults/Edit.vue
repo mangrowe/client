@@ -262,6 +262,7 @@ export default {
       }
     },
     validates() {
+      this.errors = [];
       this.error_objective_id = false;
       this.error_user_id = false;
       this.error_title = false;

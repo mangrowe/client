@@ -110,6 +110,7 @@ export default {
       error_cycle_id: false,
       error_department_id: false,
       error_level: false,
+      errors: [],
       message: { color: '', text: '' }
     }
   },

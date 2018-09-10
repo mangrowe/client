@@ -62,14 +62,14 @@
           <div class="col-12 col-md-6">
             <q-field
             class="q-pa-sm"
-            icon="timeline">
+            icon="timeline" :error="error_criteria" error-label="Este campo é obrigatório.">
               <q-select v-model="criteria" :options="criterias" float-label="Critérios" color="orange-9" />
             </q-field>
           </div>
           <div class="col-12 col-md-6">
             <q-field
             class="q-pa-sm"
-            icon="tab_unselected">
+            icon="tab_unselected" :error="error_format" error-label="Este campo é obrigatório.">
               <q-select v-model="format" :options="formats" float-label="Formato" color="orange-9" />
             </q-field>
           </div>
@@ -153,6 +153,8 @@ export default {
       error_type: false,
       error_initial: false,
       error_target: false,
+      error_criteria: false,
+      error_format: false,
       errors: []
     }
   },
@@ -205,6 +207,7 @@ export default {
       });
     },
     validates() {
+      this.errors = [];
       this.error_objective_id = false;
       this.error_user_id = false;
       this.error_title = false;
@@ -212,6 +215,8 @@ export default {
       this.error_type = false;
       this.error_initial = false;
       this.error_target = false;
+      this.error_criteria = false;
+      this.error_format = false;
       if(this.objective_id.length < 1) {
         this.error_objective_id = true;
         this.errors.push(this.error_objective_id);
@@ -239,6 +244,18 @@ export default {
       if(this.target.length < 1) {
         this.error_target = true;
         this.errors.push(this.error_target);
+      }
+      if(this.type.length > 0) {
+        if(this.type == 'number') {
+          if(this.criteria.length < 1) {
+            this.error_criteria = true;
+            this.errors.push(this.error_criteria);
+          }
+          if(this.format.length < 1) {
+            this.error_format = true;
+            this.errors.push(this.error_format);
+          }
+        }
       }
       return this.errors.length;
     }

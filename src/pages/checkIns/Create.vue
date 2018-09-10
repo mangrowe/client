@@ -68,7 +68,8 @@ export default {
       message: { color: '', text: '' },
       error_current: false,
       error_confidance: false,
-      error_description: false
+      error_description: false,
+      errors: []
     }
   },
   mounted() {
