@@ -31,6 +31,17 @@
             </q-field>
           </div>
         </div>
+        <q-field
+        class="q-pa-sm"
+        icon="people" :error="error_associations" error-label="Este campo é obrigatório.">
+          <q-select
+            v-model="associations"
+            :options="organizations"
+            float-label="Organizações"
+            multiple
+            color="orange-9"
+          />
+        </q-field>
         <q-btn-group push class="float-right">
           <q-btn push color="red-9" @click="destroy()" class="q-pa-sm" icon="delete" label="Remover" />
           <q-btn push color="orange-9" @click="update()" class="q-pa-sm" icon="save" label="Atualizar" />
@@ -47,8 +58,11 @@ export default {
       name: '',
       email: '',
       password: '',
+      organizations: [],
+      associations: [],
       error_name: false,
       error_email: false,
+      error_associations: false,
       errors: [],
       message: { color: '', text: '' }
     }
@@ -57,8 +71,17 @@ export default {
     this.$axios.get(this.$mangrowe.url +'/users/'+ this.$route.params.id +'/edit', { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
-        this.name = response.data.name;
-        this.email = response.data.email;
+        this.name = response.data.user.name;
+        this.email = response.data.user.email;
+        for(let i = 0; i < response.data.organizations.length; i++) {
+            this.organizations.push({
+                label: response.data.organizations[i].title,
+                value: response.data.organizations[i].id
+            });
+        }
+        for(let i = 0; i < response.data.associations.length; i++) {
+            this.associations.push(parseInt(response.data.associations[i].id));
+        }
     });
   },
   methods: {
@@ -69,7 +92,8 @@ export default {
       this.$axios.put(this.$mangrowe.url +'/users/'+ this.$route.params.id, {
         name: this.name,
         email: this.email,
-        password: this.password
+        password: this.password,
+        associations: this.associations
       }, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
       }).then((response) => {

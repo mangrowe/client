@@ -63,7 +63,7 @@ export default {
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
         for(let i = 0; i < response.data.members.length; i++) {
-            this.members.push(response.data.members[i].id);
+            this.members.push(parseInt(response.data.members[i].id));
         }
         for(let i = 0; i < response.data.users.length; i++) {
             this.users.push({
