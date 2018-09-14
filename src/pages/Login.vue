@@ -79,7 +79,7 @@ export default {
           this.message.text = response.data.message;
       }).catch((err) => {
           this.message.color = 'red';
-          this.message.text = response.data.message;
+          this.message.text = 'Dados inválidos, por favor verifique e tente novamente.';
       });
     },
     dashboard() {
