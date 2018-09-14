@@ -62,8 +62,6 @@ export default {
     this.$axios.get(this.$mangrowe.url +'/teams/'+ this.$route.params.id +'/edit?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
-        this.user_id = response.data.team.user_id;
-        this.title = response.data.team.title;
         for(let i = 0; i < response.data.members.length; i++) {
             this.members.push(response.data.members[i].id);
         }
@@ -73,6 +71,8 @@ export default {
                 value: response.data.users[i].id
             });
         }
+        this.user_id = parseInt(response.data.team.user_id);
+        this.title = response.data.team.title;
     });
   },
   methods: {

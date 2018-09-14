@@ -172,18 +172,7 @@ export default {
   mounted() {
     this.$axios.get(this.$mangrowe.url +'/keyResults/'+ this.$route.params.id +'/edit?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
-    }).then((response) => {
-        this.objective_id = response.data.keyResults.objective_id;
-        this.user_id = response.data.keyResults.user_id;
-        this.title = response.data.keyResults.title;
-        this.description = response.data.keyResults.description;
-        this.type = response.data.keyResults.type;
-        this.criteria = response.data.keyResults.criteria;
-        this.initial = response.data.keyResults.initial;
-        this.current = response.data.keyResults.current;
-        this.target = response.data.keyResults.target;
-        this.format = response.data.keyResults.format;
-        this.progressBar();        
+    }).then((response) => {        
         for(let i = 0; i < response.data.objectives.length; i++) {
           this.objectives.push({
               label: response.data.objectives[i].title,
@@ -196,6 +185,17 @@ export default {
                 value: response.data.users[i].id
             });
         }
+        this.objective_id = parseInt(response.data.keyResults.objective_id);
+        this.user_id = parseInt(response.data.keyResults.user_id);
+        this.title = response.data.keyResults.title;
+        this.description = response.data.keyResults.description;
+        this.type = response.data.keyResults.type;
+        this.criteria = response.data.keyResults.criteria;
+        this.initial = response.data.keyResults.initial;
+        this.current = response.data.keyResults.current;
+        this.target = response.data.keyResults.target;
+        this.format = response.data.keyResults.format;
+        this.progressBar();
     });
   },
   methods: {

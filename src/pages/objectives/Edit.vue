@@ -122,14 +122,6 @@ export default {
     this.$axios.get(this.$mangrowe.url +'/objectives/'+ this.$route.params.id +'/edit?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
-        this.parent_id = response.data.objective.parent_id;
-        this.cycle_id = response.data.objective.cycle_id;
-        this.user_id = response.data.objective.user_id;
-        this.team_id = response.data.objective.team_id;
-        this.department_id = response.data.objective.department_id;
-        this.title = response.data.objective.title;
-        this.description = response.data.objective.description;
-        this.level = response.data.objective.level;
         for(let i = 0; i < response.data.objectives.length; i++) {
           this.objectives.push({
               label: response.data.objectives[i].title,
@@ -160,6 +152,14 @@ export default {
               value: response.data.departments[i].id
           });
         }
+        this.parent_id = parseInt(response.data.objective.parent_id);
+        this.cycle_id = parseInt(response.data.objective.cycle_id);
+        this.user_id = parseInt(response.data.objective.user_id);
+        this.team_id = parseInt(response.data.objective.team_id);
+        this.department_id = parseInt(response.data.objective.department_id);
+        this.title = response.data.objective.title;
+        this.description = response.data.objective.description;
+        this.level = response.data.objective.level;
     });
   },
   methods: {

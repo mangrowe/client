@@ -55,7 +55,7 @@ export default {
           });
         }
         this.organization_id = this.$mangrowe.organization_id;
-        this.parent_id = response.data.department.parent_id;
+        this.parent_id = parseInt(response.data.department.parent_id);
         this.title = response.data.department.title;
     });
   },

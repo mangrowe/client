@@ -90,7 +90,7 @@ export default {
           });
         }
         this.organization_id = this.$mangrowe.organization_id;
-        this.parent_id = response.data.cycle.parent_id;
+        this.parent_id = parseInt(response.data.cycle.parent_id);
         this.title = response.data.cycle.title;
         this.description = response.data.cycle.description;
         this.start_at = moment(response.data.cycle.start_at).format('LLLL');
