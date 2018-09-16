@@ -1,6 +1,27 @@
 
 const routes = [
   {
+    path: '/settings/edit/:id',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/settings/Edit.vue') }
+    ]
+  },
+  {
+    path: '/settings/create',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/settings/Create.vue') }
+    ]
+  },
+  {
+    path: '/settings',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/settings/Index.vue') }
+    ]
+  },
+  {
     path: '/departments/edit/:id',
     component: () => import('layouts/MyLayout.vue'),
     children: [

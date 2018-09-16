@@ -19,6 +19,7 @@
           MOKR
           <div slot="subtitle">ManGve OKR</div>
         </q-toolbar-title>
+        <q-btn flat round dense icon="settings" to="/settings" />
         <q-btn flat round dense icon="account_circle" to="/users/profile" />
         <q-btn flat round dense icon="power_settings_new" @click="signOut()" />
       </q-toolbar>
@@ -96,6 +97,7 @@ export default {
       this.$axios.post(this.$mangrowe.url +'/logout', {}).then((reponse) => {
         this.$mangrowe.organization_id = null;
         this.$mangrowe.token = null;
+        this.$mangrowe.settings = null;
         LocalStorage.clear();
         this.$router.push('/login');
       });
