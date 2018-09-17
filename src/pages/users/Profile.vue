@@ -57,9 +57,9 @@ export default {
     this.$axios.get(this.$mangrowe.url +'/users/profile', { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
-        this.id = response.data.id;
-        this.name = response.data.name;
-        this.email = response.data.email;
+        this.id = response.data.user.id;
+        this.name = response.data.user.name;
+        this.email = response.data.user.email;
     });
   },
   methods: {
