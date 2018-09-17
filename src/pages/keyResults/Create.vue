@@ -174,6 +174,9 @@ export default {
               value: response.data.users[i].id
           });
         }
+        if(this.$route.query.objective_id != undefined) {
+          this.objective_id = parseInt(this.$route.query.objective_id);
+        }
     });
   },
   methods: {
@@ -198,8 +201,9 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          window.scrollTo(0, 0);
           setTimeout(() => {
-            this.$router.push('/keyResults');
+            this.$router.push('/objectives/'+ this.objective_id);
           }, 2000);
       }).catch((err) => {
           this.message.color = 'red';

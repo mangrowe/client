@@ -19,6 +19,7 @@
           MOKR
           <div slot="subtitle">ManGve OKR</div>
         </q-toolbar-title>
+        <q-btn flat round dense icon="arrow_back" @click="goBack()" />
         <q-btn flat round dense icon="settings" to="/settings" />
         <q-btn flat round dense icon="account_circle" to="/users/profile" />
         <q-btn flat round dense icon="power_settings_new" @click="signOut()" />
@@ -101,6 +102,9 @@ export default {
         LocalStorage.clear();
         this.$router.push('/login');
       });
+    },
+    goBack() {
+      window.history.back();
     }
   }
 }

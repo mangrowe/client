@@ -2,7 +2,19 @@
   <q-page padding>
     <h3>
       {{ title }}
+      <q-btn push color="orange-9" @click="keyResultCreate()">
+        <q-icon name="note_add" /> resultado chave
+      </q-btn>
     </h3>
+    <div class="row">
+      <div class="col-12">
+        <q-breadcrumbs active-color="tertiary" color="tertiary">
+          <q-icon name="arrow_forward" slot="separator" slot-scope="props" />
+          <q-breadcrumbs-el label="Objetivo" icon="assignment" />
+          <q-breadcrumbs-el label="Resultados chave" icon="vpn_key" />
+        </q-breadcrumbs>
+      </div>
+    </div>
     <div class="row">
       <div class="col-8">
         <q-table 
@@ -38,6 +50,7 @@
 export default {
   data() {
     return {
+      id: null,
       title: '',
       progress: 0,
       columns: [
@@ -85,6 +98,7 @@ export default {
     this.$axios.get(this.$mangrowe.url +'/objectives/'+ this.$route.params.id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
+        this.id = response.data.id;
         this.title = response.data.title;
         this.keyResults = response.data.key_results;
         this.progressBar();
@@ -123,6 +137,9 @@ export default {
         }
       }
     },
+    keyResultCreate() {
+      this.$router.push('/keyResults/create?objective_id='+ this.id);
+    }
   }
 }
 </script>

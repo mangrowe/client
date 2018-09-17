@@ -69,7 +69,9 @@ module.exports = function (ctx) {
         'QRating',
         'QProgress',
         'QKnob',
-        'QColorPicker'
+        'QColorPicker',
+        'QBreadcrumbs',
+        'QBreadcrumbsEl'
       ],
       directives: [
         'Ripple',

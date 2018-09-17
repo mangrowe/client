@@ -97,6 +97,7 @@
           </div>
         </div>
         <q-btn-group push class="float-right">
+          <q-btn push color="primary" @click="objectiveShow()" class="q-pa-sm" icon="assignment" label="Objetivo" />
           <q-btn push color="green-9" @click="checkIn()" class="q-pa-sm" icon="add_location" label="Check In" />
           <q-btn push color="red-9" @click="destroy()" class="q-pa-sm" icon="delete" label="Remover" />
           <q-btn push color="orange-9" @click="update()" class="q-pa-sm" icon="save" label="Atualizar" />
@@ -260,6 +261,9 @@ export default {
           this.progress = Math.round(Math.abs((this.initial - this.current) / (this.initial - this.target)) * 100);
         }
       }
+    },
+    objectiveShow() {
+      this.$router.push('/objectives/'+ this.objective_id);
     },
     validates() {
       this.errors = [];

@@ -6,6 +6,15 @@
         {{ message.text }}
       </q-alert>
     </div>
+    <div class="row">
+      <div class="col-12">
+        <q-breadcrumbs active-color="tertiary" color="light">
+          <q-icon name="arrow_forward" slot="separator" slot-scope="props" />
+          <q-breadcrumbs-el label="Objetivo" icon="assignment" />
+          <q-breadcrumbs-el label="Resultados chave" icon="vpn_key" />
+        </q-breadcrumbs>
+      </div>
+    </div>
     <q-card-main>
       <form action="">
         <q-field
@@ -171,7 +180,8 @@ export default {
           this.message.color = 'green';
           this.message.text = response.data.message;
           setTimeout(() => {
-            this.$router.push('/objectives');
+            window.scrollTo(0, 0);
+            this.$router.push('/objectives/'+ response.data.objective.id);
           }, 2000);
       }).catch((err) => {
           this.message.color = 'red';
