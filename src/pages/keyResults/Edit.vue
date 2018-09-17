@@ -193,7 +193,7 @@ export default {
         this.type = response.data.keyResults.type;
         this.criteria = response.data.keyResults.criteria;
         this.initial = response.data.keyResults.initial;
-        this.current = response.data.keyResults.current;
+        this.current = parseFloat(response.data.keyResults.current);
         this.target = response.data.keyResults.target;
         this.format = response.data.keyResults.format;
         this.progressBar();

@@ -8,7 +8,13 @@
     </div>
     <q-card-main>
       <form action="">
-        <div class="row">
+        <div class="row" v-if="type == 'boolean'">
+          <div class="q-pa-sm">
+            <q-radio v-model="current" :val="0" label="A fazer" color="orange-9" class="q-pa-sm" />
+            <q-radio v-model="current" :val="100" label="Feito" color="orange-9" class="q-pa-sm" />
+          </div>
+        </div>
+        <div class="row" v-if="type == 'number'">
           <div class="col-12 col-md-4">
             <q-field
             class="q-pa-sm"
@@ -63,6 +69,7 @@
 export default {
   data() {
     return {
+      type: null,
       key_result_id: 0,
       previous: '',
       current: '',
@@ -80,6 +87,10 @@ export default {
     this.$axios.get(this.$mangrowe.url +'/checkIns/'+ this.$route.params.id +'/edit', { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
+        this.type = response.data.keyResult.type;
+        if(this.type == 'boolean') {
+          this.current = parseInt(response.data.keyResult.current);
+        }
         this.key_result_id = response.data.checkIn.key_result_id;
         this.previous = response.data.checkIn.previous;
         this.current = response.data.checkIn.current;
