@@ -193,7 +193,11 @@ export default {
         this.type = response.data.keyResults.type;
         this.criteria = response.data.keyResults.criteria;
         this.initial = response.data.keyResults.initial;
-        this.current = parseFloat(response.data.keyResults.current);
+        if(this.type == 'boolean') {
+          this.current = parseInt(response.data.keyResults.current);
+        }else {
+          this.current = response.data.keyResults.current;
+        }
         this.target = response.data.keyResults.target;
         this.format = response.data.keyResults.format;
         this.progressBar();

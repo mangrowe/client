@@ -29,6 +29,13 @@ const routes = [
     ]
   },
   {
+    path: '/departments/show',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/departments/Show.vue') }
+    ]
+  },
+  {
     path: '/departments/create',
     component: () => import('layouts/MyLayout.vue'),
     children: [
