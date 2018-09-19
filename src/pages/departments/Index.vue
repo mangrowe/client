@@ -2,7 +2,7 @@
   <q-page padding>
     <h3>
       Unidades organizacionais
-      <q-btn-group push class="float-right">
+      <q-btn-group push>
         <q-btn push color="orange-9" to="departments/create">
           Novo
         </q-btn>

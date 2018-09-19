@@ -2,7 +2,7 @@
   <q-page padding>
     <h3>
       Check-ins
-      <q-btn-group push class="float-right">
+      <q-btn-group push>
         <q-btn push color="orange-9" to="checkIns/create">
           Novo
         </q-btn>
