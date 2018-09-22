@@ -61,11 +61,10 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <q-btn push color="secondary" @click="clearForm()" class="q-pa-sm" icon="clear_all" label="Limpar" />
-          <q-btn push color="orange-9" @click="searchQuery()" class="q-pa-sm float-right" icon="search" label="Buscar" />
+          <q-btn push color="secondary" @click="clearForm()" class="q-pa-sm q-ma-sm" icon="clear_all" label="Limpar" />
+          <q-btn push color="orange-9" @click="searchQuery()" class="q-pa-sm q-ma-sm float-right" icon="search" label="Buscar" />
         </div>
       </div>
-      <br>
     </q-card>
     <q-table 
       title="Times"

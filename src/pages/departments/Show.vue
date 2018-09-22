@@ -6,7 +6,7 @@
 
 <script>
 import { VoBasic } from 'vue-orgchart';
-import 'vue-orgchart/dist/style.min.css'
+import 'vue-orgchart/dist/style.min.css';
 
 export default {
   components: { VoBasic },
@@ -38,7 +38,14 @@ export default {
 </script>
 
 <style>
+.orgchart .node {
+  width: 180px;
+  height: 20px;
+  padding: 0px;
+  background-color: #ce5d00;
+}
 .orgchart .node .title {
+  height: 20px;
   background-color: #ef6c00;
 }
 </style>
