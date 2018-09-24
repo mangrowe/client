@@ -77,8 +77,22 @@ export default {
           this.message.color = 'green';
           this.message.text = response.data.message;
       }).catch((err) => {
+          let errors = err.response.data.errors;
           this.message.color = 'red';
-          this.message.text = response.data.message;
+          this.message.text = '';
+
+          if(errors.name != undefined) {
+            this.message.text += errors.name.join() + ' ';
+          }
+
+          if(errors.email != undefined) {
+            this.message.text += errors.email.join();
+          }
+
+          if(errors.password != undefined) {
+            this.message.text += errors.password.join();
+          }
+          window.scrollTo(0, 0);
       });
     },
     validates() {

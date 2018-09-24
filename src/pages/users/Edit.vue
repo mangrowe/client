@@ -99,9 +99,24 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          window.scrollTo(0, 0);
       }).catch((err) => {
+          let errors = err.response.data.errors;
           this.message.color = 'red';
-          this.message.text = response.data.message;
+          this.message.text = '';
+
+          if(errors.name != undefined) {
+            this.message.text += errors.name.join() + ' ';
+          }
+
+          if(errors.email != undefined) {
+            this.message.text += errors.email.join();
+          }
+
+          if(errors.password != undefined) {
+            this.message.text += errors.password.join();
+          }
+          window.scrollTo(0, 0);
       });
     },
     destroy() {
@@ -131,11 +146,16 @@ export default {
       this.errors = [];
       this.error_name = false;
       this.error_email = false;
+      let emailRE = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       if(this.name.length < 1) {
         this.error_name = true;
         this.errors.push(this.error_name);
       }
       if(this.email.length < 1) {
+        this.error_email = true;
+        this.errors.push(this.error_email);
+      }
+      if(!emailRE.test(this.email)) {
         this.error_email = true;
         this.errors.push(this.error_email);
       }

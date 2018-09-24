@@ -70,8 +70,18 @@ export default {
             this.$router.push('/users');
           }, 2000);
       }).catch((err) => {
+          let errors = err.response.data.errors;
           this.message.color = 'red';
-          this.message.text = response.data.message;
+          this.message.text = '';
+
+          if(errors.name != undefined) {
+            this.message.text += errors.name.join() + ' ';
+          }
+
+          if(errors.email != undefined) {
+            this.message.text += errors.email.join();
+          }
+          window.scrollTo(0, 0);
       });
     },
     validates() {
@@ -79,11 +89,16 @@ export default {
       this.error_name = false;
       this.error_email = false;
       this.error_password = false;
+      let emailRE = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       if(this.name.length < 1) {
         this.error_name = true;
         this.errors.push(this.error_name);
       }
       if(this.email.length < 1) {
+        this.error_email = true;
+        this.errors.push(this.error_email);
+      }
+      if(!emailRE.test(this.email)) {
         this.error_email = true;
         this.errors.push(this.error_email);
       }

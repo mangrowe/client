@@ -110,8 +110,10 @@ export default {
               this.$router.push('/teams');
             }, 2000);
         }).catch((err) => {
-            this.message.color = 'red';
-            this.message.text = response.data.message;
+              this.message.color = 'red';
+              this.message.text = 'A operação não pode ser realizada, por favor, verifique a relação com objetivos.';
+              window.scrollTo(0, 0);
+           
         });
       }).catch(() => {
         this.$q.notify('Operação não realizada.');
