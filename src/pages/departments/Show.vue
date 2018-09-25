@@ -39,13 +39,15 @@ export default {
 
 <style>
 .orgchart .node {
-  width: 180px;
+  width: 200px;
   height: 20px;
   padding: 0px;
-  background-color: #ce5d00;
+  background-color: none;
 }
 .orgchart .node .title {
   height: 20px;
   background-color: #ef6c00;
+  font-size: 14px;
+  line-height: 20px;
 }
 </style>
