@@ -73,7 +73,7 @@ export default {
           }, 2000);
       }).catch((err) => {
           this.message.color = 'red';
-          this.message.text = response.data.message;
+          this.message.text = err.response.data.message;
       });
     }
   }

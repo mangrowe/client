@@ -76,7 +76,7 @@ export default {
           this.message.text = response.data.message;
       }).catch((err) => {
           this.message.color = 'red';
-          this.message.text = response.data.message;
+          this.message.text = err.response.data.message;
       });
     },
     destroy() {
