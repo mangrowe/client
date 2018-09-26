@@ -12,7 +12,7 @@
       </q-btn-group>
     </h3>
     <q-table 
-      title="Times"
+      title="Unidades organizacionais"
       :columns="columns"
       :data="departments"
       no-data-label="Sem registros disponíveis"

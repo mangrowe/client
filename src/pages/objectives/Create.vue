@@ -74,6 +74,16 @@
             </q-field>
           </div>
         </div>
+        <div class="row">
+          <div class="col-12">
+            <q-field
+              class="q-pa-sm"
+              icon="bookmarks"
+            >
+              <q-chips-input v-model="tags" float-label="Tags" color="orange-9" />
+            </q-field>
+          </div>
+        </div>
         <q-btn push color="orange-9" @click="store()" class="q-pa-sm float-right" icon="save" label="Salvar" />
       </form>
     </q-card-main>
@@ -98,6 +108,7 @@ export default {
       department_id: '',
       departments: [],
       level: '',
+      tags: [],
       levels: [
         {
           label: 'Estratégico',
@@ -173,19 +184,20 @@ export default {
         department_id: this.department_id,
         level: this.level,
         title: this.title,
-        description: this.description
+        description: this.description,
+        tags: this.tags
       }, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          window.scrollTo(0, 0);
           setTimeout(() => {
-            window.scrollTo(0, 0);
             this.$router.push('/objectives/'+ response.data.objective.id);
           }, 2000);
       }).catch((err) => {
           this.message.color = 'red';
-          this.message.text = response.data.message;
+          this.message.text = err.response.data.message;
       });
     },
     validates() {

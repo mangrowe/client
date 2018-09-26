@@ -67,7 +67,7 @@
       </div>
     </q-card>
     <q-table 
-      title="Times"
+      title="Objetivos"
       :columns="columns"
       :data="objectives"
       no-data-label="Sem registros disponíveis"
