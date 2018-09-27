@@ -49,6 +49,21 @@ export default {
 </script>
 
 <style>
+::-webkit-scrollbar {
+    height: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+::-webkit-scrollbar-thumb {
+    background: #ef6c01; 
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #ffa726; 
+}
+#chart-container {
+  overflow-x: auto;
+}
 .orgchart .node {
   width: 200px;
   height: 20px;
