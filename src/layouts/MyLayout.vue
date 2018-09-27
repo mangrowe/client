@@ -87,11 +87,6 @@ export default {
       leftDrawerOpen: this.$q.platform.is.desktop
     }
   },
-  mounted() {
-    if(!this.$mangrowe.token) {
-      this.$router.push('/login');
-    }
-  },
   methods: {
     openURL,
     signOut() {

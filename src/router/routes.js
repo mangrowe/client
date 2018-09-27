@@ -229,7 +229,10 @@ const routes = [
     component: () => import('layouts/BlankLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Login.vue') }
-    ]
+    ],
+    meta: {
+      guest: true
+    }
   },
   {
     path: '/',
