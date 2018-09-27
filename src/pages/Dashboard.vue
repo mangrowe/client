@@ -26,6 +26,11 @@ export default {
         LocalStorage.set('settings', this.$mangrowe.settings);
         this.departments = this.buildTree(response.data.departments);
         this.loading = '';
+    }).catch((err) => {
+      if(err.response == undefined) {
+        LocalStorage.clear();
+        this.$router.push('/login');
+      }
     });
   },
   methods: {

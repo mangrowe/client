@@ -65,6 +65,16 @@
             </q-field>
           </div>
         </div>
+        <div class="row">
+          <div class="col-12">
+            <q-field
+              class="q-pa-sm"
+              icon="bookmarks"
+            >
+              <q-chips-input v-model="tags" float-label="Tags" color="orange-9" />
+            </q-field>
+          </div>
+        </div>
         <q-btn-group push class="float-right">
           <q-btn push color="green-9" @click="keyResultsList()" class="q-pa-sm" icon="vpn_key" label="Resultados chave" />
           <q-btn push color="red-9" @click="destroy()" class="q-pa-sm" icon="delete" label="Remover" />
@@ -92,6 +102,7 @@ export default {
       cycles: [],
       department_id: '',
       departments: [],
+      tags: [],
       level: '',
       levels: [
         {
@@ -152,6 +163,9 @@ export default {
               value: response.data.departments[i].id
           });
         }
+        for(let i = 0; i < response.data.tags.length; i++) {
+          this.tags.push(response.data.tags[i].title);
+        }
         this.parent_id = parseInt(response.data.objective.parent_id);
         this.cycle_id = parseInt(response.data.objective.cycle_id);
         this.user_id = parseInt(response.data.objective.user_id);
@@ -175,12 +189,14 @@ export default {
         team_id: this.team_id,
         level: this.level,
         title: this.title,
-        description: this.description
+        description: this.description,
+        tags: this.tags
       }, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          window.scrollTo(0, 0);
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = response.data.message;

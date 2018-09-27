@@ -72,7 +72,8 @@ module.exports = function (ctx) {
         'QColorPicker',
         'QBreadcrumbs',
         'QBreadcrumbsEl',
-        'QSpinner'
+        'QSpinner',
+        'QChipsInput'
       ],
       directives: [
         'Ripple',
