@@ -182,6 +182,7 @@ export default {
         return;
       }
       this.$axios.put(this.$mangrowe.url +'/objectives/'+ this.$route.params.id, {
+        organization_id: this.$mangrowe.organization_id,
         parent_id: this.parent_id,
         cycle_id: this.cycle_id,
         department_id: this.department_id,

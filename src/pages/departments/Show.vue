@@ -45,10 +45,10 @@ export default {
     background: #f1f1f1; 
 }
 ::-webkit-scrollbar-thumb {
-    background: #ef6c01; 
+    background: #dddddd; 
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #ffa726; 
+    background: #d1d1d1; 
 }
 #chart-container {
   overflow-x: auto;

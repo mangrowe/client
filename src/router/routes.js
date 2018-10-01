@@ -1,6 +1,20 @@
 
 const routes = [
   {
+    path: '/tags/:id',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/tags/Show.vue') }
+    ]
+  },
+  {
+    path: '/tags',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/tags/Index.vue') }
+    ]
+  },
+  {
     path: '/settings/edit/:id',
     component: () => import('layouts/MyLayout.vue'),
     children: [
