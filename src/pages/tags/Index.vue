@@ -57,7 +57,7 @@ export default {
     }
   },
   mounted() {
-    this.$axios.get(this.$mangrowe.url +'/tags', { headers: 
+    this.$axios.get(this.$mangrowe.url +'/tags?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
         this.tags = this.tagList = response.data;
