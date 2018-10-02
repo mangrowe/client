@@ -76,6 +76,7 @@
           </div>
         </div>
         <q-btn-group push class="float-right">
+          <q-btn push color="primary" @click="cloner()" class="q-pa-sm" icon="file_copy" label="Clonar" />
           <q-btn push color="green-9" @click="keyResultsList()" class="q-pa-sm" icon="vpn_key" label="Resultados chave" />
           <q-btn push color="red-9" @click="destroy()" class="q-pa-sm" icon="delete" label="Remover" />
           <q-btn push color="orange-9" @click="update()" class="q-pa-sm" icon="save" label="Atualizar" />
@@ -86,6 +87,8 @@
 </template>
 
 <script>
+import { Loading, QSpinnerGears } from 'quasar';
+
 export default {
   data () {
     return {
@@ -267,6 +270,23 @@ export default {
         this.errors.push(this.error_level);
       }
       return this.errors.length;
+    },
+    cloner() {
+      Loading.show({message: 'Clonando objetivo e seus resultados chave'});
+      this.$axios.post(this.$mangrowe.url +'/objectives/cloner/'+ this.$route.params.id, {}, { headers: 
+        {'Authorization': 'Bearer '+ this.$mangrowe.token}
+      }).then((response) => {
+          this.message.color = 'green';
+          this.message.text = response.data.message;
+          Loading.hide();
+          window.scrollTo(0, 0);
+          setTimeout(() => {
+            this.$router.push('/objectives/edit/'+ response.data.objective.id);
+          }, 2000);
+      }).catch((err) => {
+          this.message.color = 'red';
+          this.message.text = err.response.data.message;
+      });
     }
   }
 }

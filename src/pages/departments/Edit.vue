@@ -12,8 +12,8 @@
           <div class="col-12 col-md-6">
             <q-field
             class="q-pa-sm"
-            icon="title">
-              <q-input type="text" v-model="title" float-label="Título" color="orange-9" :error="error_title" error-label="Este campo é obrigatório."/>
+            icon="title" :error="error_title" error-label="Este campo é obrigatório.">
+              <q-input type="text" v-model="title" float-label="Título" color="orange-9"/>
             </q-field>
           </div>
           <div class="col-12 col-md-6">
