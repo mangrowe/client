@@ -90,10 +90,11 @@ export default {
         this.type = response.data.keyResult.type;
         if(this.type == 'boolean') {
           this.current = parseInt(response.data.keyResult.current);
+        }else {
+          this.current = response.data.checkIn.current;
         }
         this.key_result_id = response.data.checkIn.key_result_id;
         this.previous = response.data.checkIn.previous;
-        this.current = response.data.checkIn.current;
         this.target = response.data.keyResult.target;
         this.confidance = response.data.checkIn.confidance;
         this.description = response.data.checkIn.description;

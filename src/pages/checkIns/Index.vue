@@ -11,6 +11,7 @@
         </q-btn>
       </q-btn-group>
     </h3>
+    <div id="chart"></div>
     <q-table 
       title="Check-ins"
       :columns="columns"
@@ -29,6 +30,8 @@
 </template>
 
 <script>
+import ApexCharts from 'apexcharts';
+
 export default {
   data() {
     return {
@@ -69,22 +72,64 @@ export default {
           sortable: true
         }
       ],
-      checkIns: []
+      checkIns: [],
+      options: {
+        chart: {
+          height: 300,
+          type: 'line',
+          zoom: {
+              enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        title: {
+          text: 'Evolução de check-ins',
+          align: 'left'
+        },
+        series: [{
+          name: 'Check Ins',
+          data: []
+        }],
+        xaxis: {
+          categories: []
+        }
+      }
     }
   },
   mounted() {
     this.$axios.get(this.$mangrowe.url +'/checkIns?key_result_id='+ this.$route.params.id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
-        for(let i = 0; i < response.data.length; i++) {
-          this.checkIns.push({
-            id: response.data[i].id,
-            user: response.data[i].user.name,
-            previous: response.data[i].previous,
-            current: response.data[i].current,
-            confidance: response.data[i].confidance
-          });
+      let data = [];
+      for(let i = 0; i < response.data.checkIns.length; i++) {
+        this.checkIns.push({
+          id: response.data.checkIns[i].id,
+          user: response.data.checkIns[i].user.name,
+          previous: response.data.checkIns[i].previous,
+          current: response.data.checkIns[i].current,
+          confidance: response.data.checkIns[i].confidance
+        });
+        data.push(parseInt(response.data.checkIns[i].current));
+        this.options.xaxis.categories.push(i + 1);
+      }
+      if(response.data.keyResults.type == 'boolean') {
+        if(data.length) {
+          let categories = this.options.xaxis.categories.unshift(0);
+          this.options.series[0].data = [0, ...data];
         }
+      }else {
+        this.options.series[0].data = data.reverse();
+      }
+      const chart = new ApexCharts(
+          document.querySelector("#chart"),
+          this.options
+      );
+      chart.render();
     });
   },
   methods: {
