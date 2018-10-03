@@ -106,6 +106,7 @@ export default {
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
       let data = [];
+      this.options.xaxis.categories.push(0);
       for(let i = 0; i < response.data.checkIns.length; i++) {
         this.checkIns.push({
           id: response.data.checkIns[i].id,
@@ -117,14 +118,8 @@ export default {
         data.push(parseInt(response.data.checkIns[i].current));
         this.options.xaxis.categories.push(i + 1);
       }
-      if(response.data.keyResults.type == 'boolean') {
-        if(data.length) {
-          let categories = this.options.xaxis.categories.unshift(0);
-          this.options.series[0].data = [0, ...data];
-        }
-      }else {
-        this.options.series[0].data = data.reverse();
-      }
+      data.push(parseInt(response.data.keyResults.initial));
+      this.options.series[0].data = data.reverse();
       const chart = new ApexCharts(
           document.querySelector("#chart"),
           this.options
