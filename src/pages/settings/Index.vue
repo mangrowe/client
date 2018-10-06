@@ -36,6 +36,7 @@
         <q-btn push color="orange-9" @click="createBackup()">
           Criar backup
         </q-btn>
+        <a :href="downloadUrl" v-show="downloadUrl" download>Baixe aqui o arquivo</a>
         <q-list class="q-my-sm">
           <q-item v-bind:key="backup" v-for="backup in backups">
             <q-item-main :label="backup" />
@@ -57,6 +58,7 @@ export default {
     return {
       settings: [],
       backups: [],
+      downloadUrl: '',
       columns: [
         {
           name: 'id',
@@ -138,11 +140,30 @@ export default {
       console.log('Restore', backup);
     },
     doDownload(backup) {
-      console.log('Download', backup);
+      Loading.show({spinner: QSpinnerGears, message: 'Solicitando arquivo para download, aguarde.'});
+      this.$axios.post(this.$mangrowe.url +'/settings/downloader', {
+        backup: backup
+      }, { headers: 
+        {'Authorization': 'Bearer '+ this.$mangrowe.token}
+      }).then((response) => {
+          this.downloadUrl = response.data.url;
+          this.message.color = 'green';
+          this.message.text = response.data.message;
+          window.scrollTo(0, 0);
+          Loading.hide();
+      }).catch((err) => {
+          Loading.hide();
+          this.message.color = 'red';
+          this.message.text = err.response.data.message;
+      });
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
+a {
+  margin: 0 10px;
+  color: #ef6c00;
+}
 </style>
