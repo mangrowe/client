@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { Loading, QSpinnerGears } from 'quasar';
+import { Loading, QSpinnerGears, LocalStorage } from 'quasar';
 
 export default {
   data() {
@@ -146,7 +146,15 @@ export default {
           this.message.color = 'green';
           this.message.text = response.data.message;
           window.scrollTo(0, 0);
-          Loading.hide();
+          Loading.show({message: 'Será necessário acessar novamente a ferramenta, você será redirecionado para o login.'});
+          setTimeout(() => {
+            this.$mangrowe.organization_id = null;
+            this.$mangrowe.token = null;
+            this.$mangrowe.settings = null;
+            LocalStorage.clear();
+            Loading.hide();
+            this.$router.push('/login');
+          }, 3000);
       }).catch((err) => {
           Loading.hide();
           this.message.color = 'red';
