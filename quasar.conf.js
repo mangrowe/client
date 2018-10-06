@@ -73,7 +73,10 @@ module.exports = function (ctx) {
         'QBreadcrumbs',
         'QBreadcrumbsEl',
         'QSpinner',
-        'QChipsInput'
+        'QChipsInput',
+        'QTabs',
+        'QTab',
+        'QTabPane'
       ],
       directives: [
         'Ripple',
