@@ -137,7 +137,21 @@ export default {
       });
     },
     doRestore(backup) {
-      console.log('Restore', backup);
+      Loading.show({spinner: QSpinnerGears, message: 'Realizando restore, aguarde.'});
+      this.$axios.post(this.$mangrowe.url +'/settings/restores', {
+        backup: backup
+      }, { headers: 
+        {'Authorization': 'Bearer '+ this.$mangrowe.token}
+      }).then((response) => {
+          this.message.color = 'green';
+          this.message.text = response.data.message;
+          window.scrollTo(0, 0);
+          Loading.hide();
+      }).catch((err) => {
+          Loading.hide();
+          this.message.color = 'red';
+          this.message.text = err.response.data.message;
+      });
     },
     doDownload(backup) {
       Loading.show({spinner: QSpinnerGears, message: 'Solicitando arquivo para download, aguarde.'});
