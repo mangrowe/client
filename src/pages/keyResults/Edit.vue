@@ -209,6 +209,7 @@ export default {
         return;
       }
       this.$axios.put(this.$mangrowe.url +'/keyResults/'+ this.$route.params.id, {
+        organization_id: this.$mangrowe.organization_id,
         objective_id: this.objective_id,
         user_id: this.user_id,
         title: this.title,
@@ -223,6 +224,8 @@ export default {
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
       }).then((response) => {
           this.progressBar();
+          this.message.color = 'green';
+          this.message.text = response.data.message;
           window.scrollTo(0, 0);
       }).catch((err) => {
           this.message.color = 'red';
@@ -236,11 +239,13 @@ export default {
         ok: 'Sim',
         cancel: 'Não'
       }).then(() => {
-        this.$axios.delete(this.$mangrowe.url +'/keyResults/'+ this.$route.params.id, { headers: 
-          {'Authorization': 'Bearer '+ this.$mangrowe.token}
+        this.$axios.delete(this.$mangrowe.url +'/keyResults/'+ this.$route.params.id, { 
+          data: {'organization_id': this.$mangrowe.organization_id},
+          headers: {'Authorization': 'Bearer '+ this.$mangrowe.token}
         }).then((response) => {
             this.message.color = 'green';
             this.message.text = response.data.message;
+            window.scrollTo(0, 0);
             setTimeout(() => {
               this.$router.push('/keyResults');
             }, 2000);

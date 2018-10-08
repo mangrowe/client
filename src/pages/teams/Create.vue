@@ -83,6 +83,7 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          window.scrollTo(0, 0);
           setTimeout(() => {
             this.$router.push('/teams');
           }, 2000);

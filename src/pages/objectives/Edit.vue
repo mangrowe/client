@@ -213,11 +213,13 @@ export default {
         ok: 'Sim',
         cancel: 'Não'
       }).then(() => {
-        this.$axios.delete(this.$mangrowe.url +'/objectives/'+ this.$route.params.id, { headers: 
-          {'Authorization': 'Bearer '+ this.$mangrowe.token}
+        this.$axios.delete(this.$mangrowe.url +'/objectives/'+ this.$route.params.id, { 
+          data: {'organization_id': this.$mangrowe.organization_id},
+          headers: {'Authorization': 'Bearer '+ this.$mangrowe.token}
         }).then((response) => {
             this.message.color = 'green';
             this.message.text = response.data.message;
+            window.scrollTo(0, 0);
             setTimeout(() => {
               this.$router.push('/objectives');
             }, 2000);
