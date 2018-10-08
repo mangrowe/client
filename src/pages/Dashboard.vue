@@ -1,12 +1,37 @@
 <template>
   <q-page padding>
-    <vo-basic :data="departments"></vo-basic>
-    <div class="text-center">{{ loading }}</div>
+    <q-card>
+      <q-card-title>
+        Progressos
+      </q-card-title>
+      <q-card-separator />
+      <q-card-main>
+        <vo-basic :data="departments"></vo-basic>
+        <div class="text-center">{{ loading }}</div>
+      </q-card-main>
+    </q-card>
+    <q-card>
+      <q-card-title>
+        Últimas atualizações
+      </q-card-title>
+      <q-card-separator />
+      <q-card-main>
+        <q-list>
+        <q-item v-bind:key="index" v-for="(activity, index) in activities">
+          <q-item-side icon="update" inverted color="orange-9" />
+          <q-item-main>
+            <q-item-tile label>{{ activity.message }}</q-item-tile>
+          </q-item-main>
+          <q-item-tile sublabel>{{ activity.created_at | dated }}</q-item-tile>
+        </q-item>
+        </q-list>
+      </q-card-main>
+    </q-card>
   </q-page>
 </template>
 
 <script>
-import { LocalStorage } from 'quasar';
+import { LocalStorage, date } from 'quasar';
 import { VoBasic } from 'vue-orgchart';
 import 'vue-orgchart/dist/style.min.css';
 
@@ -15,7 +40,8 @@ export default {
   data() {
     return {
       loading: 'Configurando...',
-      departments: {}
+      departments: {},
+      activities: [],
     }
   },
   mounted() {
@@ -25,6 +51,7 @@ export default {
         this.$mangrowe.settings = response.data.settings;
         LocalStorage.set('settings', this.$mangrowe.settings);
         this.departments = this.buildTree(response.data.departments);
+        this.activities = response.data.activities;
         this.loading = '';
     }).catch((err) => {
       if(err.response == undefined) {
@@ -43,6 +70,12 @@ export default {
         }
       }
       return branch;
+    }
+  },
+  filters: {
+    dated(value) {
+      const created = value.substring(0, 10);
+      return created.substr(5, 2) +'/'+ created.substr(8, 2) +'/'+ created.substr(0, 4);
     }
   }
 }

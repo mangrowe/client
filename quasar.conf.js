@@ -57,6 +57,7 @@ module.exports = function (ctx) {
         'QCardTitle',
         'QCardMain',
         'QCardSeparator',
+        'QItemTile',
         'QTable',
         'QTr',
         'QTd',
