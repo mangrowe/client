@@ -74,8 +74,9 @@ export default {
   },
   filters: {
     dated(value) {
+      const hour = value.substr(11);
       const created = value.substring(0, 10);
-      return created.substr(5, 2) +'/'+ created.substr(8, 2) +'/'+ created.substr(0, 4);
+      return created.substr(5, 2) +'/'+ created.substr(8, 2) +'/'+ created.substr(0, 4) +' '+ hour;
     }
   }
 }

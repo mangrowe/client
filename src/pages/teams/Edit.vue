@@ -81,6 +81,7 @@ export default {
         return;
       }
       this.$axios.put(this.$mangrowe.url +'/teams/'+ this.$route.params.id, {
+        organization_id: this.$mangrowe.organization_id,
         user_id: this.user_id,
         title: this.title,
         users: this.members
