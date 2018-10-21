@@ -12,6 +12,7 @@
         <q-btn push color="primary" to="tags">
           Tags
         </q-btn>
+        <q-btn push color="blue-grey" to="objectives/dashboard" icon="list_alt" />
       </q-btn-group>
       <q-spinner id="spinner" class="hidden" color="orange-9" size="40px" />
     </h3>

@@ -1,6 +1,13 @@
 
 const routes = [
   {
+    path: '/objectives/dashboard',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/objectives/Dashboard.vue') }
+    ]
+  },
+  {
     path: '/tags/:id',
     component: () => import('layouts/MyLayout.vue'),
     children: [

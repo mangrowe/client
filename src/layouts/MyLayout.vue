@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-layout-header id="header-top">
+    <q-layout-header id="header-top" class="print-hide">
       <q-toolbar
         color="orange-9"
         :inverted="$q.theme === 'ios'"
@@ -29,6 +29,7 @@
     <q-layout-drawer
       v-model="leftDrawerOpen"
       :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
+      class="print-hide"
     >
       <q-list
         no-border
