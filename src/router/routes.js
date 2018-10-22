@@ -106,6 +106,13 @@ const routes = [
     ]
   },
   {
+    path: '/keyResults/:id',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/keyResults/Show.vue') }
+    ]
+  },
+  {
     path: '/keyResults',
     component: () => import('layouts/MyLayout.vue'),
     children: [

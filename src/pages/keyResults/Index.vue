@@ -14,7 +14,7 @@
       rows-per-page-label="Linhas por páginas"
       :pagination-label="paginate"
     >
-      <q-tr slot="body" slot-scope="props" :props="props" @click.native="edit(props.row)" class="cursor-pointer">
+      <q-tr slot="body" slot-scope="props" :props="props" @click.native="show(props.row)" class="cursor-pointer">
         <q-td v-for="col in props.cols" :key="col.name" :props="props">
           {{ col.value }}
         </q-td>
@@ -75,8 +75,8 @@ export default {
     });
   },
   methods: {
-    edit(keyResult) {
-      this.$router.push('keyResults/edit/'+ keyResult.id);
+    show(keyResult) {
+      this.$router.push('keyResults/'+ keyResult.id);
     },
     paginate(start, end, total) {
       return start + ' até ' + end + ' de ' + total;

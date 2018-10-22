@@ -78,7 +78,7 @@
       rows-per-page-label="Linhas por páginas"
       :pagination-label="paginate"
     >
-      <q-tr slot="body" slot-scope="props" :props="props" @click.native="edit(props.row)" class="cursor-pointer">
+      <q-tr slot="body" slot-scope="props" :props="props" @click.native="show(props.row)" class="cursor-pointer">
         <q-td v-for="col in props.cols" :key="col.name" :props="props">
           {{ col.value }}
         </q-td>
@@ -149,8 +149,8 @@ export default {
     });
   },
   methods: {
-    edit(objective) {
-      this.$router.push('objectives/edit/'+ objective.id);
+    show(objective) {
+      this.$router.push('/objectives/'+ objective.id);
     },
     searchLoad() {
       this.$axios.get(this.$mangrowe.url +'/objectives/create?organization_id='+ this.$mangrowe.organization_id, { headers: 

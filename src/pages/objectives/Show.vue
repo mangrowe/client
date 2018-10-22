@@ -2,9 +2,7 @@
   <q-page padding>
     <h3>
       {{ title }}
-      <q-btn push color="orange-9" @click="keyResultCreate()">
-        <q-icon name="note_add" /> resultado chave
-      </q-btn>
+      
     </h3>
     <div class="row">
       <div class="col-12">
@@ -15,34 +13,85 @@
         </q-breadcrumbs>
       </div>
     </div>
-    <div class="row">
-      <div class="col-8">
-        <q-table 
-          title="Resultados chave"
-          :columns="columns"
-          :data="keyResults"
-          no-data-label="Sem registros disponíveis"
-          rows-per-page-label="Linhas por páginas"
-          :pagination-label="paginate"
-        >
-          <q-tr slot="body" slot-scope="props" :props="props" @click.native="edit(props.row)" class="cursor-pointer">
-            <q-td v-for="col in props.cols" :key="col.name" :props="props">
-              {{ col.value }}
-            </q-td>
-          </q-tr>
-        </q-table>
-      </div>
-      <div class="col-4 text-center">
-        <q-knob
-          id="progress"
-          v-model="progress"
-          size="12rem"
-          readonly
-        >
-          {{ progress }}%
-        </q-knob>
-      </div>
-    </div>
+    <q-list>
+      <q-collapsible group="somegroup" :opened="true" icon="vpn_key" label="Resultados chave">
+        <div>
+          <div class="row">
+            <div class="col-8">
+              <div>
+                <q-btn push color="orange-9" @click="keyResultCreate()">
+                  <q-icon name="note_add" /> adicionar
+                </q-btn>
+              </div><br>
+              <q-table 
+                title="Resultados chave"
+                :columns="columns"
+                :data="keyResults"
+                no-data-label="Sem registros disponíveis"
+                rows-per-page-label="Linhas por páginas"
+                :pagination-label="paginate"
+              >
+                <q-tr slot="body" slot-scope="props" :props="props" @click.native="edit(props.row)" class="cursor-pointer">
+                  <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                    {{ col.value }}
+                  </q-td>
+                </q-tr>
+              </q-table>
+            </div>
+            <div class="col-4 text-center">
+              <q-knob
+                id="progress"
+                v-model="progress"
+                size="12rem"
+                readonly
+              >
+                {{ progress }}%
+              </q-knob>
+            </div>
+          </div>
+        </div>
+      </q-collapsible>
+      <q-collapsible group="somegroup" icon="assignment" label="Informações do objetivo">
+        <div>
+          <div class="row">
+            <div class="col-12">
+              <p><b><q-icon name="title" /> Título </b><br> {{ title }}</p>
+              <p><b><q-icon name="donut_large" /> Ciclo </b><br> {{ cycle }}</p>
+              <p><b><q-icon name="account_balance" /> Unidade organizacional </b><br> {{ department }}</p>
+              <p><b><q-icon name="description" /> Descrição </b><br> <span v-html="description"></span></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <p><b><q-icon name="assignment" /> Objetivo vinculado </b><br> {{ parent }}</p>
+            </div>
+            <div class="col-6">
+              <p><b><q-icon name="group" /> Time </b><br> {{ team }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <p><b><q-icon name="person" />Responsável </b><br> {{ user }}</p>
+            </div>
+            <div class="col-6">
+              <p><b><q-icon name="drag_handle" /> Nível </b><br> {{ level }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <p><b><q-icon name="bookmarks" />Tags </b><br> 
+                <q-chip color="orange-9" v-bind:key="index" v-for="(tag, index) in tags">
+                  {{ tag.title }}
+                </q-chip>
+              </p>
+            </div>
+          </div>
+        </div>
+      </q-collapsible>
+    </q-list><br>
+    <q-btn-group push class="float-right">
+      <q-btn push color="orange-9" @click="editObjective()" class="q-pa-sm" icon="edit" label="Editar" />
+    </q-btn-group>
   </q-page>
 </template>
 
@@ -52,6 +101,14 @@ export default {
     return {
       id: null,
       title: '',
+      cycle: '',
+      department: '',
+      description: '',
+      parent: '',
+      team: '',
+      user: '',
+      level: '',
+      tags: [],
       progress: 0,
       columns: [
         {
@@ -100,7 +157,27 @@ export default {
     }).then((response) => {
         this.id = response.data.id;
         this.title = response.data.title;
+        this.cycle = response.data.cycle.title;
+        this.department = response.data.department.title;
+        this.description = response.data.description;
+        if(response.data.parent != undefined) {
+          this.parent = response.data.parent.title;
+        }else {
+          this.parent = 'Nenhum';
+        }
+        this.team = response.data.team.title;
+        this.user = response.data.user.name;
+        if(response.data.level == 'strategic') {
+          this.level = 'Estratégico';
+        }else if(response.data.level == 'tactical') {
+          this.level = 'Tático';
+        }else {
+          this.level = 'Operacional';
+        }
         this.keyResults = response.data.key_results;
+        if(response.data.tags != undefined) {
+          this.tags = response.data.tags;
+        }
         this.progressBar();
     });
   },
@@ -139,6 +216,9 @@ export default {
     },
     keyResultCreate() {
       this.$router.push('/keyResults/create?objective_id='+ this.id);
+    },
+    editObjective() {
+      this.$router.push('/objectives/edit/' + this.id);
     }
   }
 }
@@ -147,5 +227,8 @@ export default {
 <style>
 #progress {
   font-size: 3rem;
+}
+p {
+  border-bottom: 1px solid #d2d2d2;
 }
 </style>

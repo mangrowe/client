@@ -77,7 +77,9 @@ module.exports = function (ctx) {
         'QChipsInput',
         'QTabs',
         'QTab',
-        'QTabPane'
+        'QTabPane',
+        'QCollapsible',
+        'QChip'
       ],
       directives: [
         'Ripple',
