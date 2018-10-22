@@ -183,7 +183,7 @@ export default {
   },
   methods: {
     edit(keyResult) {
-      this.$router.push('/keyResults/edit/'+ keyResult.id);
+      this.$router.push('/keyResults/'+ keyResult.id);
     },
     paginate(start, end, total) {
       return start + ' até ' + end + ' de ' + total;
