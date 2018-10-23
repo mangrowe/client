@@ -48,11 +48,11 @@
             </q-item-main>
           </q-item>
           <q-card-separator />
-          <q-item v-bind:key="i" v-for="(keyResult, i) in objective.key_results">
-            <q-knob readonly :value="parseInt(keyResult.total)" size="40px" :min="0" :max="100" v-bind:id="index" :style="setting(keyResult.total)" />
+          <q-item v-bind:key="i" v-for="(keyResult, i) in objective.key_results">            
             <q-item-main class="key-result" @click.native="checkIn(keyResult.id)">
-              <q-item-tile label class="q-pl-sm">{{ keyResult.title }}</q-item-tile>
-              <q-item-tile sublabel class="q-pl-sm dated">Última atualização em {{ keyResult.updated_at | dated }}</q-item-tile>
+              <q-item-tile label>{{ keyResult.title }}</q-item-tile>
+              <q-item-tile sublabel class="dated">Última atualização em {{ keyResult.updated_at | dated }}</q-item-tile>
+             {{ parseInt(keyResult.total) }}% <q-progress :percentage="keyResult.total" :style="setting(keyResult.total)" stripe animate height="10px" />
             </q-item-main>
           </q-item>
         </q-card>
@@ -85,7 +85,7 @@ export default {
           }
         }
       }
-      return color;
+      return color + '!important;';
     },
     checkIn(id) {
       this.$router.push('/keyResults/edit/'+ id +'/checkIns/create');
