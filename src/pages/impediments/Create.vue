@@ -1,6 +1,11 @@
 <template>
   <q-page padding>
-    <h3>Impedimento</h3>
+    <h3>
+      Impedimento 
+      <q-chip v-show="isClosed" color="orange-9">
+        Fechado
+      </q-chip>
+    </h3>
     <div v-if="message.text != ''">
       <q-alert :color="message.color">
         {{ message.text }}
@@ -39,8 +44,17 @@
                   <input type="file" @change="upload()" ref="archiveFile">
                 </q-field>
               </div>
+              <div class="col-12" v-show="status">
+                <q-field
+                class="q-pa-sm"
+                icon="info">
+                  <q-radio v-model="status" val="1" color="orange-9" label="Pendente" />
+                  <q-radio v-model="status" val="2" color="orange-9" label="Resolvido" />
+                  <q-radio v-model="status" val="3" color="orange-9" label="Fechado" v-show="isOwner" />
+                </q-field>
+              </div>
               <div class="col-12">
-                <q-btn push color="orange-9" @click="store()" class="q-pa-sm float-right" icon="save" label="Salvar" />
+                <q-btn push color="orange-9" @click="store()" class="q-pa-sm float-right" icon="save" label="Salvar" v-show="!isClosed" />
               </div>
             </div>
           </form>
@@ -62,6 +76,9 @@ export default {
       users: [],
       parent_id: null,
       archive: null,
+      status: 0,
+      isOwner: false,
+      isClosed: false,
       errors: [],
       error_description: false,
       message: { color: '', text: '' }
@@ -83,6 +100,9 @@ export default {
       }
       if(this.$route.query.parent_id) {
         formData.append('parent_id', this.$route.query.parent_id);
+      }
+      if(this.status) {
+        formData.append('status', this.status); 
       }
       this.$axios.post(this.$mangrowe.url +'/impediments', formData, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
@@ -119,6 +139,7 @@ export default {
     let url = this.$mangrowe.url +'/impediments';
     if(this.$route.query.parent_id) {
       url += '/' + this.$route.query.parent_id;
+      this.status = '1';
     }else {
       url += '/create?key_result_id=' + this.$route.query.key_result_id;
     }
@@ -128,6 +149,12 @@ export default {
       this.objective = response.data.objective;
       this.keyResult = response.data.keyResult;
       this.impediment = response.data.impediment;
+      if(response.data.closed) {
+        this.isClosed = true;
+      }
+      if(response.data.impediment && response.data.owner_id == response.data.impediment.user_id) {
+        this.isOwner = true;
+      }
       for(let i = 0; i < response.data.users.length; i++) {
         this.users.push({
             label: response.data.users[i].name,

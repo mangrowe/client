@@ -2,9 +2,14 @@
   <q-page padding>
     <h3>
       Impedimento
-      <q-btn icon="note_add" push color="orange-9" @click="answer()">
-        Responder
-      </q-btn>
+      <q-btn-group push>
+        <q-btn icon="note_add" push color="orange-9" @click="answer()">
+          Responder
+        </q-btn>
+        <q-btn push color="secondary" @click="showKeyResult()">
+          Resultado chave
+        </q-btn>
+      </q-btn-group>
     </h3>
     <q-list>
       <q-collapsible opened icon="notification_important" label="Detalhes">
@@ -23,9 +28,11 @@
       :pagination-label="paginate"
     >
       <q-tr slot="body" slot-scope="props" :props="props">
-        <q-td v-for="col in props.cols" :key="col.name" :props="props">
-          {{ col.value }}
-        </q-td>
+        <q-td key="created_at" :props="props">{{ props.row.created_at }}</q-td>
+        <q-td key="user" :props="props">{{ props.row.user }}</q-td>
+        <q-td key="receiver" :props="props">{{ props.row.receiver }}</q-td>
+        <q-td key="description" :props="props">{{ props.row.description }}</q-td>
+        <q-td key="status" :props="props">{{ props.row.status }}</q-td>
       </q-tr>
     </q-table>
   </q-page>
@@ -89,6 +96,9 @@ export default {
     },
     answer() {
       this.$router.push('/impediments/create?key_result_id=' + this.impediment.key_result_id + '&parent_id=' + this.$route.params.id);
+    },
+    showKeyResult() {
+      this.$router.push('/keyResults/' + this.impediment.key_result_id);
     }
   },
   mounted() {
@@ -103,7 +113,7 @@ export default {
           user: this.impediment.user.name,
           receiver: this.impediment.receiver ? this.impediment.receiver.name : null,
           description: this.impediment.description,
-          status: this.impediment.status
+          status: this.impediment.status_name
       });
       for(let i = 0; i < response.data.impediments.length; i++) {
         this.impediments.push({
@@ -111,7 +121,7 @@ export default {
           user: response.data.impediments[i].user.name,
           receiver: response.data.impediments[i].receiver ? response.data.impediments[i].receiver.name : null,
           description: response.data.impediments[i].description,
-          status: response.data.impediments[i].status
+          status: response.data.impediments[i].status_name
         });
       }
       for(let i = 0; i < response.data.users.length; i++) {

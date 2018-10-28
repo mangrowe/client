@@ -48,8 +48,8 @@ export default {
           sortable: true
         },
         {
-          name: 'status',
-          field: 'status',
+          name: 'status_name',
+          field: 'status_name',
           align: 'left',
           label: 'Situação',
           sortable: true
@@ -76,12 +76,12 @@ export default {
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
       for(let i = 0; i < response.data.impediments.length; i++) {
-        let status = response.data.impediments[i].children.length ? response.data.impediments[i].children[response.data.impediments[i].children.length - 1].status : response.data.impediments[i].status;
+        let status = response.data.impediments[i].children.length ? response.data.impediments[i].children[response.data.impediments[i].children.length - 1].status_name : response.data.impediments[i].status_name;
         this.impediments.push({
           id: response.data.impediments[i].id,
           created_at: this.$mangrowe.dated(response.data.impediments[i].created_at),
           user: response.data.impediments[i].user.name,
-          status: status 
+          status_name: status 
         });  
       }
     });
