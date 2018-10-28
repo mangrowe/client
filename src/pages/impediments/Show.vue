@@ -34,9 +34,7 @@
         <q-td key="description" :props="props">{{ props.row.description }}</q-td>
         <q-td key="status" :props="props">{{ props.row.status }}</q-td>
         <q-td key="archive" :props="props">
-          <a v-if="props.row.archive" :href="urlDownload(props.row.archive)" download target="_blank" class="q-btn q-btn-rounded q-btn-item">
-            <q-icon name="cloud_download" />
-          </a>
+          <q-btn v-if="props.row.archive" icon="cloud_download" @click="urlDownload(props.row.archive)" size="sm"/>
         </q-td>
       </q-tr>
     </q-table>
@@ -44,6 +42,8 @@
 </template>
 
 <script>
+import { openURL } from 'quasar';
+
 export default {
   data() {
     return {
@@ -113,7 +113,7 @@ export default {
       this.$router.push('/keyResults/' + this.impediment.key_result_id);
     },
     urlDownload(archive) {
-      return this.$mangrowe.url.replace('/api/v1', '') + '/uploads/' + archive;
+      openURL(this.$mangrowe.url.replace('/api/v1', '') + '/uploads/' + archive);
     }
   },
   mounted() {
