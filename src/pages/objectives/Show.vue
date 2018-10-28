@@ -86,12 +86,16 @@
               </p>
             </div>
           </div>
+          <div class="row">
+            <div class="col-12">
+              <q-btn-group push class="float-right">
+                <q-btn push color="orange-9" @click="editObjective()" class="q-pa-sm" icon="edit" label="Editar" />
+              </q-btn-group>
+            </div>
+          </div>
         </div>
       </q-collapsible>
-    </q-list><br>
-    <q-btn-group push class="float-right">
-      <q-btn push color="orange-9" @click="editObjective()" class="q-pa-sm" icon="edit" label="Editar" />
-    </q-btn-group>
+    </q-list>
   </q-page>
 </template>
 

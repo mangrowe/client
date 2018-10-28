@@ -34,6 +34,7 @@
     <div class="row">
       <div class="col-12">
         <q-btn-group push class="float-right">
+          <q-btn push color="red-9" @click="impediments()" class="q-pa-sm" icon="add_alert" label="Impedimentos" />
           <q-btn push color="primary" @click="objectiveShow()" class="q-pa-sm" icon="assignment" label="Objetivo" />
           <q-btn push color="green-9" @click="checkIn()" class="q-pa-sm" icon="add_location" label="Check In" />
           <q-btn push color="orange-9" @click="edit()" class="q-pa-sm" icon="edit" label="Editar" />
@@ -71,6 +72,9 @@ export default {
     },
     checkIn() {
       this.$router.push('/keyResults/edit/'+ this.$route.params.id +'/checkIns');
+    },
+    impediments() {
+      this.$router.push('/impediments?key_result_id=' + this.id);
     }
   },
   mounted() {

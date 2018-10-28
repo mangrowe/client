@@ -1,6 +1,27 @@
 
 const routes = [
   {
+    path: '/impediments/create',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/impediments/Create.vue') }
+    ]
+  },
+  {
+    path: '/impediments/:id',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/impediments/Show.vue') }
+    ]
+  },
+  {
+    path: '/impediments',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/impediments/Index.vue') }
+    ]
+  },
+  {
     path: '/objectives/dashboard',
     component: () => import('layouts/MyLayout.vue'),
     children: [
