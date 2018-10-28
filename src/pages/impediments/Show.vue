@@ -33,6 +33,11 @@
         <q-td key="receiver" :props="props">{{ props.row.receiver }}</q-td>
         <q-td key="description" :props="props">{{ props.row.description }}</q-td>
         <q-td key="status" :props="props">{{ props.row.status }}</q-td>
+        <q-td key="archive" :props="props">
+          <a v-if="props.row.archive" :href="urlDownload(props.row.archive)" download target="_blank" class="q-btn q-btn-rounded q-btn-item">
+            <q-icon name="cloud_download" />
+          </a>
+        </q-td>
       </q-tr>
     </q-table>
   </q-page>
@@ -86,6 +91,13 @@ export default {
           align: 'left',
           label: 'Situação',
           sortable: true
+        },
+        {
+          name: 'archive',
+          field: 'archive',
+          align: 'left',
+          label: 'Arquivo',
+          sortable: true
         }
       ]
     }
@@ -99,6 +111,9 @@ export default {
     },
     showKeyResult() {
       this.$router.push('/keyResults/' + this.impediment.key_result_id);
+    },
+    urlDownload(archive) {
+      return this.$mangrowe.url.replace('/api/v1', '') + '/uploads/' + archive;
     }
   },
   mounted() {
@@ -113,7 +128,8 @@ export default {
           user: this.impediment.user.name,
           receiver: this.impediment.receiver ? this.impediment.receiver.name : null,
           description: this.impediment.description,
-          status: this.impediment.status_name
+          status: this.impediment.status_name,
+          archive: this.impediment.archive
       });
       for(let i = 0; i < response.data.impediments.length; i++) {
         this.impediments.push({
@@ -121,7 +137,8 @@ export default {
           user: response.data.impediments[i].user.name,
           receiver: response.data.impediments[i].receiver ? response.data.impediments[i].receiver.name : null,
           description: response.data.impediments[i].description,
-          status: response.data.impediments[i].status_name
+          status: response.data.impediments[i].status_name,
+          archive: response.data.impediments[i].archive
         });
       }
       for(let i = 0; i < response.data.users.length; i++) {
