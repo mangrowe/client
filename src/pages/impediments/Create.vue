@@ -36,7 +36,7 @@
                 <q-field
                 class="q-pa-sm"
                 icon="archive">
-                  <input type="file">
+                  <input type="file" @change="upload()" ref="archiveFile">
                 </q-field>
               </div>
               <div class="col-12">
@@ -61,6 +61,7 @@ export default {
       user_id: null,
       users: [],
       parent_id: null,
+      archive: null,
       errors: [],
       error_description: false,
       message: { color: '', text: '' }
@@ -71,12 +72,19 @@ export default {
       if(this.validates()) {
         return;
       }
-      this.$axios.post(this.$mangrowe.url +'/impediments', {
-        receiver_id: this.user_id,
-        key_result_id: this.$route.query.key_result_id,
-        parent_id: this.$route.query.parent_id ? this.$route.query.parent_id : this.parent_id,
-        description: this.description
-      }, { headers: 
+      const formData = new FormData();
+      formData.append('key_result_id', this.$route.query.key_result_id);
+      formData.append('description', this.description);
+      if(this.user_id) {
+        formData.append('receiver_id', this.user_id); 
+      }
+      if(this.archive) {
+        formData.append('archive', this.archive);  
+      }
+      if(this.$route.query.parent_id) {
+        formData.append('parent_id', this.$route.query.parent_id);
+      }
+      this.$axios.post(this.$mangrowe.url +'/impediments', formData, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
       }).then((response) => {
           this.message.color = 'green';
@@ -102,6 +110,9 @@ export default {
         this.errors.push(this.error_description);
       }
       return this.errors.length;
+    },
+    upload() {
+      this.archive = this.$refs.archiveFile.files[0];
     }
   },
   mounted() {
