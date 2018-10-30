@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { openURL } from 'quasar';
+import { openURL, LocalStorage } from 'quasar';
 
 export default {
   data() {
@@ -146,6 +146,11 @@ export default {
             label: response.data.users[i].name,
             value: response.data.users[i].id
         });
+      }
+    }).catch((err) => {
+      if(err.response == undefined) {
+        LocalStorage.clear();
+        this.$router.push('/login');
       }
     });
   }
