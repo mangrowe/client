@@ -27,7 +27,7 @@
                 <q-field
                 class="q-pa-sm"
                 icon="assignment_ind">
-                  <q-select v-model="user_id" :options="users" filter filter-placeholder="Pesquisar" float-label="Solicitado" color="orange-9" />
+                  <q-select v-model="user_id" :options="users" filter filter-placeholder="Pesquisar" float-label="Atribuído a" color="orange-9" />
                 </q-field>
               </div>
               <div class="col-12">
