@@ -83,6 +83,13 @@ export default {
       });
     },
     dashboard() {
+      for(let i = 0; i < this.organizations.length; i++) {
+        if(this.organization_id == this.organizations[i].value) {
+          LocalStorage.set('organization_title', this.organizations[i].label);
+          this.$mangrowe.organization_title = this.organizations[i].label;
+          break;
+        }
+      }
       LocalStorage.set('organization_id', this.organization_id);
       this.$mangrowe.organization_id = this.organization_id;
       this.$router.push('/dashboard');

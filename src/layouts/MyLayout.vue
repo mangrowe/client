@@ -17,7 +17,7 @@
 
         <q-toolbar-title>
           MOKR
-          <div slot="subtitle">ManGve OKR</div>
+          <div slot="subtitle">{{ this.$mangrowe.organization_title }}</div>
         </q-toolbar-title>
         <q-btn flat round dense icon="arrow_back" @click="goBack()" />
         <q-btn flat round dense icon="settings" to="/settings" />
