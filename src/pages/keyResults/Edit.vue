@@ -19,11 +19,9 @@
           </div>
         </div>
 
-        <q-field
-        class="q-pa-sm"
-        icon="description" :error="error_description" error-label="Este campo é obrigatório.">
-          <q-editor v-model="description" float-label="Descrição" color="orange-9" />
-        </q-field>
+        <q-field class="q-pa-sm" icon="description" :error="error_description" label="Descrição" label-width="12" />
+        <q-editor v-model="description" color="orange-9" />
+        <q-field class="q-pa-sm" :error="error_description" error-label="Este campo é obrigatório." label-width="12" />
 
         <div class="row">
           <div class="col-12 col-md-12">
