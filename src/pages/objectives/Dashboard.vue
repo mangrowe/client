@@ -39,7 +39,7 @@
     </q-card>
     <div class="row">
       <div class="col-12">
-        <q-card v-bind:key="index" v-for="(objective, index) in objectives">
+        <q-card v-bind:key="index" v-for="(objective, index) in objectives" class="q-my-sm">
           <q-item class="bg-grey-2">
             <q-knob readonly :value="parseInt(objective.total)" size="50px" :min="0" :max="100" v-bind:id="index" :style="setting(objective.total)" />
             <q-item-main>
