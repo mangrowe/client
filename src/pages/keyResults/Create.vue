@@ -68,21 +68,21 @@
             <q-field
             class="q-pa-sm"
             icon="tab_unselected" :error="error_format" error-label="Este campo é obrigatório.">
-              <q-select v-model="format" :options="formats" float-label="Formato" color="orange-9" />
+              <q-select v-model="format" :options="formats" @input="formatSelected()" float-label="Formato" color="orange-9" />
             </q-field>
           </div>
           <div class="col-12 col-md-6">
             <q-field
             class="q-pa-sm"
             icon="filter_1" :error="error_initial" error-label="Este campo é obrigatório.">
-              <q-input type="number" v-model="initial" float-label="Inicial" color="orange-9" />
+              <q-input v-model.lazy="initial" v-money="numberMask" float-label="Inicial" color="orange-9" />
             </q-field>
           </div>
           <div class="col-12 col-md-6">
             <q-field
             class="q-pa-sm"
             icon="filter_2" :error="error_target" error-label="Este campo é obrigatório.">
-              <q-input type="number" v-model="target" float-label="Alvo" color="orange-9" />
+              <q-input v-model.lazy="target" v-money="numberMask" float-label="Alvo" color="orange-9" />
             </q-field>
           </div>
         </div>
@@ -94,7 +94,10 @@
 </template>
 
 <script>
+import {VMoney} from 'v-money';
+
 export default {
+  directives: {money: VMoney},
   data() {
     return {
       objective_id: '',
@@ -102,9 +105,9 @@ export default {
       title: '',
       description: '',
       criteria: '',
-      initial: 0,
-      current: 0,
-      target: 0,
+      initial: 0.0,
+      current: 0.0,
+      target: 0.0,
       format: '',
       objectives: [],
       users: [],
@@ -153,7 +156,14 @@ export default {
       error_target: false,
       error_criteria: false,
       error_format: false,
-      errors: []
+      errors: [],
+      numberMask: {
+        decimal: ',',
+        thousands: '.',
+        prefix: 'R$ ',
+        suffix: '',
+        precision: 2
+      }
     }
   },
   mounted() {
@@ -190,9 +200,9 @@ export default {
         description: this.description,
         type: this.type,
         criteria: this.criteria,
-        initial: this.initial,
-        current: this.initial,
-        target: this.target,
+        initial: this.$mangrowe.format(this.initial, this.format),
+        current: this.$mangrowe.format(this.initial, this.format),
+        target: this.$mangrowe.format(this.target, this.format),
         format: this.format
       }, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
@@ -260,6 +270,19 @@ export default {
         }
       }
       return this.errors.length;
+    },
+    formatSelected() {
+      if(this.format == 'currency') {
+        this.numberMask.prefix = 'R$ ';
+        this.numberMask.suffix = '';
+      }else if(this.format == 'number') {
+        this.numberMask.prefix = '';
+        this.numberMask.suffix = '';
+      }else if(this.format == 'percentage') {
+        this.numberMask.prefix = '';
+        this.numberMask.suffix = '%';
+      }
+      this.current = this.$mangrowe.format(this.current, this.format);
     }
   }
 }

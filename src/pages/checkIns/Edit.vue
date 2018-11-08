@@ -19,21 +19,21 @@
             <q-field
             class="q-pa-sm"
             icon="filter_1">
-              <q-input type="number" v-model="previous" :disable="true" float-label="Atual" color="orange-9" />
+              <q-input v-model.lazy="previous" v-money="numberMask" :disable="true" float-label="Atual" color="orange-9" />
             </q-field>
           </div>
           <div class="col-12 col-md-4">
             <q-field
             class="q-pa-sm"
             icon="filter_2" :error="error_current" error-label="Este campo é obrigatório.">
-              <q-input type="number" v-model="current" float-label="Novo" color="orange-9" />
+              <q-input v-model.lazy="current" v-money="numberMask" float-label="Novo" color="orange-9" />
             </q-field>
           </div>
           <div class="col-12 col-md-4">
             <q-field
             class="q-pa-sm"
             icon="filter_3">
-              <q-input type="number" v-model="target" :disable="true" float-label="Alvo" color="orange-9" />
+              <q-input v-model.lazy="target" v-money="numberMask" :disable="true" float-label="Alvo" color="orange-9" />
             </q-field>
           </div>
         </div>
@@ -64,7 +64,10 @@
 </template>
 
 <script>
+import {VMoney} from 'v-money';
+
 export default {
+  directives: {money: VMoney},
   data() {
     return {
       type: null,
@@ -78,7 +81,14 @@ export default {
       error_current: false,
       error_confidance: false,
       error_description: false,
-      errors: []
+      errors: [],
+      numberMask: {
+        decimal: ',',
+        thousands: '.',
+        prefix: 'R$ ',
+        suffix: '',
+        precision: 2
+      }
     }
   },
   mounted() {
@@ -96,6 +106,12 @@ export default {
         this.target = response.data.keyResult.target;
         this.confidance = response.data.checkIn.confidance;
         this.description = response.data.checkIn.description;
+        if(response.data.keyResult.format != 'currency') {
+          this.numberMask.prefix = '';
+        }
+        if(response.data.keyResult.format == 'percentage') {
+          this.numberMask.suffix = '%';
+        }
     });
   },
   methods: {

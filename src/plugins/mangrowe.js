@@ -16,6 +16,30 @@ export default ({ Vue }) => {
             const hour = value.substr(11);
             const created = value.substring(0, 10);
             return created.substr(5, 2) +'/'+ created.substr(8, 2) +'/'+ created.substr(0, 4) +' '+ hour;
+        },
+        format: (value, format) => {
+            let formatted = parseFloat(value)
+            .toFixed(2)
+            .replace('.', ',')
+            .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+
+            switch(format) {
+                case 'percentage':
+                    formatted += '%';
+                    break;
+                case 'currency':
+                    formatted = 'R$' + formatted;
+                    break;
+                default:
+                    break;
+            }
+            return formatted;
+        },
+        deformat: (value) => {
+            return value.replace('R$', '')
+            .replace('%', '')
+            .replace('.', '')
+            .replace(',', '.');
         }
     };
 }

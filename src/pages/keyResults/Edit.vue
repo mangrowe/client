@@ -69,28 +69,28 @@
             <q-field
             class="q-pa-sm"
             icon="tab_unselected">
-              <q-select v-model="format" :options="formats" float-label="Formato" color="orange-9" />
+              <q-select v-model="format" :options="formats" @input="formatSelected()" float-label="Formato" color="orange-9" />
             </q-field>
           </div>
           <div class="col-12 col-md-4">
             <q-field
             class="q-pa-sm"
             icon="filter_1" :error="error_initial" error-label="Este campo é obrigatório.">
-              <q-input type="number" v-model="initial" float-label="Inicial" color="orange-9" />
+              <q-input v-model.lazy="initial" v-money="numberMask" float-label="Inicial" color="orange-9" />
             </q-field>
           </div>
           <div class="col-12 col-md-4">
             <q-field
             class="q-pa-sm"
             icon="filter_2">
-              <q-input type="number" v-model="current" float-label="Atual" color="orange-9" />
+              <q-input v-model.lazy="current" v-money="numberMask" float-label="Atual" color="orange-9" />
             </q-field>
           </div>
           <div class="col-12 col-md-4">
             <q-field
             class="q-pa-sm"
             icon="filter_3" :error="error_target" error-label="Este campo é obrigatório.">
-              <q-input type="number" v-model="target" float-label="Alvo" color="orange-9" />
+              <q-input v-model.lazy="target" v-money="numberMask" float-label="Alvo" color="orange-9" />
             </q-field>
           </div>
         </div>
@@ -106,7 +106,10 @@
 </template>
 
 <script>
+import {VMoney} from 'v-money';
+
 export default {
+  directives: {money: VMoney},
   data() {
     return {
       objective_id: '',
@@ -114,9 +117,9 @@ export default {
       title: '',
       description: '',
       criteria: '',
-      initial: 0,
-      current: 0,
-      target: 0,
+      initial: 0.00,
+      current: 0.00,
+      target: 0.00,
       format: '',
       objectives: [],
       users: [],
@@ -165,7 +168,14 @@ export default {
       error_type: false,
       error_initial: false,
       error_target: false,
-      errors: []
+      errors: [],
+      numberMask: {
+        decimal: ',',
+        thousands: '.',
+        prefix: 'R$ ',
+        suffix: '',
+        precision: 2
+      }
     }
   },
   mounted() {
@@ -198,6 +208,12 @@ export default {
         }
         this.target = response.data.keyResults.target;
         this.format = response.data.keyResults.format;
+        if(this.format != 'currency') {
+          this.numberMask.prefix = '';
+        }
+        if(this.format == 'percentage') {
+          this.numberMask.suffix = '%';
+        }
         this.progressBar();
     });
   },
@@ -214,14 +230,25 @@ export default {
         description: this.description,
         type: this.type,
         criteria: this.criteria,
-        initial: this.initial,
-        current: this.current,
-        target: this.target,
+        initial: this.$mangrowe.deformat(this.initial),
+        current: this.$mangrowe.deformat(this.current),
+        target: this.$mangrowe.deformat(this.target),
         format: this.format
       }, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
       }).then((response) => {
           this.progressBar();
+          if(this.format == 'currency') {
+            this.numberMask.prefix = 'R$ ';
+            this.numberMask.suffix = '';
+          }else if(this.format == 'number') {
+            this.numberMask.prefix = '';
+            this.numberMask.suffix = '';
+          }else if(this.format == 'percentage') {
+            this.numberMask.prefix = '';
+            this.numberMask.suffix = '%';
+          }
+          this.current = this.$mangrowe.format(this.current, this.format);
           this.message.color = 'green';
           this.message.text = response.data.message;
           window.scrollTo(0, 0);
@@ -263,9 +290,9 @@ export default {
         this.progress = Math.round(Math.abs(this.current / this.target) * 100);
       }else {
         if(this.criteria == 'gte') {
-          this.progress = Math.round(Math.abs((this.current - this.initial) / (this.target - this.initial)) * 100); 
+          this.progress = Math.round(Math.abs((this.$mangrowe.deformat(this.current) - this.$mangrowe.deformat(this.initial)) / (this.$mangrowe.deformat(this.target) - this.$mangrowe.deformat(this.initial))) * 100); 
         }else {
-          this.progress = Math.round(Math.abs((this.initial - this.current) / (this.initial - this.target)) * 100);
+          this.progress = Math.round(Math.abs((this.$mangrowe.deformat(this.initial) - this.$mangrowe.deformat(this.current)) / (this.$mangrowe.deformat(this.initial) - this.$mangrowe.deformat(this.target))) * 100);
         }
       }
     },
@@ -310,6 +337,19 @@ export default {
         this.errors.push(this.error_target);
       }
       return this.errors.length;
+    },
+    formatSelected() {
+      if(this.format == 'currency') {
+        this.numberMask.prefix = 'R$ ';
+        this.numberMask.suffix = '';
+      }else if(this.format == 'number') {
+        this.numberMask.prefix = '';
+        this.numberMask.suffix = '';
+      }else if(this.format == 'percentage') {
+        this.numberMask.prefix = '';
+        this.numberMask.suffix = '%';
+      }
+      this.current = this.$mangrowe.format(this.current, this.format);
     }
   }
 }

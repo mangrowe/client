@@ -97,9 +97,9 @@ export default {
       }else {
         this.criteria = 'Menor ou igual';
       }
-      this.initial = response.data.keyResult.initial;
-      this.current = parseInt(response.data.keyResult.current);
-      this.target = response.data.keyResult.target;
+      this.initial = this.$mangrowe.format(response.data.keyResult.initial, response.data.keyResult.format);
+      this.current = this.$mangrowe.format(response.data.keyResult.current, response.data.keyResult.format);
+      this.target = this.$mangrowe.format(response.data.keyResult.target, response.data.keyResult.format);
       if(response.data.keyResult.format == 'number') {
         this.format = 'Número';
       }else if(response.data.keyResult.format == 'currency') {
