@@ -71,7 +71,15 @@ export default {
     this.$axios.get(this.$mangrowe.url +'/keyResults?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
-        this.keyResults = response.data;
+      for(let i = 0; i < response.data.length; i++) {
+        this.keyResults.push({
+          id: response.data[i].id,
+          title: response.data[i].title,
+          initial: this.$mangrowe.format(response.data[i].initial, response.data[i].format),
+          current: this.$mangrowe.format(response.data[i].current, response.data[i].format),
+          target: this.$mangrowe.format(response.data[i].target, response.data[i].format),
+        });
+      }
     });
   },
   methods: {

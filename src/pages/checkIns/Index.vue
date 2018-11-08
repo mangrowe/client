@@ -111,8 +111,8 @@ export default {
         this.checkIns.push({
           id: response.data.checkIns[i].id,
           user: response.data.checkIns[i].user.name,
-          previous: response.data.checkIns[i].previous,
-          current: response.data.checkIns[i].current,
+          previous: this.$mangrowe.format(response.data.checkIns[i].previous, response.data.keyResults.format),
+          current: this.$mangrowe.format(response.data.checkIns[i].current, response.data.keyResults.format),
           confidance: response.data.checkIns[i].confidance
         });
         data.push(parseInt(response.data.checkIns[i].current));
