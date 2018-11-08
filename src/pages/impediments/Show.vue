@@ -16,7 +16,7 @@
         <div>
           <p><b><q-icon name="assignment" /> Objetivo </b><br> {{ objective }}</p>
           <p><b><q-icon name="vpn_key" /> Resultado chave </b><br> {{ keyResult }}</p>
-          <p><b><q-icon name="notification_important" /> Impedimento </b><br> {{ impediment.description }}</p>
+          <p><b><q-icon name="notification_important" /> Impedimento </b><br><span v-html="impediment.description"></span></p>
         </div>
       </q-collapsible>
     </q-list>
@@ -27,17 +27,28 @@
       rows-per-page-label="Linhas por páginas"
       :pagination-label="paginate"
     >
-      <q-tr slot="body" slot-scope="props" :props="props">
+      <q-tr slot="body" slot-scope="props" :props="props" @click.native="show(props.row)">
         <q-td key="created_at" :props="props">{{ props.row.created_at }}</q-td>
         <q-td key="user" :props="props">{{ props.row.user }}</q-td>
         <q-td key="receiver" :props="props">{{ props.row.receiver }}</q-td>
-        <q-td key="description" :props="props">{{ props.row.description }}</q-td>
+        <q-td key="description" :props="props"><span v-html="props.row.description.substring(0, 20)"></span>...</q-td>
         <q-td key="status" :props="props">{{ props.row.status }}</q-td>
         <q-td key="archive" :props="props">
           <q-btn v-if="props.row.archive" icon="cloud_download" @click="urlDownload(props.row.archive)" size="sm"/>
         </q-td>
       </q-tr>
     </q-table>
+    <q-modal v-model="opened" content-css="padding: 0px 20px 30px 20px; margin: 30px;">
+      <h4>Descrição</h4>
+      <p v-html="theDescription"></p>
+      <q-btn
+        color="orange-9"
+        @click="opened = false"
+        label="Fechar"
+        push
+        class="float-right"
+      />
+    </q-modal>
   </q-page>
 </template>
 
@@ -99,7 +110,9 @@ export default {
           label: 'Arquivo',
           sortable: true
         }
-      ]
+      ],
+      opened: false,
+      theDescription: ''
     }
   },
   methods: {
@@ -114,6 +127,10 @@ export default {
     },
     urlDownload(archive) {
       openURL(this.$mangrowe.url.replace('/api/v1', '') + '/uploads/' + archive);
+    },
+    show(impediment) {
+      this.theDescription = impediment.description;
+      this.opened = true;
     }
   },
   mounted() {
@@ -157,5 +174,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+td {
+  cursor: pointer;
+}
 </style>
