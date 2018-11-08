@@ -9,7 +9,9 @@
         <q-btn push color="secondary" @click="showCard()">
           Filtrar
         </q-btn>
-        <q-btn push color="blue-grey" to="/objectives" icon="view_list" />
+        <q-btn push color="blue-grey" to="/objectives">
+          Tabela
+        </q-btn>
         <q-btn push color="light-blue" @click="printer()" icon="print" />
       </q-btn-group>
     </h3>
