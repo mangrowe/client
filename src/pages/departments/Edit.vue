@@ -27,12 +27,12 @@
         <div class="row">
           <div class="col-6">
             <q-field icon="view_stream" :error="error_horizontal" error-label="O somatório de horizontal e vertical devem ser 100%.">
-              <q-input type="text" v-model="weightHorizontal" float-label="Peso horizontal" color="orange-9"/>
+              <q-input type="text" v-model="weightHorizontal" float-label="Peso dos objetivos da unidade" color="orange-9"/>
             </q-field>
           </div>
           <div class="col-6">
             <q-field icon="view_stream" :error="error_vertical" error-label="O somatório de horizontal e vertical devem ser 100%.">
-              <q-input type="text" v-model="weightVertical" float-label="Peso vertical" color="orange-9"/>
+              <q-input type="text" v-model="weightVertical" float-label="Peso da unidade organizacional" color="orange-9"/>
             </q-field>
           </div>
         </div>
