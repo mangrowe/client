@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <h3>
-      Objetivos {{ progress }}%
+      Objetivos {{ isNaN(progress) ? 0 : progress }}%
       <q-btn-group push class="print-hide">
         <q-btn push color="orange-9" to="/objectives/create">
           Criar

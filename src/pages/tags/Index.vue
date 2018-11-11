@@ -9,7 +9,7 @@
           <q-field
           class="q-pa-sm"
           icon="title">
-            <q-input type="text" v-model="title" float-label="Titulo do objetivo" color="orange-9" @keyup="search()" />
+            <q-input type="text" v-model="title" float-label="Titulo da tag" color="orange-9" @keyup="search()" />
           </q-field>
         </div>
       </div>
