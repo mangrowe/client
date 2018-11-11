@@ -178,7 +178,15 @@ export default {
         }else {
           this.level = 'Operacional';
         }
-        this.keyResults = response.data.key_results;
+        for(let i = 0; i < response.data.key_results.length; i++) {
+          this.keyResults.push({
+            id: response.data.key_results[i].id,
+            title: response.data.key_results[i].title,
+            initial: this.$mangrowe.format(response.data.key_results[i].initial, response.data.key_results[i].format),
+            current: this.$mangrowe.format(response.data.key_results[i].current, response.data.key_results[i].format),
+            target: this.$mangrowe.format(response.data.key_results[i].target, response.data.key_results[i].format),
+          });
+        }
         if(response.data.tags != undefined) {
           this.tags = response.data.tags;
         }
@@ -198,9 +206,9 @@ export default {
           this.objectiveProgress.push(Math.round(Math.abs(this.keyResults[i].current / this.keyResults[i].target) * 100));
         }else {
           if(this.keyResults[i].criteria == 'gte') {
-            this.objectiveProgress.push(Math.round(Math.abs((this.keyResults[i].current - this.keyResults[i].initial) / (this.keyResults[i].target - this.keyResults[i].initial)) * 100));
+            this.objectiveProgress.push(Math.round(Math.abs((this.$mangrowe.deformat(this.keyResults[i].current) - this.$mangrowe.deformat(this.keyResults[i].initial)) / (this.$mangrowe.deformat(this.keyResults[i].target) - this.$mangrowe.deformat(this.keyResults[i].initial))) * 100));
           }else {
-            this.objectiveProgress.push(Math.round(Math.abs((this.keyResults[i].initial - this.keyResults[i].current) / (this.keyResults[i].initial - this.keyResults[i].target)) * 100));
+            this.objectiveProgress.push(Math.round(Math.abs((this.$mangrowe.deformat(this.keyResults[i].initial) - this.$mangrowe.deformat(this.keyResults[i].current)) / (this.$mangrowe.deformat(this.keyResults[i].initial) - this.$mangrowe.deformat(this.keyResults[i].target))) * 100));
           }
         }
       }

@@ -200,9 +200,9 @@ export default {
         description: this.description,
         type: this.type,
         criteria: this.criteria,
-        initial: this.$mangrowe.format(this.initial, this.format),
-        current: this.$mangrowe.format(this.initial, this.format),
-        target: this.$mangrowe.format(this.target, this.format),
+        initial: this.$mangrowe.deformat(this.initial),
+        current: this.$mangrowe.deformat(this.initial),
+        target: this.$mangrowe.deformat(this.target),
         format: this.format
       }, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
