@@ -108,7 +108,15 @@ export default {
 
 <style>
 .layout-padding h3 {
+  font-size: 35px;
   margin-top: 0;
   margin-bottom: 10px;
+}
+.layout-padding {
+  padding: 15px 20px;
+}
+.q-btn {
+  padding: 0px 10px;
+  text-transform: capitalize;
 }
 </style>
