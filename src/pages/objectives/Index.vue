@@ -145,7 +145,7 @@ export default {
             id: response.data[i].id,
             cycle: response.data[i].cycle.title,
             title: response.data[i].title,
-            level: response.data[i].level
+            level: this.$mangrowe.levels(response.data[i].level)
           });
         }
     });

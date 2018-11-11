@@ -66,7 +66,14 @@ export default {
     this.$axios.get(this.$mangrowe.url +'/cycles?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
-        this.cycles = response.data;
+      for(let i = 0; i < response.data.length; i++) {
+        this.cycles.push({
+          id: response.data[i].id,
+          title: response.data[i].title,
+          start_at: this.$mangrowe.dateHuman(response.data[i].start_at),
+          end_at: this.$mangrowe.dateHuman(response.data[i].end_at)
+        })
+      }
     });
   },
   methods: {

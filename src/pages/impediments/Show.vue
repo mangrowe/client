@@ -27,11 +27,11 @@
       rows-per-page-label="Linhas por páginas"
       :pagination-label="paginate"
     >
-      <q-tr slot="body" slot-scope="props" :props="props" @click.native="show(props.row)">
+      <q-tr slot="body" slot-scope="props" :props="props">
         <q-td key="created_at" :props="props">{{ props.row.created_at }}</q-td>
         <q-td key="user" :props="props">{{ props.row.user }}</q-td>
         <q-td key="receiver" :props="props">{{ props.row.receiver }}</q-td>
-        <q-td key="description" :props="props"><span v-html="props.row.description.substring(0, 20)"></span>...</q-td>
+        <q-td key="description" :props="props" @click.native="show(props.row)" class="pointer"><span v-html="props.row.description.substring(0, 20)"></span>...</q-td>
         <q-td key="status" :props="props">{{ props.row.status }}</q-td>
         <q-td key="archive" :props="props">
           <q-btn v-if="props.row.archive" icon="cloud_download" @click="urlDownload(props.row.archive)" size="sm"/>
@@ -175,7 +175,7 @@ export default {
 </script>
 
 <style scoped>
-td {
+.pointer {
   cursor: pointer;
 }
 </style>

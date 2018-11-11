@@ -40,6 +40,24 @@ export default ({ Vue }) => {
             .replace('%', '')
             .replace('.', '')
             .replace(',', '.');
+        },
+        dateHuman: (value) => {
+            return value.split('-').reverse().join('/');
+        },
+        levels: (value) => {
+            let level = '';
+            switch(value) {
+                case 'strategic':
+                    level = 'Estratégico';
+                    break;
+                case 'tactical':
+                    level = 'Tático';
+                    break;
+                default:
+                    level = 'Operacional';
+                    break;
+            }
+            return level;
         }
     };
 }
