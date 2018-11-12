@@ -114,7 +114,7 @@ export default {
 </script>
 
 <style scoped>
-@import url('http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
 #mynetwork {
     width: 800px;
     height: 600px;
