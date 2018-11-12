@@ -69,6 +69,10 @@
           <q-item-side icon="business_center" />
           <q-item-main label="Organizações" />
         </q-item>
+        <q-item to="/reports">
+          <q-item-side icon="bubble_chart" />
+          <q-item-main label="Análises" />
+        </q-item>
       </q-list>
     </q-layout-drawer>
 

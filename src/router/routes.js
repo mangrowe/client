@@ -1,6 +1,13 @@
 
 const routes = [
   {
+    path: '/reports',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/reports/Index.vue') }
+    ]
+  },
+  {
     path: '/impediments/create',
     component: () => import('layouts/MyLayout.vue'),
     children: [
