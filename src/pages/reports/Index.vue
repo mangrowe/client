@@ -52,7 +52,9 @@ export default {
             to: 'o' + response.data.user.key_results[i].objective_id
           });
         }
-        nodes[0].label += ' [' + parseInt(total / response.data.user.objectives.length) + '%]';
+        let totalPercentage = parseInt(total / response.data.user.objectives.length)
+        let percentage = isNaN(totalPercentage) ? 0 : totalPercentage;
+        nodes[0].label += ' [' + percentage + '%]';
       }
 
       var container = document.getElementById('mynetwork');
