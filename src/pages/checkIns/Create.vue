@@ -112,8 +112,8 @@ export default {
       }
       this.$axios.post(this.$mangrowe.url +'/checkIns', {
         key_result_id: this.$route.params.id,
-        previous: this.previous,
-        current: this.current,
+        previous: this.$mangrowe.deformat(this.previous),
+        current: this.$mangrowe.deformat(this.current),
         confidance: this.confidance,
         description: this.description
       }, { headers: 
