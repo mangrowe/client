@@ -36,10 +36,13 @@ export default ({ Vue }) => {
             return formatted;
         },
         deformat: (value) => {
-            return value.replace('R$', '')
-            .replace('%', '')
-            .replace('.', '')
-            .replace(',', '.');
+            if(typeof value == 'string') {
+                return value.replace('R$', '')
+                .replace('%', '')
+                .replace('.', '')
+                .replace(',', '.');
+            }
+            return value;
         },
         dateHuman: (value) => {
             return value.split('-').reverse().join('/');

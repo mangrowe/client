@@ -128,7 +128,7 @@ export default {
       type: '',
       types: [
         {
-          label: 'Boleano',
+          label: 'Booleano',
           value: 'boolean'
         },
         {
@@ -230,9 +230,9 @@ export default {
         description: this.description,
         type: this.type,
         criteria: this.criteria,
-        initial: this.$mangrowe.deformat(this.initial),
-        current: this.$mangrowe.deformat(this.current),
-        target: this.$mangrowe.deformat(this.target),
+        initial:  this.type == 'boolean' ? this.initial : this.$mangrowe.deformat(this.initial),
+        current: this.type == 'boolean' ? this.current : this.$mangrowe.deformat(this.current),
+        target: this.type == 'boolean' ? this.target : this.$mangrowe.deformat(this.target),
         format: this.format
       }, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
