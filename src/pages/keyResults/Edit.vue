@@ -52,8 +52,8 @@
 
         <div class="row justify-center" v-if="type == 'boolean'">
           <div class="q-pa-sm">
-            <q-radio v-model="current" :val="0" label="A fazer" color="orange-9" class="q-pa-sm" />
-            <q-radio v-model="current" :val="100" label="Feito" color="orange-9" class="q-pa-sm" />
+            <q-radio v-model="current" val="0" label="A fazer" color="orange-9" class="q-pa-sm" />
+            <q-radio v-model="current" val="100" label="Feito" color="orange-9" class="q-pa-sm" />
           </div>
         </div>
 
@@ -202,7 +202,7 @@ export default {
         this.criteria = response.data.keyResults.criteria;
         this.initial = response.data.keyResults.initial;
         if(this.type == 'boolean') {
-          this.current = parseInt(response.data.keyResults.current);
+          this.current = String(parseInt(response.data.keyResults.current));
         }else {
           this.current = response.data.keyResults.current;
         }
@@ -248,7 +248,11 @@ export default {
             this.numberMask.prefix = '';
             this.numberMask.suffix = '%';
           }
-          this.current = this.$mangrowe.format(this.current, this.format);
+          if(this.type == 'boolean') {
+            this.current = String(this.current);
+          }else {
+            this.current = this.$mangrowe.format(this.current, this.format);
+          }
           this.message.color = 'green';
           this.message.text = response.data.message;
           window.scrollTo(0, 0);
