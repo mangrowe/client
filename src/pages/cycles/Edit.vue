@@ -34,7 +34,7 @@
             <q-field
               class="q-pa-sm"
               icon="date_range" :error="error_start_at" error-label="Este campo é obrigatório.">
-              <q-datetime v-model="start_at" type="date" color="orange-9" float-label="Data de início" />
+              <q-datetime v-model="start_at" type="date" color="orange-9" float-label="Data de início" format="DD/MM/YYYY" />
             </q-field>
           </div>
 
@@ -42,7 +42,7 @@
             <q-field
               class="q-pa-sm"
               icon="date_range" :error="error_end_at" error-label="Este campo é obrigatório.">
-              <q-datetime v-model="end_at" type="date" color="orange-9" float-label="Data de término"/>
+              <q-datetime v-model="end_at" type="date" color="orange-9" float-label="Data de término" format="DD/MM/YYYY"/>
             </q-field>
           </div>
         </div>
