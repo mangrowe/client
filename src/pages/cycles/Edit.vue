@@ -162,6 +162,16 @@ export default {
         this.error_end_at = true;
         this.errors.push(this.error_end_at);
       }
+      if(date.formatDate(this.start_at, 'YYYY-MM-DD') > date.formatDate(this.end_at, 'YYYY-MM-DD')) {
+        this.$q.dialog({
+          title: 'Aviso',
+          message: 'A data de início deve ser menor que a de término.'
+        });
+        this.error_start_at = true;
+        this.errors.push(this.error_start_at);
+        this.error_end_at = true;
+        this.errors.push(this.error_end_at);
+      }
       return this.errors.length;
     }
   }
