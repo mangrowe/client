@@ -13,6 +13,7 @@
       no-data-label="Sem registros disponíveis"
       rows-per-page-label="Linhas por páginas"
       :pagination-label="paginate"
+      :pagination.sync="pagination"
     >
       <q-tr slot="body" slot-scope="props" :props="props" @click.native="show(props.row)" class="cursor-pointer">
         <q-td v-for="col in props.cols" :key="col.name" :props="props">
@@ -64,7 +65,10 @@ export default {
           sortable: true
         }
       ],
-      keyResults: []
+      keyResults: [],
+      pagination: {
+        rowsPerPage: 15
+      }
     }
   },
   mounted() {

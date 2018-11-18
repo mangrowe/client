@@ -26,6 +26,7 @@
       no-data-label="Sem registros disponíveis"
       rows-per-page-label="Linhas por páginas"
       :pagination-label="paginate"
+      :pagination.sync="pagination"
     >
       <q-tr slot="body" slot-scope="props" :props="props">
         <q-td key="created_at" :props="props">{{ props.row.created_at }}</q-td>
@@ -112,7 +113,10 @@ export default {
         }
       ],
       opened: false,
-      theDescription: ''
+      theDescription: '',
+      pagination: {
+        rowsPerPage: 15
+      }
     }
   },
   methods: {
