@@ -13,8 +13,8 @@
       <div class="col-12">
         <q-field
         class="q-pa-sm"
-        icon="person">
-          <q-select v-model="user_id" :options="users" float-label="Responsável" color="orange-9" filter filter-placeholder="Pesquisar" @input="selectUser()" />
+        icon="people">
+          <q-select v-model="teams_id" :options="teams" float-label="Times" multiple color="orange-9" filter filter-placeholder="Pesquisar" @input="selectTeam()" />
         </q-field>
       </div>
     </div>
@@ -43,19 +43,19 @@ export default {
     return {
       node: null,
       opened: false,
-      user_id: null,
-      users: []
+      teams_id: [],
+      teams: []
     }
   },
   mounted() {    
-    this.$axios.get(this.$mangrowe.url +'/reports?organization_id=' + this.$mangrowe.organization_id, { headers: 
+    this.$axios.get(this.$mangrowe.url +'/reports/teams?organization_id=' + this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
-      if(response.data.users != undefined) {
-        for(let i = 0; i < response.data.users.length; i++) {
-          this.users.push({
-            label: response.data.users[i].name,
-            value: response.data.users[i].id
+      if(response.data.teams != undefined) {
+        for(let i = 0; i < response.data.teams.length; i++) {
+          this.teams.push({
+            label: response.data.teams[i].title,
+            value: response.data.teams[i].id
           });
         }
       }
@@ -68,41 +68,57 @@ export default {
       let nodes = [];
       let edges = [];
       let total = 0;
-      if(response.data.user != undefined) {
-        nodes.push({
-          id: 'u' + response.data.user.id,
-          label: response.data.user.name,
-          title: response.data.user.name,
-          group: 'user'
-        });
-        for(let i = 0; i < response.data.user.objectives.length; i++) {
-          total += response.data.user.objectives[i].total;
+      if(response.data.teams != undefined) {
+        for(let i = 0; i < response.data.teams.length; i++) {
+          let team = response.data.teams[i];
+          
           nodes.push({
-            id: 'o' + response.data.user.objectives[i].id,
-            label: response.data.user.objectives[i].title.substring(0, 10) + '... [' + response.data.user.objectives[i].total.toFixed(0) + '%]',
-            title: response.data.user.objectives[i].title,
-            group: 'objectives'
-          })
-          edges.push({
-            from: 'o' + response.data.user.objectives[i].id, 
-            to: 'u' + response.data.user.id
+            id: 't' + team.id,
+            label: team.title,
+            title: team.title,
+            group: 'teams'
           });
+
+          if(team.users != undefined) {
+            for(let j = 0; j < team.users.length; j++) {
+              nodes.push({
+                id: 'u' + team.users[j].id +'_'+ team.id,
+                label: team.users[j].name,
+                title: team.users[j].name,
+                group: 'user'
+              });
+              edges.push({
+                from: 'u' + team.users[j].id +'_'+ team.id, 
+                to: 't' + team.id
+              });
+            }
+          }
+
+          if(team.objectives != undefined) {
+            for(let j = 0; j < team.objectives.length; j++) {
+              total += team.objectives[j].total;
+              nodes.push({
+                id: 'o' + team.objectives[j].id +'_'+ team.id,
+                label: team.objectives[j].title.substring(0, 10) + '... [' + team.objectives[j].total.toFixed(0) + '%]',
+                title: team.objectives[j].title,
+                group: 'objectives'
+              });
+              edges.push({
+                from: 'o' + team.objectives[j].id +'_'+ team.id, 
+                to: 't' + team.id
+              });
+            }
+
+            let totalPercentage = parseInt(total / team.objectives.length);
+            let percentage = isNaN(totalPercentage) ? 0 : totalPercentage;
+            let root = nodes.find((elem, index) => {
+              if(elem.id == 't' + team.id) {
+                return elem; 
+              }
+            });
+            root.label += ' [' + percentage + '%]';
+          }
         }
-        for(let i = 0; i < response.data.user.key_results.length; i++) {
-          nodes.push({
-            id: 'k' + response.data.user.key_results[i].id,
-            label: response.data.user.key_results[i].title.substring(0, 10) + '... [' + response.data.user.key_results[i].total.toFixed(0) + '%]',
-            title: response.data.user.key_results[i].title,
-            group: 'key_results'
-          })
-          edges.push({
-            from: 'k' + response.data.user.key_results[i].id, 
-            to: 'o' + response.data.user.key_results[i].objective_id
-          });
-        }
-        let totalPercentage = parseInt(total / response.data.user.objectives.length);
-        let percentage = isNaN(totalPercentage) ? 0 : totalPercentage;
-        nodes[0].label += ' [' + percentage + '%]';
       }
 
       var container = document.getElementById('mynetwork');
@@ -146,17 +162,18 @@ export default {
                 color: '#2fb1ff'
             }
           },
-          key_results: {
+          teams: {
             shape: 'icon',
             icon: {
                 face: 'FontAwesome',
-                code: '\uf084',
+                code: '\uf0c0',
                 size: 50,
                 color: '#81c784'
             }
           }
         }
       };
+      
       var network = new vis.Network(container, data, options);
       network.on('click', function(params) {
         let selected = this.getNodeAt(params.pointer.DOM);
@@ -168,8 +185,8 @@ export default {
         });
       });
     },
-    selectUser() {
-      this.$axios.get(this.$mangrowe.url +'/reports?organization_id=' + this.$mangrowe.organization_id + '&user_id=' + this.user_id, { headers: 
+    selectTeam() {
+      this.$axios.get(this.$mangrowe.url +'/reports/teams?organization_id=' + this.$mangrowe.organization_id + '&teams_id=' + this.teams_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
       }).then((response) => {
         this.loader(response);
