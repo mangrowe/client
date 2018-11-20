@@ -14,7 +14,7 @@
         <q-field
         class="q-pa-sm"
         icon="people">
-          <q-select v-model="teams_id" :options="teams" float-label="Times" multiple color="orange-9" filter filter-placeholder="Pesquisar" @input="selectTeam()" />
+          <q-select v-model="users_id" :options="users" float-label="Usuários" multiple color="orange-9" filter filter-placeholder="Pesquisar" @input="selectUsers()" />
         </q-field>
       </div>
     </div>
@@ -23,6 +23,14 @@
       <h4></h4>
       <p v-html="node != null ? node.title : ''"></p>
       <q-btn-group push class="float-right">
+        <q-btn
+          color="primary"
+          :to="opened_url"
+          label="Acessar"
+          push
+          class="float-right"
+          v-show="opened_url"
+        />
         <q-btn
           color="orange-9"
           @click="opened = false"
@@ -43,19 +51,20 @@ export default {
     return {
       node: null,
       opened: false,
-      teams_id: [],
-      teams: []
+      opened_url: '',
+      users_id: [],
+      users: []
     }
   },
   mounted() {    
-    this.$axios.get(this.$mangrowe.url +'/reports/teams?organization_id=' + this.$mangrowe.organization_id, { headers: 
+    this.$axios.get(this.$mangrowe.url +'/reports/users?organization_id=' + this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
-      if(response.data.teams != undefined) {
-        for(let i = 0; i < response.data.teams.length; i++) {
-          this.teams.push({
-            label: response.data.teams[i].title,
-            value: response.data.teams[i].id
+      if(response.data.users != undefined) {
+        for(let i = 0; i < response.data.users.length; i++) {
+          this.users.push({
+            label: response.data.users[i].name,
+            value: response.data.users[i].id
           });
         }
       }
@@ -68,58 +77,50 @@ export default {
       let nodes = [];
       let edges = [];
       let total = 0;
-      if(response.data.teams != undefined) {
-        for(let i = 0; i < response.data.teams.length; i++) {
-          let team = response.data.teams[i];
+      if(response.data.users != undefined) {
+        for(let i = 0; i < response.data.users.length; i++) {
+          let user = response.data.users[i];
           
           nodes.push({
-            id: 't' + team.id,
-            label: team.title,
-            title: team.title,
-            group: 'teams'
+            id: 'u' + user.id,
+            label: user.name + '[' + user.total.toFixed(1) + '%]',
+            title: user.name,
+            group: 'users'
           });
 
-          if(team.users != undefined) {
-            for(let j = 0; j < team.users.length; j++) {
+          if(user.objectives != undefined) {
+            for(let j = 0; j < user.objectives.length; j++) {
+              total += user.objectives[j].total;
               nodes.push({
-                id: 'u' + team.users[j].id +'_'+ team.id,
-                label: team.users[j].name,
-                title: team.users[j].name,
-                group: 'user'
-              });
-              edges.push({
-                from: 'u' + team.users[j].id +'_'+ team.id, 
-                to: 't' + team.id
-              });
-            }
-          }
-
-          if(team.objectives != undefined) {
-            for(let j = 0; j < team.objectives.length; j++) {
-              total += team.objectives[j].total;
-              nodes.push({
-                id: 'o' + team.objectives[j].id +'_'+ team.id,
-                label: team.objectives[j].title.substring(0, 10) + '... [' + team.objectives[j].total.toFixed(0) + '%]',
-                title: team.objectives[j].title,
+                id: 'o' + user.objectives[j].id,
+                label: user.objectives[j].title.substring(0, 10) + '... [' + user.objectives[j].total.toFixed(0) + '%]',
+                title: user.objectives[j].title,
                 group: 'objectives'
               });
               edges.push({
-                from: 'o' + team.objectives[j].id +'_'+ team.id, 
-                to: 't' + team.id
+                from: 'o' + user.objectives[j].id, 
+                to: 'u' + user.id
               });
-            }
 
-            let totalPercentage = parseInt(total / team.objectives.length);
-            let percentage = isNaN(totalPercentage) ? 0 : totalPercentage;
-            let root = nodes.find((elem, index) => {
-              if(elem.id == 't' + team.id) {
-                return elem; 
+              if(user.objectives[j].key_results != undefined) {
+                for(let k = 0; k < user.objectives[j].key_results.length; k++) {
+                  let keyResult = user.objectives[j].key_results[k];
+                  nodes.push({
+                    id: 'k' + keyResult.id,
+                    label: keyResult.title.substring(0, 10) + '... [' + keyResult.total.toFixed(0) + '%]',
+                    title: keyResult.title,
+                    group: 'key_results'
+                  })
+                  edges.push({
+                    from: 'k' + keyResult.id, 
+                    to: 'o' + keyResult.objective_id
+                  });
+                }
               }
-            });
-            root.label += ' [' + percentage + '%]';
+            }
           }
         }
-      }
+      }      
 
       var container = document.getElementById('mynetwork');
       var data = {
@@ -153,20 +154,20 @@ export default {
                   color: '#fbc403'
               }
           },
-          user: {
+          key_results: {
+            shape: 'icon',
+            icon: {
+                face: 'FontAwesome',
+                code: '\uf084',
+                size: 50,
+                color: '#81c784'
+            }
+          },
+          users: {
             shape: 'icon',
             icon: {
                 face: 'FontAwesome',
                 code: '\uf007',
-                size: 50,
-                color: '#2fb1ff'
-            }
-          },
-          teams: {
-            shape: 'icon',
-            icon: {
-                face: 'FontAwesome',
-                code: '\uf0c0',
                 size: 50,
                 color: '#81c784'
             }
@@ -179,14 +180,19 @@ export default {
         let selected = this.getNodeAt(params.pointer.DOM);
         self.node = nodes.find((elem, index) => {
           if(elem.id == selected) {
+            if(/^o/g.test(elem.id)) {
+              self.opened_url = '/objectives/' + elem.id.replace('o', '');
+            }else if(/^k/g.test(elem.id)) {
+              self.opened_url = '/keyResults/' + elem.id.replace('k', '');
+            }
             self.opened = true
             return elem;
           }
         });
       });
     },
-    selectTeam() {
-      this.$axios.get(this.$mangrowe.url +'/reports/teams?organization_id=' + this.$mangrowe.organization_id + '&teams_id=' + this.teams_id, { headers: 
+    selectUsers() {
+      this.$axios.get(this.$mangrowe.url +'/reports/users?organization_id=' + this.$mangrowe.organization_id + '&users_id=' + this.users_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
       }).then((response) => {
         this.loader(response);

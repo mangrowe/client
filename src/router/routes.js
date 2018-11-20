@@ -1,6 +1,13 @@
 
 const routes = [
   {
+    path: '/reports/users',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/reports/Users.vue') }
+    ]
+  },
+  {
     path: '/reports/teams',
     component: () => import('layouts/MyLayout.vue'),
     children: [
