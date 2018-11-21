@@ -3,10 +3,9 @@
     <h3>
       Análises
       <q-btn-group push class="float-right">
+        <q-btn push color="secondary" to="/reports" class="q-pa-sm" icon="pie_chart" label="Desempenho" />
         <q-btn push color="primary" to="/reports/teams" class="q-pa-sm" icon="people" label="Times" />
-        <q-btn push color="green-9" to="/reports/users" class="q-pa-sm" icon="person" label="Responsáveis" />
-        <q-btn push color="secondary" class="q-pa-sm" icon="account_balance" label="Unidades" />
-        <q-btn push color="orange-9" @click="update()" class="q-pa-sm" icon="drag_handle" label="Níveis" />
+        <q-btn push color="green-9" to="/reports/users" class="q-pa-sm" icon="person" label="Colaboradores" />
       </q-btn-group>
     </h3>
     <div class="row">
