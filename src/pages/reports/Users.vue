@@ -76,6 +76,7 @@ export default {
       let nodes = [];
       let edges = [];
       let total = 0;
+
       if(response.data.users != undefined) {
         for(let i = 0; i < response.data.users.length; i++) {
           let user = response.data.users[i];
@@ -119,7 +120,7 @@ export default {
             }
           }
         }
-      }      
+      }
 
       var container = document.getElementById('mynetwork');
       var data = {
@@ -168,7 +169,7 @@ export default {
                 face: 'FontAwesome',
                 code: '\uf007',
                 size: 50,
-                color: '#81c784'
+                color: '#31ccec'
             }
           }
         }
