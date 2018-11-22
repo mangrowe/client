@@ -1,6 +1,9 @@
 <template>
   <q-page padding>
     <h3>
+      <a href="https://docs.mangrowe.com/pt-br/administration/#criando-uma-unidade-organizacional" target="_blank"  style="text-decoration: none">
+        <q-icon name="help_outline" size="xs" class="text-grey-5 q-headline" />
+      </a>
       Unidades organizacionais
       <q-btn-group push>
         <q-btn push color="orange-9" to="departments/create">
