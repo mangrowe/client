@@ -115,7 +115,7 @@ export default {
       type: '',
       types: [
         {
-          label: 'Boleano',
+          label: 'Booleano',
           value: 'boolean'
         },
         {
