@@ -53,6 +53,11 @@ export default {
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
       this.users = response.data.users;
+    }).catch((err) => {
+      if(err.response == undefined) {
+        LocalStorage.clear();
+        this.$router.push('/login');
+      }
     });
   },
   methods: {
