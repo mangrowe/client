@@ -18,6 +18,17 @@
       </div>
     </div>
     <div id="mynetwork"></div>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-fab
+        icon="share"
+        direction="up"
+        color="orange-9"
+      >
+        <q-fab-action @click="share('whatsapp')" color="secondary" class="white" icon="fa fa-whatsapp" />
+        <q-fab-action @click="share('facebook')" color="secondary" class="white" icon="fa fa-facebook" />
+        <q-fab-action @click="share('mail')" color="secondary" class="white" icon="mail" />
+      </q-fab>
+    </q-page-sticky>
     <q-modal v-model="opened" content-css="padding: 0px 20px 30px 20px; margin: 30px;">
       <h4></h4>
       <p v-html="node != null ? node.title : ''"></p>
@@ -44,6 +55,7 @@
 
 <script>
 import vis from 'vis';
+import { openURL } from 'quasar';
 
 export default {
   data() {
@@ -68,6 +80,15 @@ export default {
         }
       }
       this.loader(response);
+      if(this.$route.query.users_id != undefined) {
+        this.users_id = this.$route.query.users_id.split(',').map(Number);
+        this.selectUsers();
+      }
+    }).catch((err) => {
+      if(err.response == undefined) {
+        LocalStorage.clear();
+        this.$router.push('/login');
+      }
     });
   },
   methods: {
@@ -197,6 +218,42 @@ export default {
       }).then((response) => {
         this.loader(response);
       });
+    },
+    share(type) {
+      let url = this.$mangrowe.urlClient +'/reports/users?organization_id=' + this.$mangrowe.organization_id + '&users_id=' + this.users_id;
+      switch(type) {
+        case 'mail':
+          this.$q.dialog({
+            title: 'Informar',
+            message: 'Para qual e-mail deseja enviar? Ex.: contact@mangrowe.com',
+            prompt: {
+              model: '',
+              type: 'text'
+            },
+            cancel: 'Cancelar',
+            color: 'orange-9'
+          }).then((res) => {
+            window.location.href = 'mailto:'+ res +'&subject=Relatório de colaboradores MOKR&body=' + encodeURIComponent(url);
+          }).catch((err) => {});
+          break;
+        case 'whatsapp':
+          this.$q.dialog({
+            title: 'Informar',
+            message: 'Para qual número de WhatsApp deseja enviar? Ex.: 5581998765432',
+            prompt: {
+              model: '',
+              type: 'text'
+            },
+            cancel: 'Cancelar',
+            color: 'orange-9'
+          }).then((res) => {
+            openURL('https://web.whatsapp.com/send?phone='+ res.replace(/\D/g, '') +'&text=Relatório de colaboradores MOKR ' + encodeURIComponent(url));
+          }).catch((err) => {});
+          break;
+        case 'facebook':
+          openURL('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url));
+          break;
+      }
     }
   }
 }

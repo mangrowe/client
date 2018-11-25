@@ -84,6 +84,11 @@ export default {
         this.teams_id = this.$route.query.teams_id.split(',').map(Number);
         this.selectTeams();
       }
+    }).catch((err) => {
+      if(err.response == undefined) {
+        LocalStorage.clear();
+        this.$router.push('/login');
+      }
     });
   },
   methods: {
