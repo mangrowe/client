@@ -81,7 +81,10 @@ module.exports = function (ctx) {
         'QCollapsible',
         'QChip',
         'QUploader',
-        'QModal'
+        'QModal',
+        'QFab',
+        'QFabAction',
+        'QPageSticky'
       ],
       directives: [
         'Ripple',

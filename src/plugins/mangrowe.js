@@ -8,6 +8,7 @@ const settings = LocalStorage.has('settings') ? LocalStorage.get.item('settings'
 export default ({ Vue }) => {
     Vue.prototype.$mangrowe = {
         url: 'http://mangrowe.test/api/v1',
+        urlClient: 'http://localhost:8080/#',
         token,
         organization_id,
         organization_title,

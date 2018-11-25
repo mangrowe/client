@@ -22,10 +22,22 @@
         {{ user.name.substring(0, 15) }}
       </div>
     </div>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-fab
+        icon="share"
+        direction="up"
+        color="orange-9"
+      >
+        <q-fab-action @click="share('whatsapp')" color="secondary" class="white" icon="fa fa-whatsapp" />
+        <q-fab-action @click="share('facebook')" color="secondary" class="white" icon="fa fa-facebook" />
+        <q-fab-action @click="share('mail')" color="secondary" class="white" icon="mail" />
+      </q-fab>
+    </q-page-sticky>
   </q-page>
 </template>
 
 <script>
+import { openURL } from 'quasar';
 
 export default {
   data() {
@@ -50,6 +62,41 @@ export default {
           return 'color: ' + this.$mangrowe.settings[i].additional;
           break;
         }
+      }
+    },
+    share(type) {
+      switch(type) {
+        case 'mail':
+          this.$q.dialog({
+            title: 'Informar',
+            message: 'Para qual e-mail deseja enviar? Ex.: contact@mangrowe.com',
+            prompt: {
+              model: '',
+              type: 'text'
+            },
+            cancel: 'Cancelar',
+            color: 'orange-9'
+          }).then((res) => {
+            window.location.href = 'mailto:'+ res +'&subject=Relatório de desempenho MOKR&body=' + this.$mangrowe.urlClient + '/reports';
+          }).catch((err) => {});
+          break;
+        case 'whatsapp':
+          this.$q.dialog({
+            title: 'Informar',
+            message: 'Para qual número de WhatsApp deseja enviar? Ex.: 5581998765432',
+            prompt: {
+              model: '',
+              type: 'text'
+            },
+            cancel: 'Cancelar',
+            color: 'orange-9'
+          }).then((res) => {
+            openURL('https://web.whatsapp.com/send?phone='+ res.replace(/\D/g, '') +'&text=Relatório de desempenho MOKR ' + this.$mangrowe.urlClient + '/reports');
+          }).catch((err) => {});
+          break;
+        case 'facebook':
+          openURL('https://www.facebook.com/sharer/sharer.php?u=' + this.$mangrowe.urlClient + '/reports');
+          break;
       }
     }
   }
