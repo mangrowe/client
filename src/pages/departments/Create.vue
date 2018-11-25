@@ -103,6 +103,16 @@ export default {
       if(this.title.length < 1) {
         this.error_title = true;
         this.errors.push(this.error_title);
+      }else {
+        let departmentTaken = this.departments.find((department) => department.label == this.title);
+        if(departmentTaken) {
+          this.error_title = true;
+          this.errors.push(this.error_title);
+          this.$q.dialog({
+            title: 'Aviso',
+            message: 'Já existe um departamento com este nome.'
+          });
+        }
       }
       if(this.weightHorizontal.length < 1) {
         this.error_horizontal = true;

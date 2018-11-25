@@ -51,6 +51,7 @@ export default {
     return {
       parent_id: null,
       title: '',
+      titleEdit: '',
       departments: [],
       weightHorizontal: 40,
       weightVertical: 60,
@@ -76,6 +77,7 @@ export default {
         this.title = response.data.department.title;
         this.weightHorizontal = response.data.department.weight_horizontal;
         this.weightVertical = response.data.department.weight_vertical;
+        this.titleEdit = this.title;
     });
   },
   methods: {
@@ -131,6 +133,16 @@ export default {
       if(this.title.length < 1) {
         this.error_title = true;
         this.errors.push(this.error_title);
+      }else {
+        let departmentTaken = this.departments.find((department) => department.label == this.title);
+        if(departmentTaken && this.titleEdit != this.title) {
+          this.error_title = true;
+          this.errors.push(this.error_title);
+          this.$q.dialog({
+            title: 'Aviso',
+            message: 'Já existe um departamento com este nome.'
+          });
+        }
       }
       if(this.weightHorizontal.length < 1) {
         this.error_horizontal = true;
