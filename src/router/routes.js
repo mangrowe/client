@@ -1,6 +1,20 @@
 
 const routes = [
   {
+    path: '/reports/objectives',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/reports/Objectives.vue') }
+    ]
+  },
+  {
+    path: '/reports/levels',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/reports/Levels.vue') }
+    ]
+  },
+  {
     path: '/reports/users',
     component: () => import('layouts/MyLayout.vue'),
     children: [
