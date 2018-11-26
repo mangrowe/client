@@ -74,11 +74,11 @@ export default {
     }
   },
   mounted() {    
-    this.$axios.get(this.$mangrowe.url +'/reports/users?organization_id=' + this.$mangrowe.organization_id, { headers: 
+    this.$axios.get(this.$mangrowe.url +'/reports/teams?organization_id=' + this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
       if(response.data.teams != undefined) {
-        for(let i = 0; i < response.data.users.length; i++) {
+        for(let i = 0; i < response.data.teams.length; i++) {
           this.teams.push({
             label: response.data.teams[i].title,
             value: response.data.teams[i].id
@@ -91,9 +91,10 @@ export default {
         this.selectTeams();
       }
     }).catch((err) => {
+      console.log(err)
       if(err.response == undefined) {
-        LocalStorage.clear();
-        this.$router.push('/login');
+        //LocalStorage.clear();
+        //this.$router.push('/login');
       }
     });
   },
