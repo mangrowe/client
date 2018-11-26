@@ -1,13 +1,19 @@
 <template>
   <q-page padding>
-    <h3>
-      Análises
-      <q-btn-group push class="float-right">
-        <q-btn push color="secondary" to="/reports" class="q-pa-sm" icon="pie_chart" label="Desempenho" />
-        <q-btn push color="primary" to="/reports/teams" class="q-pa-sm" icon="people" label="Times" />
-        <q-btn push color="green-9" to="/reports/users" class="q-pa-sm" icon="person" label="Colaboradores" />
-      </q-btn-group>
-    </h3>
+    <div class="row">
+      <div class="col-12">
+        <h3>
+          Análises
+          <q-btn-group push class="float-right">
+            <q-btn push color="secondary" to="/reports" class="q-pa-sm" icon="pie_chart" label="Desempenho" />
+            <q-btn push color="primary" to="/reports/teams" class="q-pa-sm" icon="people" label="Times" :disable="true" />
+            <q-btn push color="green-9" to="/reports/users" class="q-pa-sm" icon="person" label="Colaboradores" />
+            <q-btn push color="grey-8" to="/reports/levels" class="q-pa-sm" icon="drag_handle" label="Níveis" />
+            <q-btn push color="blue-9" to="/reports/objectives" class="q-pa-sm" icon="assignment" label="Objetivos" />
+          </q-btn-group>
+        </h3>
+      </div>
+    </div>
     <div class="row">
       <div class="col-12">
         <q-field
@@ -55,7 +61,7 @@
 
 <script>
 import vis from 'vis';
-import { openURL } from 'quasar';
+import { openURL, LocalStorage } from 'quasar';
 
 export default {
   data() {
