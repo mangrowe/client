@@ -84,7 +84,8 @@ module.exports = function (ctx) {
         'QModal',
         'QFab',
         'QFabAction',
-        'QPageSticky'
+        'QPageSticky',
+        'QTooltip'
       ],
       directives: [
         'Ripple',
