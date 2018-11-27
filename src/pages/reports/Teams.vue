@@ -5,11 +5,11 @@
         <h3>
           Análises
           <q-btn-group push class="float-right">
-            <q-btn push color="secondary" to="/reports" class="q-pa-sm" icon="pie_chart" label="Desempenho" />
-            <q-btn push color="primary" to="/reports/teams" class="q-pa-sm" icon="people" label="Times" :disable="true" />
-            <q-btn push color="green-9" to="/reports/users" class="q-pa-sm" icon="person" label="Colaboradores" />
-            <q-btn push color="grey-8" to="/reports/levels" class="q-pa-sm" icon="drag_handle" label="Níveis" />
-            <q-btn push color="blue-9" to="/reports/objectives" class="q-pa-sm" icon="assignment" label="Objetivos" />
+            <q-btn push color="secondary" size="sm" to="/reports" class="q-pa-sm" label="Desempenho" />
+            <q-btn push color="primary" size="sm" to="/reports/teams" class="q-pa-sm" label="Times" :disable="true" />
+            <q-btn push color="green-9" size="sm" to="/reports/users" class="q-pa-sm" label="Colaboradores" />
+            <q-btn push color="grey-8" size="sm" to="/reports/levels" class="q-pa-sm" label="Níveis" />
+            <q-btn push color="blue-9" size="sm" to="/reports/objectives" class="q-pa-sm"  label="Objetivos" />
           </q-btn-group>
         </h3>
       </div>
@@ -91,10 +91,9 @@ export default {
         this.selectTeams();
       }
     }).catch((err) => {
-      console.log(err)
       if(err.response == undefined) {
-        //LocalStorage.clear();
-        //this.$router.push('/login');
+        LocalStorage.clear();
+        this.$router.push('/login');
       }
     });
   },
