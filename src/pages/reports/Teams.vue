@@ -5,7 +5,7 @@
         <h3>
           Análises
           <q-btn-group push class="float-right">
-            <q-btn push color="secondary" size="sm" to="/reports" class="q-pa-sm" label="Desempenho" />
+            <q-btn push color="secondary" size="sm" to="/reports" class="q-pa-sm" label="Todos" />
             <q-btn push color="primary" size="sm" to="/reports/teams" class="q-pa-sm" label="Times" :disable="true" />
             <q-btn push color="green-9" size="sm" to="/reports/users" class="q-pa-sm" label="Colaboradores" />
             <q-btn push color="grey-8" size="sm" to="/reports/levels" class="q-pa-sm" label="Níveis" />
@@ -116,46 +116,24 @@ export default {
             title: team.title,
             group: 'teams'
           });
-        }
-      }
 
-      if(response.data.users != undefined) {
-        for(let i = 0; i < response.data.users.length; i++) {
-          let user = response.data.users[i];
-          
-          nodes.push({
-            id: 'u' + user.id,
-            label: user.name + '[' + user.total.toFixed(1) + '%]',
-            title: user.name,
-            group: 'users'
-          });
-
-          if(user.teams != undefined) {
-            for(let j = 0; j < user.teams.length; j++) {
-              edges.push({
-                from: 'u' + user.id, 
-                to: 't' + user.teams[j].id
-              });
-            }
-          }
-
-          if(user.objectives != undefined) {
-            for(let j = 0; j < user.objectives.length; j++) {
-              total += user.objectives[j].total;
+          if(team.objectives != undefined) {
+            for(let j = 0; j < team.objectives.length; j++) {
+              total += team.objectives[j].total;
               nodes.push({
-                id: 'o' + user.objectives[j].id,
-                label: user.objectives[j].title.substring(0, 10) + '... [' + user.objectives[j].total.toFixed(0) + '%]',
-                title: user.objectives[j].title,
+                id: 'o' + team.objectives[j].id,
+                label: team.objectives[j].title.substring(0, 10) + '... [' + team.objectives[j].total.toFixed(0) + '%]',
+                title: team.objectives[j].title,
                 group: 'objectives'
               });
               edges.push({
-                from: 'o' + user.objectives[j].id, 
-                to: 'u' + user.id
+                from: 'o' + team.objectives[j].id, 
+                to: 't' + team.id
               });
 
-              if(user.objectives[j].key_results != undefined) {
-                for(let k = 0; k < user.objectives[j].key_results.length; k++) {
-                  let keyResult = user.objectives[j].key_results[k];
+              if(team.objectives[j].key_results != undefined) {
+                for(let k = 0; k < team.objectives[j].key_results.length; k++) {
+                  let keyResult = team.objectives[j].key_results[k];
                   nodes.push({
                     id: 'k' + keyResult.id,
                     label: keyResult.title.substring(0, 10) + '... [' + keyResult.total.toFixed(0) + '%]',

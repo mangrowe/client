@@ -70,6 +70,10 @@ export default {
       }).then((response) => {
           LocalStorage.set('token', response.data.user.api_token);
           this.$mangrowe.token = response.data.user.api_token;
+          if(response.data.organizations.length == 1) {
+            this.organization_id = response.data.organizations[0].id;
+            this.dashboard();
+          }
           for(let i = 0; i < response.data.organizations.length; i++) {
             this.organizations.push({
                 label: response.data.organizations[i].title,

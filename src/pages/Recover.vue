@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data () {
     return {
@@ -45,14 +47,17 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.post(this.$mangrowe.url +'/reset', {
         email: this.email
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          Loading.hide();
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = err.response.data.message;
+          Loading.hide();
       });
     },
     validates() {
