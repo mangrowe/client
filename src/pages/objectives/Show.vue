@@ -23,7 +23,7 @@
                 size="12rem"
                 readonly
               >
-                {{ progress }}%
+                {{ progress > 100 ? 100 : progress }}%
               </q-knob>
             </div>
             <div class="col-12 col-md-8">
@@ -54,7 +54,7 @@
                 size="12rem"
                 readonly
               >
-                {{ progress }}%
+                {{ progress > 100 ? 100 : progress }}%
               </q-knob>
             </div>
           </div>

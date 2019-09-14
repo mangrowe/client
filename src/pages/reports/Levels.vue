@@ -23,7 +23,7 @@
           readonly
           :style="setting(objective.total)"
         >
-        {{ objective.total.toFixed(1) }}%
+        {{ objective.total > 100 ? 100 : objective.total.toFixed(1) }}%
         </q-knob> <br>
         {{ objective.title.substring(0, 15) }}
       </div>

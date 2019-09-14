@@ -23,7 +23,7 @@
           readonly
           :style="setting(user.total)"
         >
-        {{ user.total.toFixed(1) }}%
+        {{ user.total > 100 ? 100 : user.total.toFixed(1) }}%
         </q-knob> <br>
         {{ user.name.substring(0, 15) }}
       </div>
