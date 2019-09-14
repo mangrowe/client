@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data() {
     return {
@@ -75,6 +77,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/keyResults?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -87,6 +90,7 @@ export default {
           target: this.$mangrowe.format(response.data[i].target, response.data[i].format),
         });
       }
+      Loading.hide();
     });
   },
   methods: {

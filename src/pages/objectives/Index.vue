@@ -94,6 +94,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data() {
     return {
@@ -144,6 +146,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/objectives?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -155,6 +158,7 @@ export default {
             level: this.$mangrowe.levels(response.data[i].level)
           });
         }
+        Loading.hide();
     });
   },
   methods: {

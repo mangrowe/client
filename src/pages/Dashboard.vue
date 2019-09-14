@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { LocalStorage, date } from 'quasar';
+import { LocalStorage, date, Loading } from 'quasar';
 import { VoBasic } from 'vue-orgchart';
 import 'vue-orgchart/dist/style.min.css';
 
@@ -45,6 +45,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/pages?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -53,9 +54,11 @@ export default {
         this.departments = this.buildTree(response.data.departments);
         this.activities = response.data.activities;
         this.loading = '';
+        Loading.hide();
     }).catch((err) => {
       if(err.response == undefined) {
         LocalStorage.clear();
+        Loading.hide();
         this.$router.push('/login');
       }
     });

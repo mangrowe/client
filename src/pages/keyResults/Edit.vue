@@ -106,6 +106,7 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
 import {VMoney} from 'v-money';
 
 export default {
@@ -179,6 +180,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/keyResults/'+ this.$route.params.id +'/edit?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {        
@@ -215,6 +217,7 @@ export default {
           this.numberMask.suffix = '%';
         }
         this.progressBar();
+        Loading.hide();
     });
   },
   methods: {

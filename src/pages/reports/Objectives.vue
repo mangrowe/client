@@ -25,7 +25,7 @@
         >
         {{ objective.total.toFixed(1) }}%
         </q-knob> <br>
-        {{ objective.title.substring(0, 15) }}
+        {{ objective.title.substring(0, 15) }}{{ objective.title.length > 15 ? '...' : '' }}
       </div>
     </div>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">

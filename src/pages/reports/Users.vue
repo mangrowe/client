@@ -61,7 +61,7 @@
 
 <script>
 import vis from 'vis';
-import { openURL, LocalStorage } from 'quasar';
+import { openURL, LocalStorage, Loading } from 'quasar';
 
 export default {
   data() {
@@ -74,6 +74,7 @@ export default {
     }
   },
   mounted() {    
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/reports/users?organization_id=' + this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -90,7 +91,9 @@ export default {
         this.users_id = this.$route.query.users_id.split(',').map(Number);
         this.selectUsers();
       }
+      Loading.hide();
     }).catch((err) => {
+      Loading.hide();
       if(err.response == undefined) {
         LocalStorage.clear();
         this.$router.push('/login');

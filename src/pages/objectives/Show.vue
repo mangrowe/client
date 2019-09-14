@@ -2,7 +2,6 @@
   <q-page padding>
     <h3>
       {{ title }}
-      
     </h3>
     <div class="row">
       <div class="col-12">
@@ -17,7 +16,17 @@
       <q-collapsible group="somegroup" :opened="true" icon="vpn_key" label="Resultados chave">
         <div>
           <div class="row">
-            <div class="col-8">
+            <div class="col-12 col-md-4 text-center desktop-hide">
+              <q-knob
+                class="progress"
+                v-model="progress"
+                size="12rem"
+                readonly
+              >
+                {{ progress }}%
+              </q-knob>
+            </div>
+            <div class="col-12 col-md-8">
               <div>
                 <q-btn push color="orange-9" @click="keyResultCreate()">
                   <q-icon name="note_add" /> adicionar
@@ -38,9 +47,9 @@
                 </q-tr>
               </q-table>
             </div>
-            <div class="col-4 text-center">
+            <div class="col-12 col-md-4 text-center mobile-hide">
               <q-knob
-                id="progress"
+                class="progress"
                 v-model="progress"
                 size="12rem"
                 readonly
@@ -219,7 +228,8 @@ export default {
         for(var i = 0; i < this.$mangrowe.settings.length; i++) {
           if(this.$mangrowe.settings[i].code == 'ruler') {
             if(this.progress <= this.$mangrowe.settings[i].info) {
-              document.getElementById('progress').style.color = this.$mangrowe.settings[i].additional;
+              document.querySelectorAll('.progress')[0].style.color = this.$mangrowe.settings[i].additional;
+              document.querySelectorAll('.progress')[1].style.color = this.$mangrowe.settings[i].additional;
               break;
             }
           }
@@ -237,7 +247,7 @@ export default {
 </script>
 
 <style>
-#progress {
+.progress {
   font-size: 3rem;
 }
 p {

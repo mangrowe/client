@@ -131,6 +131,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/objectives/'+ this.$route.params.id +'/edit?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -175,6 +176,7 @@ export default {
         this.title = response.data.objective.title;
         this.description = response.data.objective.description;
         this.level = response.data.objective.level;
+        Loading.hide();
     });
   },
   methods: {

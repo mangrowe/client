@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { LocalStorage } from 'quasar';
+import { LocalStorage, Loading } from 'quasar';
 
 export default {
   data () {
@@ -63,6 +63,7 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.post(this.$mangrowe.url +'/login', {
         email: this.email,
         password: this.password
@@ -77,9 +78,11 @@ export default {
           }
           this.message.color = 'green';
           this.message.text = response.data.message;
+          Loading.hide();
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = 'Dados inválidos, por favor verifique e tente novamente.';
+          Loading.hide();
       });
     },
     dashboard() {
