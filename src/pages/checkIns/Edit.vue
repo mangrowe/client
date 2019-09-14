@@ -122,6 +122,7 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.put(this.$mangrowe.url +'/checkIns/'+ this.$route.params.id, {
         previous: this.$mangrowe.deformat(this.previous),
         current: this.$mangrowe.deformat(this.current),
@@ -132,10 +133,12 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          Loading.hide();
           window.scrollTo(0, 0);
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = response.data.message;
+          Loading.hide();
       });
     },
     destroy() {
@@ -145,17 +148,20 @@ export default {
         ok: 'Sim',
         cancel: 'Não'
       }).then(() => {
+        Loading.show({message: 'Carregando...'});
         this.$axios.delete(this.$mangrowe.url +'/checkIns/'+ this.$route.params.id, { headers: 
           {'Authorization': 'Bearer '+ this.$mangrowe.token}
         }).then((response) => {
             this.message.color = 'green';
             this.message.text = response.data.message;
+            Loading.hide();
             setTimeout(() => {
               this.$router.push('/keyResults/edit/'+ this.key_result_id +'/checkIns');
             }, 2000);
         }).catch((err) => {
             this.message.color = 'red';
             this.message.text = response.data.message;
+            Loading.hide();
         });
       }).catch(() => {
         this.$q.notify('Operação não realizada.');

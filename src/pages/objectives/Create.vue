@@ -177,6 +177,7 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.post(this.$mangrowe.url +'/objectives', {
         organization_id: this.$mangrowe.organization_id,
         parent_id: this.parent_id,
@@ -194,12 +195,14 @@ export default {
           this.message.color = 'green';
           this.message.text = response.data.message;
           window.scrollTo(0, 0);
+          Loading.hide();
           setTimeout(() => {
             this.$router.push('/objectives/'+ response.data.objective.id);
           }, 2000);
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = err.response.data.message;
+          Loading.hide();
       });
     },
     validates() {

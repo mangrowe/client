@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data () {
     return {
@@ -54,12 +56,14 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/users/profile', { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
         this.id = response.data.user.id;
         this.name = response.data.user.name;
         this.email = response.data.user.email;
+        Loading.hide();
     });
   },
   methods: {
@@ -67,6 +71,7 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.put(this.$mangrowe.url +'/users/'+ this.id, {
         name: this.name,
         email: this.email,
@@ -76,6 +81,7 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          Loading.hide();
       }).catch((err) => {
           let errors = err.response.data.errors;
           this.message.color = 'red';
@@ -93,6 +99,7 @@ export default {
             this.message.text += errors.password.join();
           }
           window.scrollTo(0, 0);
+          Loading.hide();
       });
     },
     validates() {

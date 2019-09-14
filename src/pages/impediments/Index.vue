@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar'; 
+
 export default {
   data() {
     return {
@@ -76,6 +78,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/impediments?key_result_id='+ this.$route.query.key_result_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -88,6 +91,7 @@ export default {
           status_name: status 
         });  
       }
+      Loading.hide();
     });
   }
 }

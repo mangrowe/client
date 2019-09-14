@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar'; 
+
 export default {
   data () {
     return {
@@ -59,6 +61,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/teams/'+ this.$route.params.id +'/edit?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -73,6 +76,7 @@ export default {
         }
         this.user_id = parseInt(response.data.team.user_id);
         this.title = response.data.team.title;
+        Loading.hide();
     });
   },
   methods: {
@@ -80,6 +84,7 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.put(this.$mangrowe.url +'/teams/'+ this.$route.params.id, {
         organization_id: this.$mangrowe.organization_id,
         user_id: this.user_id,
@@ -90,9 +95,11 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          Loading.hide();
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = response.data.message;
+          Loading.hide();
       });
     },
     destroy() {
@@ -108,14 +115,15 @@ export default {
         }).then((response) => {
             this.message.color = 'green';
             this.message.text = response.data.message;
+            Loading.hide();
             setTimeout(() => {
               this.$router.push('/teams');
             }, 2000);
         }).catch((err) => {
-              this.message.color = 'red';
-              this.message.text = 'A operação não pode ser realizada, por favor, verifique a relação com objetivos.';
-              window.scrollTo(0, 0);
-           
+            this.message.color = 'red';
+            this.message.text = 'A operação não pode ser realizada, por favor, verifique a relação com objetivos.';
+            window.scrollTo(0, 0);
+            Loading.hide();
         });
       }).catch(() => {
         this.$q.notify('Operação não realizada.');

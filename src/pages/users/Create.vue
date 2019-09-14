@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data () {
     return {
@@ -56,6 +58,7 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.post(this.$mangrowe.url +'/users', {
         organization_id: this.$mangrowe.organization_id,
         name: this.name,
@@ -66,6 +69,7 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          Loading.hide();
           setTimeout(() => {
             this.$router.push('/users');
           }, 2000);
@@ -82,6 +86,7 @@ export default {
             this.message.text += errors.email.join();
           }
           window.scrollTo(0, 0);
+          Loading.hide();
       });
     },
     validates() {

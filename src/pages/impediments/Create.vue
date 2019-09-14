@@ -139,6 +139,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     let url = this.$mangrowe.url +'/impediments';
     if(this.$route.query.parent_id) {
       url += '/' + this.$route.query.parent_id;
@@ -164,6 +165,7 @@ export default {
             value: response.data.users[i].id
         });
       }
+      Loading.hide();
     });
   }
 }

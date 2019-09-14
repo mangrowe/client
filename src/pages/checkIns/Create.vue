@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
 import {VMoney} from 'v-money';
 
 export default {
@@ -88,6 +89,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/checkIns/create?key_result_id='+ this.$route.params.id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -103,6 +105,7 @@ export default {
         if(response.data.format == 'percentage') {
           this.numberMask.suffix = '%';
         }
+        Loading.hide();
     });
   },
   methods: {
@@ -110,6 +113,7 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.post(this.$mangrowe.url +'/checkIns', {
         key_result_id: this.$route.params.id,
         previous: this.$mangrowe.deformat(this.previous),
@@ -121,12 +125,14 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          Loading.hide();
           setTimeout(() => {
             this.$router.push('/keyResults/edit/'+ this.$route.params.id +'/checkIns');
           }, 2000);
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = response.data.message;
+          Loading.hide();
       });
     },
     validates() {

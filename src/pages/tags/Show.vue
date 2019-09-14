@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data() {
     return {
@@ -72,6 +74,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/tags/'+ this.$route.params.id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -83,6 +86,7 @@ export default {
             level: response.data.objectives[i].level
           });
         }
+        Loading.hide();
     });
   },
   methods: {

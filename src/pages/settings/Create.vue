@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data() {
     return {
@@ -72,6 +74,7 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.post(this.$mangrowe.url +'/settings', {
         organization_id: this.$mangrowe.organization_id,
         title: this.title,
@@ -83,12 +86,14 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          Loading.hide();
           setTimeout(() => {
             this.$router.push('/settings');
           }, 2000);
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = response.data.message;
+          Loading.hide();
       });
     },
     validates() {

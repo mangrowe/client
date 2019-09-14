@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data () {
     return {
@@ -68,6 +70,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/users/'+ this.$route.params.id +'/edit', { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -82,6 +85,7 @@ export default {
         for(let i = 0; i < response.data.associations.length; i++) {
             this.associations.push(parseInt(response.data.associations[i].id));
         }
+        Loading.hide();
     });
   },
   methods: {
@@ -89,6 +93,7 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.put(this.$mangrowe.url +'/users/'+ this.$route.params.id, {
         name: this.name,
         email: this.email,
@@ -100,6 +105,7 @@ export default {
           this.message.color = 'green';
           this.message.text = response.data.message;
           window.scrollTo(0, 0);
+          Loading.hide();
       }).catch((err) => {
           let errors = err.response.data.errors;
           this.message.color = 'red';
@@ -117,6 +123,7 @@ export default {
             this.message.text += errors.password.join();
           }
           window.scrollTo(0, 0);
+          Loading.hide();
       });
     },
     destroy() {
@@ -126,17 +133,20 @@ export default {
         ok: 'Sim',
         cancel: 'Não'
       }).then(() => {
+        Loading.show({message: 'Carregando...'});
         this.$axios.delete(this.$mangrowe.url +'/users/'+ this.$route.params.id, { headers: 
           {'Authorization': 'Bearer '+ this.$mangrowe.token}
         }).then((response) => {
             this.message.color = 'green';
             this.message.text = response.data.message;
+            Loading.hide();
             setTimeout(() => {
               this.$router.push('/users');
             }, 2000);
         }).catch((err) => {
             this.message.color = 'red';
             this.message.text = response.data.message;
+            Loading.hide();
         });
       }).catch(() => {
         this.$q.notify('Operação não realizada.');

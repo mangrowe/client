@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
 import moment from 'moment';
 
 export default {
@@ -73,6 +74,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/cycles/create?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -82,6 +84,7 @@ export default {
               value: response.data[i].id
           });
         }
+        Loading.hide();
     });
   },
   methods: {
@@ -89,6 +92,7 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.post(this.$mangrowe.url +'/cycles', {
         organization_id: this.$mangrowe.organization_id,
         parent_id: this.parent_id,
@@ -101,12 +105,14 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          Loading.hide();
           setTimeout(() => {
             this.$router.push('/cycles');
           }, 2000);
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = response.data.message;
+          Loading.hide();
       });
     },
     validates() {

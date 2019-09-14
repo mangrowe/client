@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data () {
     return {
@@ -56,6 +58,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/teams/create?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -66,6 +69,7 @@ export default {
                 value: result[i].id
             });
         }
+        Loading.hide();
     });
   },
   methods: {
@@ -73,6 +77,7 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.post(this.$mangrowe.url +'/teams', {
         organization_id: this.$mangrowe.organization_id,
         user_id: this.user_id,
@@ -83,6 +88,7 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          Loading.hide();
           window.scrollTo(0, 0);
           setTimeout(() => {
             this.$router.push('/teams');
@@ -90,6 +96,7 @@ export default {
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = response.data.message;
+          Loading.hide();
       });
     },
     validates() {

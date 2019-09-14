@@ -57,7 +57,7 @@
 
 <script>
 import moment from 'moment';
-import { date } from 'quasar';
+import { date, Loading } from 'quasar';
 
 export default {
   data () {
@@ -78,6 +78,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/cycles/'+ this.$route.params.id +'/edit?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -93,6 +94,7 @@ export default {
         this.description = response.data.cycle.description;
         this.start_at = moment(response.data.cycle.start_at).format('LLLL');
         this.end_at = moment(response.data.cycle.end_at).format('LLLL');
+        Loading.hide();
     });
   },
   methods: {
@@ -100,6 +102,7 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.put(this.$mangrowe.url +'/cycles/'+ this.$route.params.id, {
         organization_id: this.$mangrowe.organization_id,
         parent_id: this.parent_id,
@@ -112,9 +115,11 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          Loading.hide();
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = response.data.message;
+          Loading.hide();
       });
     },
     destroy() {

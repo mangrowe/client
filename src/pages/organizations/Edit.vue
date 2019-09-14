@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data () {
     return {
@@ -36,10 +38,12 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/organizations/'+ this.$route.params.id +'/edit', { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
         this.title = response.data.title;
+        Loading.hide();
     });
   },
   methods: {
@@ -48,6 +52,7 @@ export default {
         this.error_title = true;
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.put(this.$mangrowe.url +'/organizations/'+ this.$route.params.id, {
         title: this.title
       }, { headers: 
@@ -55,9 +60,11 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          Loading.hide();
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = response.data.message;
+          Loading.hide();
       });
     },
     destroy() {
@@ -67,17 +74,20 @@ export default {
         ok: 'Sim',
         cancel: 'Não'
       }).then(() => {
+        Loading.show({message: 'Carregando...'});
         this.$axios.delete(this.$mangrowe.url +'/organizations/'+ this.$route.params.id, { headers: 
           {'Authorization': 'Bearer '+ this.$mangrowe.token}
         }).then((response) => {
             this.message.color = 'green';
             this.message.text = response.data.message;
+            Loading.hide();
             setTimeout(() => {
               this.$router.push('/organizations');
             }, 2000);
         }).catch((err) => {
             this.message.color = 'red';
             this.message.text = response.data.message;
+            Loading.hide();
         });
       }).catch(() => {
         this.$q.notify('Operação não realizada.');

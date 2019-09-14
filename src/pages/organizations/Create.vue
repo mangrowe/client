@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data () {
     return {
@@ -38,6 +40,7 @@ export default {
         this.error_title = true;
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.post(this.$mangrowe.url +'/organizations', {
         title: this.title
       }, { headers: 
@@ -45,12 +48,14 @@ export default {
       }).then((response) => {
           this.message.color = 'green';
           this.message.text = response.data.message;
+          Loading.hide();
           setTimeout(() => {
             this.$router.push('/organizations');
           }, 2000);
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = response.data.message;
+          Loading.hide();
       });
     }
   }

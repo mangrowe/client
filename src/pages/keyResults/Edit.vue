@@ -225,6 +225,7 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       this.$axios.put(this.$mangrowe.url +'/keyResults/'+ this.$route.params.id, {
         organization_id: this.$mangrowe.organization_id,
         objective_id: this.objective_id,
@@ -258,10 +259,12 @@ export default {
           }
           this.message.color = 'green';
           this.message.text = response.data.message;
+          Loading.hide();
           window.scrollTo(0, 0);
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = response.data.message;
+          Loading.hide();
       });
     },
     destroy() {
@@ -271,12 +274,14 @@ export default {
         ok: 'Sim',
         cancel: 'Não'
       }).then(() => {
+        Loading.show({message: 'Carregando...'});
         this.$axios.delete(this.$mangrowe.url +'/keyResults/'+ this.$route.params.id, { 
           data: {'organization_id': this.$mangrowe.organization_id},
           headers: {'Authorization': 'Bearer '+ this.$mangrowe.token}
         }).then((response) => {
             this.message.color = 'green';
             this.message.text = response.data.message;
+            Loading.hide();
             window.scrollTo(0, 0);
             setTimeout(() => {
               this.$router.push('/keyResults');
@@ -284,6 +289,7 @@ export default {
         }).catch((err) => {
             this.message.color = 'red';
             this.message.text = response.data.message;
+            Loading.hide();
         });
       }).catch(() => {
         this.$q.notify('Operação não realizada.');
