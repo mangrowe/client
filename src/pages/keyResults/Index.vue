@@ -84,7 +84,7 @@ export default {
       for(let i = 0; i < response.data.length; i++) {
         this.keyResults.push({
           id: response.data[i].id,
-          title: response.data[i].title.length > 15 ? response.data[i].title.substring(0, 15) + '...' : response.data[i].title,
+          title: response.data[i].title.length > 25 ? response.data[i].title.substring(0, 25) + '...' : response.data[i].title,
           initial: this.$mangrowe.format(response.data[i].initial, response.data[i].format),
           current: this.$mangrowe.format(response.data[i].current, response.data[i].format),
           target: this.$mangrowe.format(response.data[i].target, response.data[i].format),
