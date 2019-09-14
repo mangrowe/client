@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
 import ApexCharts from 'apexcharts';
 
 export default {
@@ -109,6 +110,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/checkIns?key_result_id='+ this.$route.params.id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -132,6 +134,7 @@ export default {
           this.options
       );
       chart.render();
+      Loading.hide();
     });
   },
   methods: {

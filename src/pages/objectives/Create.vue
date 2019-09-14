@@ -89,6 +89,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data () {
     return {
@@ -133,6 +135,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/objectives/create?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -166,6 +169,7 @@ export default {
               value: response.data.departments[i].id
           });
         }
+        Loading.hide();
     });
   },
   methods: {

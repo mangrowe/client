@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { openURL, LocalStorage } from 'quasar';
+import { openURL, LocalStorage, Loading } from 'quasar';
 
 export default {
   data() {
@@ -54,15 +54,18 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/reports/objectives?organization_id=' + this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
       this.objectives = response.data.objectives;
+      Loading.hide();
     }).catch((err) => {
       if(err.response == undefined) {
         LocalStorage.clear();
         this.$router.push('/login');
       }
+      Loading.hide();
     });
   },
   methods: {

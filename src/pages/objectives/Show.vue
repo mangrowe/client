@@ -71,10 +71,10 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-6">
+            <div class="col-12 col-md-6">
               <p><b><q-icon name="assignment" /> Objetivo vinculado </b><br> {{ parent }}</p>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-md6">
               <p><b><q-icon name="group" /> Time </b><br> {{ team }}</p>
             </div>
           </div>
@@ -109,6 +109,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data() {
     return {
@@ -165,6 +167,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/objectives/'+ this.$route.params.id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -200,6 +203,7 @@ export default {
           this.tags = response.data.tags;
         }
         this.progressBar();
+        Loading.hide();
     });
   },
   methods: {

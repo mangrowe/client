@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
 import {VMoney} from 'v-money';
 
 export default {
@@ -92,6 +93,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/checkIns/'+ this.$route.params.id +'/edit', { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -112,6 +114,7 @@ export default {
         if(response.data.keyResult.format == 'percentage') {
           this.numberMask.suffix = '%';
         }
+        Loading.hide();
     });
   },
   methods: {

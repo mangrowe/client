@@ -153,8 +153,8 @@ export default {
         for(let i = 0; i < response.data.length; i++) {
           this.objectives.push({
             id: response.data[i].id,
-            cycle: response.data[i].cycle.title,
-            title: response.data[i].title,
+            cycle: response.data[i].cycle.title.substring(0, 10),
+            title: response.data[i].title.substring(0, 15),
             level: this.$mangrowe.levels(response.data[i].level)
           });
         }

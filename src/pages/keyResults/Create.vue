@@ -94,6 +94,7 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
 import {VMoney} from 'v-money';
 
 export default {
@@ -167,6 +168,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/keyResults/create?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -185,6 +187,7 @@ export default {
         if(this.$route.query.objective_id != undefined) {
           this.objective_id = parseInt(this.$route.query.objective_id);
         }
+        Loading.hide();
     });
   },
   methods: {

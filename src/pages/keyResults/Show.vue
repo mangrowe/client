@@ -10,13 +10,13 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-4">
+      <div class="col-12 col-md-4">
         <p><b><q-icon name="assignment" /> Tipo de resultado </b><br> {{ type }}</p> 
       </div>
-      <div class="col-4">
+      <div class="col-12 col-md-4">
         <p><b><q-icon name="timeline" /> Critérios </b><br> {{ criteria }}</p>
       </div>
-      <div class="col-4">
+      <div class="col-12 col-md-4">
         <p><b><q-icon name="tab_unselected" /> Formato </b><br> {{ format }}</p>
       </div>
     </div>
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data() {
     return {
@@ -78,6 +80,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/keyResults/'+ this.$route.params.id +'?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -108,6 +111,7 @@ export default {
         this.format = 'Porcentagem';
       }
       this.total = response.data.keyResult.total;
+      Loading.hide();
     });
   },
 }
