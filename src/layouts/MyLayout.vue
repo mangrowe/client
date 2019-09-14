@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { openURL, LocalStorage } from 'quasar';
+import { openURL, LocalStorage, Loading } from 'quasar';
 
 export default {
   name: 'MyLayout',
@@ -103,11 +103,13 @@ export default {
   methods: {
     openURL,
     signOut() {
+      Loading.show({message: 'Carregando...'});
       this.$axios.post(this.$mangrowe.url +'/logout', {}).then((reponse) => {
         this.$mangrowe.organization_id = null;
         this.$mangrowe.token = null;
         this.$mangrowe.settings = null;
         LocalStorage.clear();
+        Loading.hide();
         this.$router.push('/login');
       });
     },
