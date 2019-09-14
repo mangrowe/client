@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
+
 export default {
   data() {
     return {
@@ -87,6 +89,7 @@ export default {
       if(this.validates()) {
         return;
       }
+      Loading.show({message: 'Carregando...'});
       const formData = new FormData();
       formData.append('key_result_id', this.$route.query.key_result_id);
       formData.append('description', this.description);
@@ -108,6 +111,7 @@ export default {
           this.message.color = 'green';
           this.message.text = response.data.message;
           window.scrollTo(0, 0);
+          Loading.hide();
           setTimeout(() => {
             if(this.$route.query.parent_id) {
               this.$router.push('/impediments/'+ this.$route.query.parent_id);
@@ -118,6 +122,7 @@ export default {
       }).catch((err) => {
           this.message.color = 'red';
           this.message.text = err.response.data.message;
+          Loading.hide();
       });
     },
     validates() {

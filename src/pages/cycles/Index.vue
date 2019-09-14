@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { date } from 'quasar';
+import { date, Loading } from 'quasar';
 
 export default {
   data() {
@@ -70,6 +70,7 @@ export default {
     }
   },
   mounted() {
+    Loading.show({message: 'Carregando...'});
     this.$axios.get(this.$mangrowe.url +'/cycles?organization_id='+ this.$mangrowe.organization_id, { headers: 
         {'Authorization': 'Bearer '+ this.$mangrowe.token}
     }).then((response) => {
@@ -81,6 +82,7 @@ export default {
           end_at: this.$mangrowe.dateHuman(response.data[i].end_at)
         })
       }
+      Loading.hide();
     });
   },
   methods: {
