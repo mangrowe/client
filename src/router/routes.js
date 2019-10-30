@@ -319,6 +319,13 @@ const routes = [
     }
   },
   {
+    path: '/register',
+    component: () => import('layouts/BlankLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Register.vue') }
+    ]
+  },
+  {
     path: '/',
     component: () => import('layouts/MyLayout.vue'),
     children: [
