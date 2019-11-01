@@ -96,6 +96,9 @@ export default {
           this.message.text = response.data.message;
           this.clearInput();
           Loading.hide();
+          setTimeout(() => {
+            this.$router.push('/login');
+          }, 2000);
         })
         .catch(err => {
           this.message.color = "red";
