@@ -31,9 +31,9 @@
               </q-field>
             </div>
             <q-btn-group push class="float-right">
-              <q-btn push color="tertiary" to="/register" class="q-pa-sm" icon="add" label="Cadastrar" />
-              <q-btn push color="secondary" to="/recover" class="q-pa-sm" icon="lock_open" label="Recuperação de senha" />
-              <q-btn push class="q-pa-sm float-right" icon="exit_to_app" label="Entrar" color="orange-9" @click="signin()" />
+              <q-btn push color="tertiary" to="/register" class="q-pa-sm" icon="add" label="Cadastrar" id="register" />
+              <q-btn push color="secondary" to="/recover" class="q-pa-sm" icon="lock_open" label="Recuperação de senha" id="recover" />
+              <q-btn push class="q-pa-sm float-right" icon="exit_to_app" label="Entrar" color="orange-9" @click="signin()" id="signin" />
             </q-btn-group>
             <div class="clearfix"></div>
           </q-card-main>

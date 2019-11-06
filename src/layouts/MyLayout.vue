@@ -19,16 +19,16 @@
           MOKR
           <div slot="subtitle">{{ this.$mangrowe.organization_title }}</div>
         </q-toolbar-title>
-        <q-btn flat round dense icon="arrow_back" @click="goBack()">
+        <q-btn flat round dense icon="arrow_back" @click="goBack()" id="top_back">
           <q-tooltip>Voltar</q-tooltip>
         </q-btn>
-        <q-btn flat round dense icon="settings" to="/settings">
+        <q-btn flat round dense icon="settings" to="/settings" id="top_settings">
           <q-tooltip>Configuração</q-tooltip>
         </q-btn>
-        <q-btn flat round dense icon="account_circle" to="/users/profile">
+        <q-btn flat round dense icon="account_circle" to="/users/profile" id="top_profile">
           <q-tooltip>Perfil</q-tooltip>
         </q-btn>
-        <q-btn flat round dense icon="power_settings_new" @click="signOut()">
+        <q-btn flat round dense icon="power_settings_new" @click="signOut()" id="top_signout">
           <q-tooltip>Sair</q-tooltip>
         </q-btn>
       </q-toolbar>

@@ -15,7 +15,7 @@
               :error="error_name"
               error-label="Este campo é obrigatório."
             >
-              <q-input float-label="Nome" color="orange-9" v-model="name" />
+              <q-input float-label="Nome" color="orange-9" v-model="name" id="name" />
             </q-field>
             <q-field
               class="q-pa-sm"
@@ -23,7 +23,7 @@
               :error="error_email"
               error-label="Este campo é obrigatório."
             >
-              <q-input type="email" float-label="E-mail" color="orange-9" v-model="email" />
+              <q-input type="email" float-label="E-mail" color="orange-9" v-model="email" id="email" />
             </q-field>
             <q-field
               class="q-pa-sm"
@@ -31,7 +31,7 @@
               :error="error_organization"
               error-label="Este campo é obrigatório."
             >
-              <q-input float-label="Empresa" color="orange-9" v-model="organization" />
+              <q-input float-label="Empresa" color="orange-9" v-model="organization" id="organization" />
             </q-field>
             <q-field
               class="q-pa-sm"
@@ -39,10 +39,10 @@
               :error="error_password"
               error-label="Este campo é obrigatório."
             >
-              <q-input type="password" float-label="Senha" color="orange-9" v-model="password" />
+              <q-input type="password" float-label="Senha" color="orange-9" v-model="password" id="password" />
             </q-field>
             <q-btn-group push class="float-right">
-              <q-btn push color="tertiary" to="/login" class="q-pa-sm" icon="keyboard_backspace" label="Voltar" />
+              <q-btn push color="tertiary" to="/login" class="q-pa-sm" icon="keyboard_backspace" label="Voltar" id="back" />
               <q-btn
                 push
                 class="q-pa-sm float-right"
@@ -50,6 +50,7 @@
                 label="Cadastrar"
                 color="orange-9"
                 @click="register()"
+                id="register"
               />
             </q-btn-group>
             <div class="clearfix"></div>
