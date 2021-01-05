@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "apexcharts": "^2.0.8",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "moment": "^2.22.2",
     "v-money": "^0.8.1",
     "vis": "^4.21.0",
